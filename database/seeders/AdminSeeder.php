@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Admins;
+use App\Models\Admin;
 use Illuminate\Database\Seeder;
 
 class AdminSeeder extends Seeder
@@ -23,7 +23,7 @@ class AdminSeeder extends Seeder
         ];
 
         foreach ($admins as $key => $value) {
-            Admins::create($value);
+            Admin::create($value);
         }
     }
 }
