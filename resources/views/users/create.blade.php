@@ -36,4 +36,6 @@
 
     </form>
 
+    <a href="{{route('users.index')}}">Go back</a>
+
 @endsection

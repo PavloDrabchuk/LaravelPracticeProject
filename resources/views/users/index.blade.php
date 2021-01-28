@@ -12,8 +12,10 @@
 @section('content')
     <h1>Users | Index</h1>
     <a href="{{route('users.create')}}">Create</a>
-    {{--    <a href="{{route('users.show')}}">Read</a>--}}
-    {{--    <a href="{{route('users.edit')}}">Update</a>--}}
+
+    @if($message=\Illuminate\Support\Facades\Session::get('ok'))
+        <h2 style="color: #1e9e3c">{{$message}}</h2>
+    @endif
 
     <table border="1" cellspacing="0" cellpadding="5">
         <tr>

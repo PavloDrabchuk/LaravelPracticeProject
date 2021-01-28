@@ -44,14 +44,15 @@ class UserController extends Controller
             'password_confirmation' => 'required|min:8|same:password',
         ]);
 
-      //  User::create($request->all());
+        //  User::create($request->all());
         User::create([
-            'name'=>$request->name,
-            'phone'=>$request->phone,
-            'password'=>Hash::make($request->password),
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'password' => Hash::make($request->password),
         ]);
 
-        return redirect()->route('users.index');
+        return redirect()->route('users.index')
+            ->with('ok', 'User successfully added.');
     }
 
     /**
@@ -62,7 +63,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return view('users.show',compact('user'));
+        return view('users.show', compact('user'));
     }
 
     /**
@@ -73,7 +74,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('users.edit',compact('user'));
+        return view('users.edit', compact('user'));
     }
 
     /**
@@ -88,12 +89,17 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:40',
-            'phone' => 'required|unique:users',
+            'phone' => 'required',
             'password' => 'required|string|confirmed|min:8'
         ]);
 
-        $user->update($request->all());
-        return redirect()->route('users.index');
+        $user->update([
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'password' => Hash::make($request->password),
+        ]);
+        return redirect()->route('users.index')
+            ->with('ok', 'User successfully updated.');
 
     }
 
@@ -109,6 +115,7 @@ class UserController extends Controller
     {
         $user->delete();
 
-        return redirect()->route('users.index');
+        return redirect()->route('users.index')
+            ->with('ok', 'User successfully deleted.');
     }
 }
