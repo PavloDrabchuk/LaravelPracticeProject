@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -14,7 +15,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::latest();
+        $users = User::get();
         return view('users.index', compact('users'));
     }
 
@@ -39,10 +40,16 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:40',
             'phone' => 'required|unique:users',
-            'password' => 'required|string|confirmed|min:8'
+            'password' => 'required|string|min:8',
+            'password_confirmation' => 'required|min:8|same:password',
         ]);
 
-        User::create($request->all());
+      //  User::create($request->all());
+        User::create([
+            'name'=>$request->name,
+            'phone'=>$request->phone,
+            'password'=>Hash::make($request->password),
+        ]);
 
         return redirect()->route('users.index');
     }
