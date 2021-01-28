@@ -19,32 +19,27 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Pavlo',
                 'phone' => '380888888888',
-                'password' => bcrypt('pavlo'),
-                'api_token'=>Str::random(60)
+                'password' => bcrypt('pavlo')
             ],
             [
                 'name' => 'Andrey',
                 'phone' => '380111111111',
-                'password' => bcrypt('andrey'),
-                'api_token'=>Str::random(60)
+                'password' => bcrypt('andrey')
             ],
             [
                 'name' => 'Yulia',
                 'phone' => '380222222222',
-                'password' => bcrypt('yulia'),
-                'api_token'=>Str::random(60)
+                'password' => bcrypt('yulia')
             ],
             [
                 'name' => 'Anna',
                 'phone' => '380333333333',
-                'password' => bcrypt('anna'),
-                'api_token'=>Str::random(60)
+                'password' => bcrypt('anna')
             ],
             [
                 'name' => 'Ivan',
                 'phone' => '380444444444',
-                'password' => bcrypt('ivan'),
-                'api_token'=>Str::random(60)
+                'password' => bcrypt('ivan')
             ]
         ];
 
