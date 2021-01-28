@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\User;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class UserSeeder extends Seeder
 {
@@ -14,35 +15,40 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $user=[
+        $users = [
             [
-                'name'=>'Pavlo',
-                'phone'=>'380888888888',
-                'password'=>bcrypt('pavlo')
+                'name' => 'Pavlo',
+                'phone' => '380888888888',
+                'password' => bcrypt('pavlo'),
+                'api_token'=>Str::random(60)
             ],
             [
-                'name'=>'Andrey',
-                'phone'=>'380111111111',
-                'password'=>bcrypt('andrey')
+                'name' => 'Andrey',
+                'phone' => '380111111111',
+                'password' => bcrypt('andrey'),
+                'api_token'=>Str::random(60)
             ],
             [
-                'name'=>'Yulia',
-                'phone'=>'380222222222',
-                'password'=>bcrypt('yulia')
+                'name' => 'Yulia',
+                'phone' => '380222222222',
+                'password' => bcrypt('yulia'),
+                'api_token'=>Str::random(60)
             ],
             [
-                'name'=>'Anna',
-                'phone'=>'380333333333',
-                'password'=>bcrypt('anna')
+                'name' => 'Anna',
+                'phone' => '380333333333',
+                'password' => bcrypt('anna'),
+                'api_token'=>Str::random(60)
             ],
             [
-                'name'=>'Ivan',
-                'phone'=>'380444444444',
-                'password'=>bcrypt('ivan')
+                'name' => 'Ivan',
+                'phone' => '380444444444',
+                'password' => bcrypt('ivan'),
+                'api_token'=>Str::random(60)
             ]
         ];
 
-        foreach ($user as $key => $value){
+        foreach ($users as $key => $value) {
             User::create($value);
         }
     }
