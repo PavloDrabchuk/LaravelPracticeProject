@@ -1,8 +1,8 @@
 @extends('layouts.dashboard_app')
 
 
-
 @section('content')
+
     @if($errors->any())
         <div class="alert alert-danger" role="alert">
             <h3>Errors</h3>
@@ -14,12 +14,12 @@
         </div>
     @endif
 
-    <h1>Edit user</h1>
+
 
     <div class="card">
-        <div class="card-header">Edit user</div>
+        <div class="card-header">Edit account</div>
         <div class="card-body card-block">
-            <form action="{{route('users.update',$user->id)}}" method="post" class="">
+            <form action="{{route('admins.update',Auth::user()->id)}}" method="post" class="">
                 @csrf
                 @method('PUT')
                 <div class="form-group">
@@ -27,15 +27,15 @@
                         <div class="input-group-addon">
                             <i class="fa fa-user"></i>
                         </div>
-                        <input type="text" id="name" name="name" value="{{$user->name}}" placeholder="Name" class="form-control">
+                        <input type="text" id="name" name="name" value="{{Auth::user()->name}}" placeholder="Name" class="form-control">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon">
-                            <i class="fa fa-phone"></i>
+                            <i class="fa fa-envelope"></i>
                         </div>
-                        <input type="tel" id="phone" name="phone" value="{{$user->phone}}" placeholder="Phone" class="form-control">
+                        <input type="tel" id="email" name="email" value="{{Auth::user()->email}}" placeholder="Email" class="form-control">
                     </div>
                 </div>
                 <div class="form-group">
@@ -55,12 +55,13 @@
                     </div>
                 </div>
                 <div class="form-actions form-group">
-                    <button type="submit" class="btn btn-success btn-sm">Edit user</button>
+                    <button type="submit" class="btn btn-success btn-sm">Save account</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <a href="{{route('users.index')}}">Go back</a>
+
+
 
 @endsection

@@ -12,6 +12,8 @@
                         <i class="fas fa-users"></i>Users</a>
                 </li>
 
+                <hr/>
+
                 <li class="active has-sub">
                     <a class="js-arrow" href="#">
                         <i class="fas fa-tachometer-alt"></i>Dashboard</a>

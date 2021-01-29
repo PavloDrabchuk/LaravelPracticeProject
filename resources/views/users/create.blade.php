@@ -14,10 +14,7 @@
         </div>
     @endif
 
-    <h1>Create</h1>
-
-
-
+    <h1>Create user</h1>
 
         <div class="card">
             <div class="card-header">Create user</div>
@@ -35,7 +32,7 @@
                     <div class="form-group">
                         <div class="input-group">
                             <div class="input-group-addon">
-                                <i class="fa fa-envelope"></i>
+                                <i class="fa fa-phone"></i>
                             </div>
                             <input type="tel" id="phone" name="phone" placeholder="Phone" class="form-control">
                         </div>
@@ -53,7 +50,7 @@
                             <div class="input-group-addon">
                                 <i class="fa fa-asterisk"></i>
                             </div>
-                            <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Password" class="form-control">
+                            <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Password confirm" class="form-control">
                         </div>
                     </div>
                     <div class="form-actions form-group">
@@ -62,31 +59,6 @@
                 </form>
             </div>
         </div>
-
-
-    {{--<form action="{{route('users.store')}}" method="POST">
-        @csrf
-        <label for="name">Name:
-            <input type="text" name="name" placeholder="name">
-        </label>
-        <br/>
-
-        <label for="phone">Phone:
-            <input type="tel" name="phone" placeholder="phone">
-        </label>
-        <br/>
-        <label for="password">Password:
-            <input type="password" name="password" placeholder="password">
-        </label>
-        <br/>
-        <label for="password">Password:
-            <input type="password" name="password_confirmation" placeholder="password">
-        </label>
-        <br/>
-        <input type="submit" value="Create user" name="submit">
-
-
-    </form>--}}
 
     <a href="{{route('users.index')}}">Go back</a>
 

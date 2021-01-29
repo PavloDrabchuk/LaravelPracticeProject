@@ -2,8 +2,6 @@
 
 @section('content')
 
-    {{--    <a href="{{route('users.create')}}">Create</a>--}}
-
     @if($message=\Illuminate\Support\Facades\Session::get('ok'))
 
         <div class="sufee-alert alert with-close alert-success alert-dismissible fade show">
@@ -15,32 +13,6 @@
         </div>
     @endif
 
-    {{--<table border="1" cellspacing="0" cellpadding="5">
-        <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th>Phone</th>
-            <th>CRUD</th>
-        </tr>
-        @foreach($users as $user)
-            <tr>
-                <td>{{($loop->index)+1}}</td>
-                <td>{{$user->name}}</td>
-                <td>{{$user->phone}}</td>
-                <td>
-                    <form action="{{route('users.destroy', $user->id)}}" method="POST">
-                        <a href="{{route('users.show', $user->id)}}">Read</a>
-                        <a href="{{route('users.edit', $user->id)}}">Update</a>
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" title="delete">Delete</button>
-                    </form>
-                </td>
-            </tr>
-        @endforeach
-    </table>
-
-    <hr/>--}}
     <div class="row">
         <div class="col-md-12">
 
@@ -82,33 +54,25 @@
                 </div>
             </div>
 
-
             <div class="table-responsive table-responsive-data2">
                 <table class="table table-data2">
                     <thead>
                     <tr>
-
                         <th>#</th>
                         <th>Name</th>
                         <th>Phone</th>
-
                         <th></th>
                     </tr>
                     </thead>
                     <tbody>
 
-
                     @foreach($users as $user)
                         <tr class="tr-shadow">
                             <td>{{($loop->index)+1}}</td>
-
                             <td>{{$user->name}}</td>
-
                             <td>
                                 <span class="block-email">{{$user->phone}}</span>
                             </td>
-
-
                             <td>
                                 <div class="table-data-feature">
                                     <a class="item" data-toggle="tooltip" data-placement="top" title="Read"
@@ -120,8 +84,6 @@
                                        href="{{route('users.edit', $user->id)}}">
                                         <i class="zmdi zmdi-edit"></i>
                                     </a>
-
-
                                     <form action="{{route('users.destroy', $user->id)}}" method="POST">
                                         @csrf
                                         @method('DELETE')
