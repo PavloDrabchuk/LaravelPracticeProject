@@ -21,7 +21,7 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     return view('layouts.new_dashboard');
-})->middleware(['auth'])->name('new_dashboard');
+})->middleware(['auth'])->name('dashboard');
 
 Route::get('/account',function(){
     return view('account');

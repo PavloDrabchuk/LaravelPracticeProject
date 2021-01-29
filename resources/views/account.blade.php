@@ -25,8 +25,8 @@
         </div>
     @endif
 
-    <h1>{{ Auth::user()->name }}</h1>
-    <h3>{{ Auth::user()->email }}</h3>
+    <h1>Name: {{ Auth::user()->name }}</h1>
+    <h3>E-mail: {{ Auth::user()->email }}</h3>
 
     <a class="btn btn-primary" href="{{route('account.edit')}}" role="button">Edit account</a>
 
