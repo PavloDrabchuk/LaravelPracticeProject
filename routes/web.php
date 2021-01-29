@@ -19,7 +19,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('new_dashboard');
+    return view('layouts.new_dashboard');
 })->middleware(['auth'])->name('new_dashboard');
 
 Route::resource('users', UserController::class)
