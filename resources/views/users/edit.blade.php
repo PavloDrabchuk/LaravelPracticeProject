@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.users_app')
 
 @if($errors->any())
     <h3>Errors</h3>
