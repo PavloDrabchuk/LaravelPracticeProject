@@ -2,11 +2,18 @@
 
 @section('content')
 
-    {{--<a href="{{route('users.create')}}">Create</a>
+    {{--    <a href="{{route('users.create')}}">Create</a>--}}
 
     @if($message=\Illuminate\Support\Facades\Session::get('ok'))
-        <h2 style="color: #1e9e3c">{{$message}}</h2>
-    @endif--}}
+
+        <div class="sufee-alert alert with-close alert-success alert-dismissible fade show">
+            <span class="badge badge-pill badge-success">Success</span>
+            {{$message}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+    @endif
 
     {{--<table border="1" cellspacing="0" cellpadding="5">
         <tr>
