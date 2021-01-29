@@ -1,4 +1,10 @@
 {
     "/js/app.js": "/js/app.js",
+    "/js/main.js": "/js/main.js",
+    "/js/moment.js": "/js/moment.js",
+    "/js/bootstrap-datetimepicker.js": "/js/bootstrap-datetimepicker.js",
+    "/css/bootstrap-datetimepicker.min.css": "/css/bootstrap-datetimepicker.min.css",
+    "/css/font-face.css": "/css/font-face.css",
+    "/css/theme.css": "/css/theme.css",
     "/css/app.css": "/css/app.css"
 }
