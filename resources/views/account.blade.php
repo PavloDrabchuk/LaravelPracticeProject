@@ -1,6 +1,5 @@
 @extends('layouts.dashboard_app')
 
-
 @section('content')
 
     @if($message=\Illuminate\Support\Facades\Session::get('ok'))
@@ -25,9 +24,9 @@
         </div>
     @endif
 
-    <h1>Name: {{ Auth::user()->name }}</h1>
+    <h2>Name: {{ Auth::user()->name }}</h2>
     <h3>E-mail: {{ Auth::user()->email }}</h3>
-
+    <br/>
     <a class="btn btn-primary" href="{{route('account.edit')}}" role="button">Edit account</a>
 
 

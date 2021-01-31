@@ -79,7 +79,7 @@ class AdminController extends Controller
 
         $admin->update([
             'name' => $request->name,
-            'phone' => $request->phone,
+            'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
         return redirect()->route('account')
