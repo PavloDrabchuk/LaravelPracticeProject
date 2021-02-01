@@ -15,6 +15,13 @@ class CreateProductsTable extends Migration
     {
         Schema::create('tours', function (Blueprint $table) {
             $table->id();
+            $table->json('name')->nullable();
+            $table->bigInteger('category_id')->unsigned();
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->integer('quantity');
+            $table->string('article')->unique();
+            $table->string('color',40);
+            $table->double('price');
             $table->timestamps();
         });
     }
