@@ -16,15 +16,41 @@ class CategorySeeder extends Seeder
     {
         $categories = [
             [
-                'name' => 'extreme',
+                'name' => [
+                    'ua' => 'екскурсія',
+                    'en' => 'excursion',
+                    'ru' => 'экскурсия',
+                ],
             ],
             [
-                'name'=>'vacation',
+                'name' => [
+                    'ua' => 'відпочинок',
+                    'en' => 'vacation',
+                    'ru' => 'отдых',
+                ]
             ],
         ];
 
         foreach ($categories as $key => $value) {
             Category::create($value);
         }
+
+        /*$translations = [
+            'en' => 'Name in English',
+            'nl' => 'Naam in het Nederlands'
+        ];
+
+        $newsItem = new Category(); // This is an Eloquent model
+        $newsItem->setTranslation('name', $translations)
+            ->save();
+
+        Category::create($newsItem);*/
+
+        /*Category::create([
+            'name' => [
+                'en' => 'Name in English',
+                'nl' => 'Naam in het Nederlands'
+            ],
+        ]);*/
     }
 }
