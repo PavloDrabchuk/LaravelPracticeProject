@@ -20,21 +20,21 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('layouts.new_dashboard');
+    return view('new_dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-Route::get('/account',function(){
+Route::get('/account', function () {
     return view('account');
 })->middleware(['auth'])->name('account');
 
-Route::get('/account/edit',function (){
+Route::get('/account/edit', function () {
     return view('account.edit');
 })->middleware(['auth'])->name('account.edit');
 
 Route::resource('users', UserController::class)
     ->middleware(['auth']);
 
-Route::resource('admins',AdminController::class)
+Route::resource('admins', AdminController::class)
     ->middleware(['auth']);
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

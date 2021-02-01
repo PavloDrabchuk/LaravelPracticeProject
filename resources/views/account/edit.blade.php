@@ -1,6 +1,5 @@
 @extends('layouts.dashboard_app')
 
-
 @section('content')
 
     @if($errors->any())
@@ -13,8 +12,6 @@
             </ul>
         </div>
     @endif
-
-
 
     <div class="card">
         <div class="card-header">Edit account</div>
@@ -30,14 +27,14 @@
                         <input type="text" id="name" name="name" value="{{Auth::user()->name}}" placeholder="Name" class="form-control">
                     </div>
                 </div>
-                <div class="form-group">
+                {{--<div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon">
                             <i class="fa fa-envelope"></i>
                         </div>
                         <input type="tel" id="email" name="email" value="{{Auth::user()->email}}" placeholder="Email" class="form-control">
                     </div>
-                </div>
+                </div>--}}
                 <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon">
@@ -55,13 +52,10 @@
                     </div>
                 </div>
                 <div class="form-actions form-group">
-                    <button type="submit" class="btn btn-success btn-sm">Save account</button>
+                    <button type="submit" class="btn btn-success btn-sm">Update account</button>
                 </div>
             </form>
         </div>
     </div>
-
-
-
 
 @endsection
