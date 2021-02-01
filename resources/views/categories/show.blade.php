@@ -13,10 +13,12 @@
         </div>
     @endif
 
-    <h1>Show</h1>
+    <h1>Show categories name</h1>
 
-    <h3>Name: {{$user->name}}</h3>
-    <h3>Phone: {{$user->phone}}</h3>
+    <h4>Name [ua]: {{$category->getTranslation('name', 'ua')}}.</h4>
+    <h4>Name [en]: {{$category->getTranslation('name', 'en')}}.</h4>
+    <h4>Name [ru]: {{$category->getTranslation('name', 'ru')}}.</h4>
 
-    <a href="{{route('users.index')}}">Go back</a>
+    <br/>
+    <a href="{{route('categories.index')}}">Go back</a>
 @endsection

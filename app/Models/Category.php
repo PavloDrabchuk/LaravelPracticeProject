@@ -13,5 +13,7 @@ class Category extends Model
     //protected $name;
     public $translatable = ['name'];
 
-
+    protected $fillable = [
+        'name',
+    ];
 }

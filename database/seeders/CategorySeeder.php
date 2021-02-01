@@ -34,23 +34,5 @@ class CategorySeeder extends Seeder
         foreach ($categories as $key => $value) {
             Category::create($value);
         }
-
-        /*$translations = [
-            'en' => 'Name in English',
-            'nl' => 'Naam in het Nederlands'
-        ];
-
-        $newsItem = new Category(); // This is an Eloquent model
-        $newsItem->setTranslation('name', $translations)
-            ->save();
-
-        Category::create($newsItem);*/
-
-        /*Category::create([
-            'name' => [
-                'en' => 'Name in English',
-                'nl' => 'Naam in het Nederlands'
-            ],
-        ]);*/
     }
 }

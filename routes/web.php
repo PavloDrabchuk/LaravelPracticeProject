@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -32,6 +33,9 @@ Route::get('/account/edit', function () {
 })->middleware(['auth'])->name('account.edit');
 
 Route::resource('users', UserController::class)
+    ->middleware(['auth']);
+
+Route::resource('categories',CategoryController::class)
     ->middleware(['auth']);
 
 Route::resource('admins', AdminController::class)

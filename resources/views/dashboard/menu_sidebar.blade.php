@@ -11,9 +11,11 @@
                     <a href="{{route('users.index')}}">
                         <i class="fas fa-users"></i>Users</a>
                 </li>
-
+                <li>
+                    <a href="{{route('categories.index')}}">
+                        <i class="fas fa-list-ul"></i>Categories</a>
+                </li>
                 <hr/>
-
                 <li class="active has-sub">
                     <a class="js-arrow" href="{{route('dashboard')}}">
                         <i class="fas fa-tachometer-alt"></i>Dashboard</a>
