@@ -14,25 +14,23 @@ class ProductSeeder extends Seeder
      */
     public function run()
     {
-        /*$products = [
+        $tours = [
             [
                 'name' => [
-                    'ua' => 'екскурсія',
-                    'en' => 'excursion',
-                    'ru' => 'экскурсия',
+                    'ua' => 'Похід на Говерлу',
+                    'en' => 'Hike to Hoverla',
+                    'ru' => 'Поход на Говерлу',
                 ],
-            ],
-            [
-                'name' => [
-                    'ua' => 'відпочинок',
-                    'en' => 'vacation',
-                    'ru' => 'отдых',
-                ]
+                'category_id' => 1,
+                'quantity' => 12,
+                'article' => '123abc',
+                'color' => 'campaign',
+                'price' => '150',
             ],
         ];
 
-        foreach ($products as $key => $value) {
+        foreach ($tours as $key => $value) {
             Product::create($value);
-        }*/
+        }
     }
 }

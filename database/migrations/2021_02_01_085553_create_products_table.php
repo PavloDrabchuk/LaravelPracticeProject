@@ -21,7 +21,8 @@ class CreateProductsTable extends Migration
             $table->integer('quantity');
             $table->string('article')->unique();
             $table->string('color',40);
-            $table->double('price');
+            $table->bigInteger('price');
+            $table->foreign('price_id')->references('íd')->on('prices')->onDelete('cascade');
             $table->timestamps();
         });
     }

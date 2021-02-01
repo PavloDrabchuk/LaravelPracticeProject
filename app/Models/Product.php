@@ -12,12 +12,14 @@ class Product extends Model
 
     public $translatable = ['name'];
 
+    protected $table = 'tours';
+
     protected $fillable = [
         'name',
         'category_id',
         'quantity',
         'article',
-        'color',
-        'price',
+        'color_id',
+        'price_id',
     ];
 }
