@@ -24,8 +24,8 @@ class ProductSeeder extends Seeder
                 'category_id' => 1,
                 'quantity' => 12,
                 'article' => '123abc',
-                'color' => 'campaign',
-                'price' => '150',
+                'color_id' => 1,
+                'price_id' => 1,
             ],
         ];
 
