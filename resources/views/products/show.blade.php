@@ -13,17 +13,49 @@
         </div>
     @endif
 
-    <h2>Show product info</h2>
-
-    <h4>Name [ua]: {{$product->getTranslation('name', 'ua')}}.</h4>
-    <p>Name [en]: {{$product->getTranslation('name', 'en')}}.</p>
-    <p>Name [ru]: {{$product->getTranslation('name', 'ru')}}.</p>
-    <hr/>
-    <p>Category: {{$product->category->name}}</p>
-    <p>Quantity: {{$product->quantity}}</p>
-    <p>Article: {{$product->article}}</p>
-    <p>Color: {{$product->color->name}}</p>
-    <p>Price: {{$product->price->value}}</p>
+    <div class="col-lg-4">
+        <div class="top-campaign">
+            <h3 class="title-5 m-b-15">Product information</h3>
+            <div class="table-responsive">
+                <table class="table table-top-campaign">
+                    <tbody>
+                    <tr>
+                        <td>Name [ua]</td>
+                        <td>{{$product->getTranslation('name', 'ua')}}</td>
+                    </tr>
+                    <tr>
+                        <td>Name [en]</td>
+                        <td>{{$product->getTranslation('name', 'en')}}</td>
+                    </tr>
+                    <tr>
+                        <td>Name [ru]</td>
+                        <td>{{$product->getTranslation('name', 'ru')}}</td>
+                    </tr>
+                    <tr>
+                        <td>Category</td>
+                        <td>{{$product->category->name}}</td>
+                    </tr>
+                    <tr>
+                        <td>Quantity</td>
+                        <td>{{$product->quantity}}</td>
+                    </tr>
+                    <tr>
+                        <td>Article</td>
+                        <td>{{$product->article}}</td>
+                    </tr>
+                    <tr>
+                        <td>Color</td>
+                        <td>{{$product->color->name}}</td>
+                    </tr>
+                    <tr>
+                        <td>Price</td>
+                        <td>{{$product->price->value}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
     <br/>
     <a href="{{route('products.index')}}">Go back</a>

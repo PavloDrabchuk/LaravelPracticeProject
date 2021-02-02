@@ -53,65 +53,72 @@
                     </div>--}}
                 </div>
             </div>
-
-            <div class="table-responsive table-responsive-data2">
-                <table class="table table-data2">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Category</th>
-                        <th>Quantity</th>
-                        <th>Article</th>
-                        <th>Color</th>
-                        <th>Price</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    @foreach($products as $product)
-                        <tr class="tr-shadow">
-                            <td>{{($loop->index)+1}}</td>
-                            <td>{{$product->name}}</td>
-                            <td>{{$product->category->name}}</td>
-                            <td>{{$product->quantity}}</td>
-                            <td>{{$product->article}}</td>
-                            <td>{{$product->color->name}}</td>
-                            <td>{{$product->price->value}}</td>
-
-                            <td>
-                                <div class="table-data-feature">
-                                    <a class="item" data-toggle="tooltip" data-placement="top" title="Read"
-                                       href="{{route('products.show', $product->id)}}">
-                                        <i class="zmdi zmdi-account-box"></i>
-                                    </a>
-
-                                    <a class="item" data-toggle="tooltip" data-placement="top" title="Edit"
-                                       href="{{route('products.edit', $product->id)}}">
-                                        <i class="zmdi zmdi-edit"></i>
-                                    </a>
-                                    <form action="{{route('products.destroy', $product->id)}}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="item" data-toggle="tooltip" data-placement="top"
-                                                title="Delete"
-                                        >
-                                            <i class="zmdi zmdi-delete"></i>
-                                        </button>
-                                    </form>
-
-                                </div>
-                            </td>
+            @if (count($products) > 0)
+                <div class="table-responsive table-responsive-data2">
+                    <table class="table table-data2">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Quantity</th>
+                            <th>Article</th>
+                            <th>Color</th>
+                            <th>Price</th>
+                            <th></th>
                         </tr>
-                        <tr class="spacer"></tr>
+                        </thead>
+                        <tbody>
 
-                    @endforeach
+                        @foreach($products as $product)
+                            <tr class="tr-shadow">
+                                <td>{{($loop->index)+1}}</td>
+                                <td>{{$product->name}}</td>
+                                <td>{{$product->category->name}}</td>
+                                <td>{{$product->quantity}}</td>
+                                <td>{{$product->article}}</td>
+                                <td>{{$product->color->name}}</td>
+                                <td>{{$product->price->value}}</td>
+
+                                <td>
+                                    <div class="table-data-feature">
+                                        <a class="item" data-toggle="tooltip" data-placement="top" title="Read"
+                                           href="{{route('products.show', $product->id)}}">
+                                            <i class="zmdi zmdi-account-box"></i>
+                                        </a>
+
+                                        <a class="item" data-toggle="tooltip" data-placement="top" title="Edit"
+                                           href="{{route('products.edit', $product->id)}}">
+                                            <i class="zmdi zmdi-edit"></i>
+                                        </a>
+                                        <form action="{{route('products.destroy', $product->id)}}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="item" data-toggle="tooltip"
+                                                    data-placement="top"
+                                                    title="Delete"
+                                            >
+                                                <i class="zmdi zmdi-delete"></i>
+                                            </button>
+                                        </form>
+
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="spacer"></tr>
+
+                        @endforeach
 
 
-                    </tbody>
-                </table>
-            </div>
+                        </tbody>
+                    </table>
+                </div>
+            @else
+                <div class="alert alert-success" role="alert">
+                    There are no products yet.
+                </div>
+            @endif
+
         </div>
     </div>
 

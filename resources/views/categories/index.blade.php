@@ -53,59 +53,65 @@
                     </div>--}}
                 </div>
             </div>
-
-            <div class="table-responsive table-responsive-data2">
-                <table class="table table-data2">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Name [ua]</th>
-                        <th>Name [en]</th>
-                        <th>Name [ru]</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    @foreach($categories as $category)
-                        <tr class="tr-shadow">
-                            <td>{{($loop->index)+1}}</td>
-                            <td>{{$category->getTranslation('name', 'ua')}}</td>
-                            <td>{{$category->getTranslation('name', 'en')}}</td>
-                            <td>{{$category->getTranslation('name', 'ru')}}</td>
-
-                            <td>
-                                <div class="table-data-feature">
-                                    <a class="item" data-toggle="tooltip" data-placement="top" title="Read"
-                                       href="{{route('categories.show', $category->id)}}">
-                                        <i class="zmdi zmdi-account-box"></i>
-                                    </a>
-
-                                    <a class="item" data-toggle="tooltip" data-placement="top" title="Edit"
-                                       href="{{route('categories.edit', $category->id)}}">
-                                        <i class="zmdi zmdi-edit"></i>
-                                    </a>
-                                    <form action="{{route('categories.destroy', $category->id)}}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="item" data-toggle="tooltip" data-placement="top"
-                                                title="Delete"
-                                        >
-                                            <i class="zmdi zmdi-delete"></i>
-                                        </button>
-                                    </form>
-
-                                </div>
-                            </td>
+            @if (count($categories) > 0)
+                <div class="table-responsive table-responsive-data2">
+                    <table class="table table-data2">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name [ua]</th>
+                            <th>Name [en]</th>
+                            <th>Name [ru]</th>
+                            <th></th>
                         </tr>
-                        <tr class="spacer"></tr>
+                        </thead>
+                        <tbody>
 
-                    @endforeach
+                        @foreach($categories as $category)
+                            <tr class="tr-shadow">
+                                <td>{{($loop->index)+1}}</td>
+                                <td>{{$category->getTranslation('name', 'ua')}}</td>
+                                <td>{{$category->getTranslation('name', 'en')}}</td>
+                                <td>{{$category->getTranslation('name', 'ru')}}</td>
+
+                                <td>
+                                    <div class="table-data-feature">
+                                        <a class="item" data-toggle="tooltip" data-placement="top" title="Read"
+                                           href="{{route('categories.show', $category->id)}}">
+                                            <i class="zmdi zmdi-account-box"></i>
+                                        </a>
+
+                                        <a class="item" data-toggle="tooltip" data-placement="top" title="Edit"
+                                           href="{{route('categories.edit', $category->id)}}">
+                                            <i class="zmdi zmdi-edit"></i>
+                                        </a>
+                                        <form action="{{route('categories.destroy', $category->id)}}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="item" data-toggle="tooltip"
+                                                    data-placement="top"
+                                                    title="Delete"
+                                            >
+                                                <i class="zmdi zmdi-delete"></i>
+                                            </button>
+                                        </form>
+
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="spacer"></tr>
+
+                        @endforeach
 
 
-                    </tbody>
-                </table>
-            </div>
+                        </tbody>
+                    </table>
+                </div>
+            @else
+                <div class="alert alert-success" role="alert">
+                    There are no categories yet.
+                </div>
+            @endif
         </div>
     </div>
 

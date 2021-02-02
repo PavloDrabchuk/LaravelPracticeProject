@@ -54,57 +54,65 @@
                 </div>
             </div>
 
-            <div class="table-responsive table-responsive-data2">
-                <table class="table table-data2">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Phone</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    @foreach($users as $user)
-                        <tr class="tr-shadow">
-                            <td>{{($loop->index)+1}}</td>
-                            <td>{{$user->name}}</td>
-                            <td>
-                                <span class="block-email">{{$user->phone}}</span>
-                            </td>
-                            <td>
-                                <div class="table-data-feature">
-                                    <a class="item" data-toggle="tooltip" data-placement="top" title="Read"
-                                       href="{{route('users.show', $user->id)}}">
-                                        <i class="zmdi zmdi-account-box"></i>
-                                    </a>
-
-                                    <a class="item" data-toggle="tooltip" data-placement="top" title="Edit"
-                                       href="{{route('users.edit', $user->id)}}">
-                                        <i class="zmdi zmdi-edit"></i>
-                                    </a>
-                                    <form action="{{route('users.destroy', $user->id)}}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="item" data-toggle="tooltip" data-placement="top"
-                                                title="Delete"
-                                        >
-                                            <i class="zmdi zmdi-delete"></i>
-                                        </button>
-                                    </form>
-
-                                </div>
-                            </td>
+            @if (count($users) > 0)
+                <div class="table-responsive table-responsive-data2">
+                    <table class="table table-data2">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th></th>
                         </tr>
-                        <tr class="spacer"></tr>
+                        </thead>
+                        <tbody>
 
-                    @endforeach
+                        @foreach($users as $user)
+                            <tr class="tr-shadow">
+                                <td>{{($loop->index)+1}}</td>
+                                <td>{{$user->name}}</td>
+                                <td>
+                                    <span class="block-email">{{$user->phone}}</span>
+                                </td>
+                                <td>
+                                    <div class="table-data-feature">
+                                        <a class="item" data-toggle="tooltip" data-placement="top" title="Read"
+                                           href="{{route('users.show', $user->id)}}">
+                                            <i class="zmdi zmdi-account-box"></i>
+                                        </a>
+
+                                        <a class="item" data-toggle="tooltip" data-placement="top" title="Edit"
+                                           href="{{route('users.edit', $user->id)}}">
+                                            <i class="zmdi zmdi-edit"></i>
+                                        </a>
+                                        <form action="{{route('users.destroy', $user->id)}}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="item" data-toggle="tooltip"
+                                                    data-placement="top"
+                                                    title="Delete"
+                                            >
+                                                <i class="zmdi zmdi-delete"></i>
+                                            </button>
+                                        </form>
+
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="spacer"></tr>
+
+                        @endforeach
 
 
-                    </tbody>
-                </table>
-            </div>
+                        </tbody>
+                    </table>
+                </div>
+            @else
+                <div class="alert alert-success" role="alert">
+                    There are no users yet.
+                </div>
+            @endif
+
         </div>
     </div>
 

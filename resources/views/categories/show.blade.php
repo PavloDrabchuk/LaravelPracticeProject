@@ -13,11 +13,30 @@
         </div>
     @endif
 
-    <h1>Show categories name</h1>
+    <div class="col-lg-4">
+        <div class="top-campaign">
+            <h3 class="title-5 m-b-15">Category names</h3>
+            <div class="table-responsive">
+                <table class="table table-top-campaign">
+                    <tbody>
+                    <tr>
+                        <td>Name [ua]</td>
+                        <td>{{$category->getTranslation('name', 'ua')}}</td>
+                    </tr>
+                    <tr>
+                        <td>Name [en]</td>
+                        <td>{{$category->getTranslation('name', 'en')}}</td>
+                    </tr>
+                    <tr>
+                        <td>Name [ru]</td>
+                        <td>{{$category->getTranslation('name', 'ru')}}</td>
+                    </tr>
 
-    <h4>Name [ua]: {{$category->getTranslation('name', 'ua')}}.</h4>
-    <h4>Name [en]: {{$category->getTranslation('name', 'en')}}.</h4>
-    <h4>Name [ru]: {{$category->getTranslation('name', 'ru')}}.</h4>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
     <br/>
     <a href="{{route('categories.index')}}">Go back</a>

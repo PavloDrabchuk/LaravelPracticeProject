@@ -27,7 +27,7 @@
                 </li>
                 <li>
                     <a href="{{route('products.index')}}">
-                        <i class="fas fa-list-ul"></i>Products</a>
+                        <i class="fas fa-truck"></i>Products</a>
                 </li>
 
                 <li class="has-sub">
