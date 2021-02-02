@@ -13,80 +13,96 @@
         </div>
     @endif
 
-    <h2>Create category</h2>
+    <h2>Create product</h2>
     <div class="col-lg-8">
         <div class="card">
             <div class="card-header">
-                <strong>Create category</strong>
+                <strong>Create product</strong>
             </div>
             <div class="card-body card-block">
-                <form action="{{route('categories.store')}}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                <form action="{{route('products.store')}}" method="post" enctype="multipart/form-data"
+                      class="form-horizontal">
                     @csrf
                     <div class="row form-group">
                         <div class="col col-md-3">
                             <label for="text-input" class=" form-control-label">Name [ua]</label>
                         </div>
                         <div class="col-12 col-md-9">
-                            <input type="text" id="text-input" name="nameUA" placeholder="Name [ua]"
+                            <input type="text" id="nameUA" name="nameUA" placeholder="Name [ua]"
                                    class="form-control">
                         </div>
                     </div>
 
                     <div class="row form-group">
                         <div class="col col-md-3">
-                            <label for="text-input" class=" form-control-label">Name [en]</label>
+                            <label for="nameEN" class=" form-control-label">Name [en]</label>
                         </div>
                         <div class="col-12 col-md-9">
-                            <input type="text" id="text-input" name="nameEN" placeholder="Name [en]"
+                            <input type="text" id="nameEN" name="nameEN" placeholder="Name [en]"
                                    class="form-control">
                         </div>
                     </div>
 
                     <div class="row form-group">
                         <div class="col col-md-3">
-                            <label for="text-input" class=" form-control-label">Name [ru]</label>
+                            <label for="nameRU" class=" form-control-label">Name [ru]</label>
                         </div>
                         <div class="col-12 col-md-9">
-                            <input type="text" id="text-input" name="nameRU" placeholder="Name [ru]"
+                            <input type="text" id="nameRU" name="nameRU" placeholder="Name [ru]"
                                    class="form-control">
                         </div>
                     </div>
-
+                    <hr/>
                     <div class="row form-group">
                         <div class="col col-md-3">
-                            <label class=" form-control-label">Static</label>
+                            <label for="category" class=" form-control-label">Category</label>
                         </div>
                         <div class="col-12 col-md-9">
-                            <p class="form-control-static">Username</p>
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col col-md-3">
-                            <label for="text-input" class=" form-control-label">Text Input</label>
-                        </div>
-                        <div class="col-12 col-md-9">
-                            <input type="text" id="text-input" name="text-input" placeholder="Text" class="form-control">
-                            <small class="form-text text-muted">This is a help text</small>
-                        </div>
-                    </div>
-
-
-
-
-                    <div class="row form-group">
-                        <div class="col col-md-3">
-                            <label for="select" class=" form-control-label">Select</label>
-                        </div>
-                        <div class="col-12 col-md-9">
-                            <select name="select" id="select" class="form-control">
+                            <select name="category" id="category" class="form-control">
                                 @foreach($categories->all() as $category)
-                                    <option value="{{$category->name}}">{{$category->name}}</option>
+                                    <option value="{{$category->id}}">{{$category->name}}</option>
                                 @endforeach
-                                {{--<option value="0">Please select</option>
-                                <option value="1">Option #1</option>
-                                <option value="2">Option #2</option>
-                                <option value="3">Option #3</option>--}}
+
                             </select>
+                        </div>
+                    </div>
+
+
+                    <div class="row form-group">
+                        <div class="col col-md-3">
+                            <label for="text-input" class=" form-control-label">Quantity</label>
+                        </div>
+                        <div class="col-12 col-md-9">
+                            <input type="number" min="0" id="quantity" name="quantity" placeholder="Quantity"
+                                   class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col col-md-3">
+                            <label for="text-input" class=" form-control-label">Article</label>
+                        </div>
+                        <div class="col-12 col-md-9">
+                            <input type="text" id="article" name="article" placeholder="Article" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col col-md-3">
+                            <label for="text-input" class=" form-control-label">Color</label>
+                        </div>
+                        <div class="col-12 col-md-9">
+                            <input type="text" id="color" name="color" placeholder="Color" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col col-md-3">
+                            <label for="text-input" class=" form-control-label">Price</label>
+                        </div>
+                        <div class="col-12 col-md-9">
+                            <input type="number" min="0" step="0.01" id="price" name="price" placeholder="Price"
+                                   class="form-control">
                         </div>
                     </div>
 

@@ -29,6 +29,13 @@ class CategorySeeder extends Seeder
                     'ru' => 'Отдых',
                 ]
             ],
+            [
+                'name' => [
+                    'ua' => 'Третя',
+                    'en' => 'Third',
+                    'ru' => 'Третья',
+                ]
+            ],
         ];
 
         foreach ($categories as $key => $value) {
