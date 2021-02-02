@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -13,8 +16,8 @@ class ConfirmablePasswordController extends Controller
     /**
      * Show the confirm password view.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\View\View
+     * @param Request $request
+     * @return Application|Factory|View|\Illuminate\View\View
      */
     public function show(Request $request)
     {
@@ -24,8 +27,9 @@ class ConfirmablePasswordController extends Controller
     /**
      * Confirm the user's password.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return mixed
+     * @throws ValidationException
      */
     public function store(Request $request)
     {
