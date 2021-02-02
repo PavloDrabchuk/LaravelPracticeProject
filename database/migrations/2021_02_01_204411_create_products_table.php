@@ -16,11 +16,20 @@ class CreateProductsTable extends Migration
         Schema::create('tours', function (Blueprint $table) {
             $table->id();
             $table->json('name')->nullable();
-            $table->foreignId('category_id')->constrained('categories');
+            $table->foreignId('category_id')
+                ->constrained('categories')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->integer('quantity');
             $table->string('article')->unique();
-            $table->foreignId('color_id')->constrained('colors');
-            $table->foreignId('price_id')->constrained('prices');
+            $table->foreignId('color_id')
+                ->constrained('colors')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');;
+            $table->foreignId('price_id')
+                ->constrained('prices')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');;
             $table->timestamps();
         });
     }

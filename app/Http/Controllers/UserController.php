@@ -52,9 +52,9 @@ class UserController extends Controller
 
         //  User::create($request->all());
         User::create([
-            'name' => $request->name,
-            'phone' => $request->phone,
-            'password' => Hash::make($request->password),
+            'name' => $request->input('name'),
+            'phone' => $request->input('phone'),
+            'password' => Hash::make($request->input('password')),
         ]);
 
         return redirect()->route('users.index')
@@ -99,9 +99,9 @@ class UserController extends Controller
         ]);
 
         $user->update([
-            'name' => $request->name,
-            'phone' => $request->phone,
-            'password' => Hash::make($request->password),
+            'name' => $request->input('name'),
+            'phone' => $request->input('phone'),
+            'password' => Hash::make($request->input('password')),
         ]);
         return redirect()->route('users.index')
             ->with('ok', 'User successfully updated.');

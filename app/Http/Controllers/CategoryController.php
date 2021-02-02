@@ -50,9 +50,9 @@ class CategoryController extends Controller
 
         Category::create([
             'name' => [
-                'ua' => $request->nameUA,
-                'en' => $request->nameEN,
-                'ru' => $request->nameRU,
+                'ua' => $request->input('nameUA'),
+                'en' => $request->input('nameEN'),
+                'ru' => $request->input('nameRU'),
             ],
         ]);
 
@@ -99,9 +99,9 @@ class CategoryController extends Controller
 
         $category->update([
             'name' => [
-                'ua' => $request->nameUA,
-                'en' => $request->nameEN,
-                'ru' => $request->nameRU,
+                'ua' => $request->input('nameUA'),
+                'en' => $request->input('nameEN'),
+                'ru' => $request->input('nameRU'),
             ],
         ]);
 
@@ -122,6 +122,6 @@ class CategoryController extends Controller
         $category->delete();
 
         return redirect()->route('categories.index')
-            ->with('ok', 'Category successfully deleted.');
+            ->with('ok', 'The category and all related products have been removed successfully.');
     }
 }
