@@ -22,4 +22,19 @@ class Product extends Model
         'color_id',
         'price_id',
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function color()
+    {
+        return $this->belongsTo(Color::class);
+    }
+
+    public function price()
+    {
+        return $this->belongsTo(Price::class);
+    }
 }

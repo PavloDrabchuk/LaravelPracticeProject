@@ -17,16 +17,16 @@ class CategorySeeder extends Seeder
         $categories = [
             [
                 'name' => [
-                    'ua' => 'екскурсія',
-                    'en' => 'excursion',
-                    'ru' => 'экскурсия',
+                    'ua' => 'Екскурсія',
+                    'en' => 'Excursion',
+                    'ru' => 'Экскурсия',
                 ],
             ],
             [
                 'name' => [
-                    'ua' => 'відпочинок',
-                    'en' => 'vacation',
-                    'ru' => 'отдых',
+                    'ua' => 'Відпочинок',
+                    'en' => 'Vacation',
+                    'ru' => 'Отдых',
                 ]
             ],
         ];

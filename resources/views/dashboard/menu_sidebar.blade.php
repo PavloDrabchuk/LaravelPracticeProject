@@ -1,7 +1,7 @@
 <aside class="menu-sidebar d-none d-lg-block">
     <div class="logo">
         <a href="{{route('dashboard')}}">
-            <img src="{{ asset('images/icon/logo.png')}}" alt="Cool Admin" />
+            <img src="{{ asset('images/icon/logo.png')}}" alt="Cool Admin"/>
         </a>
     </div>
     <div class="menu-sidebar__content js-scrollbar1">
@@ -14,6 +14,10 @@
                 <li>
                     <a href="{{route('categories.index')}}">
                         <i class="fas fa-list-ul"></i>Categories</a>
+                </li>
+                <li>
+                    <a href="{{route('products.index')}}">
+                        <i class="fas fa-list-ul"></i>Products</a>
                 </li>
                 <hr/>
                 <li class="active has-sub">
@@ -100,4 +104,4 @@
     </div>
 
 
-    </aside>
+</aside>

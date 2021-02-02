@@ -21,6 +21,14 @@
                     <a href="{{route('users.index')}}">
                         <i class="fas fa-users"></i>Users</a>
                 </li>
+                <li>
+                    <a href="{{route('categories.index')}}">
+                        <i class="fas fa-list-ul"></i>Categories</a>
+                </li>
+                <li>
+                    <a href="{{route('products.index')}}">
+                        <i class="fas fa-list-ul"></i>Products</a>
+                </li>
 
                 <li class="has-sub">
                     <a class="js-arrow" href="#">
