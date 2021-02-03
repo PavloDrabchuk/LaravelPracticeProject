@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Resources\CategoryCollection;
+use App\Http\Resources\ProductResource;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -31,7 +32,7 @@ Route::get('categories', function() {
 });
 
 Route::get('categories/{id}', function($id) {
-    return Category::find($id);
+    return Category::findOrFail($id);
 });
 
 Route::get('products', function() {
@@ -39,5 +40,9 @@ Route::get('products', function() {
 });
 
 Route::get('products/{id}', function($id) {
-    return Product::find($id);
+    return new ProductResource(Product::findOrFail($id));
 });
+
+/*Route::get('products/{category_id}',function ($category_id){
+    return Product::
+})*/

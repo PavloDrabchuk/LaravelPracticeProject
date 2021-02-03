@@ -17,7 +17,10 @@ class PriceSeeder extends Seeder
         $prices = [
             [
                 'value' => 150,
-            ]
+            ],
+            [
+                'value' => 170,
+            ],
         ];
 
         foreach ($prices as $key => $value) {

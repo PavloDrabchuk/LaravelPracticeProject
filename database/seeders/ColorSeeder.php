@@ -17,7 +17,10 @@ class ColorSeeder extends Seeder
         $colors = [
             [
                 'name' => 'Natural history tour',
-            ]
+            ],
+            [
+                'name' => 'Vacation at sea',
+            ],
         ];
 
         foreach ($colors as $key => $value) {

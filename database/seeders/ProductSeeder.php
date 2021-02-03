@@ -27,6 +27,18 @@ class ProductSeeder extends Seeder
                 'color_id' => 1,
                 'price_id' => 1,
             ],
+            [
+                'name' => [
+                    'ua' => 'Поїздка до Одеси',
+                    'en' => 'Trip to Odessa',
+                    'ru' => 'Поездка в Одессу',
+                ],
+                'category_id' => 2,
+                'quantity' => 13,
+                'article' => 'a1b2c3',
+                'color_id' => 2,
+                'price_id' => 2,
+            ],
         ];
 
         foreach ($tours as $key => $value) {
