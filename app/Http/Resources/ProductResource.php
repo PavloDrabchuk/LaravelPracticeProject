@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Category;
 use App\Models\Color;
 use App\Models\Price;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -21,7 +22,7 @@ class ProductResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->getTranslations('name'),
-            'category' => $this->category->name,
+            'category' => new CategoryResource(Category::findOrFail($this->category_id)),
             'quantity' => $this->quantity,
             'article' => $this->article,
             'color' => new ColorResource(Color::findOrFail($this->color_id)),

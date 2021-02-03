@@ -14,21 +14,16 @@ class CategoryCollection extends ResourceCollection
     /**
      * Transform the resource collection into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return Collection
      */
     public function toArray($request)
     {
-        //return parent::toArray($request);
-        /*return [
-            'data' => $this->collection,
-        ];*/
-
         return $this->collection->map(function ($item) {
             return [
                 'id' => $item->id,
                 'name' => $item->getTranslations('name'),
-                'products'=>ProductResource::collection($item->products),
+                'products' => ProductResource::collection($item->products),
             ];
         });
     }

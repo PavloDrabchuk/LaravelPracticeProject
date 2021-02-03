@@ -11,7 +11,7 @@ class CategoryResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
@@ -19,7 +19,7 @@ class CategoryResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->getTranslations('name'),
-            'products'=>ProductResource::collection($this->products),
+            //'products'=>ProductResource::collection($this->products),
         ];
     }
 }

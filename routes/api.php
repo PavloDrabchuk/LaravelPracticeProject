@@ -24,12 +24,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-/*Route::get('categories', function() {
-    return Category::all();
-});*/
-
 Route::get('categories', function() {
-    return CategoryResource::collection(Category::all());
+    return new CategoryCollection(Category::all());
 });
 
 Route::get('categories/{id}', function($id) {
@@ -44,6 +40,3 @@ Route::get('products/{id}', function($id) {
     return new ProductResource(Product::findOrFail($id));
 });
 
-/*Route::get('products/{category_id}',function ($category_id){
-    return Product::
-})*/
