@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -121,5 +122,31 @@ class UserController extends Controller
 
         return redirect()->route('users.index')
             ->with('ok', 'User successfully deleted.');
+    }
+
+    /**
+     * API login
+     *
+     * @param Request $request
+     * @return Application|ResponseFactory|Response
+     */
+    function login(Request $request)
+    {
+        $user= User::where('phone', $request->input('phone'))->first();
+
+        if (!$user || !Hash::check($request->input('password'), $user->password)) {
+            return response([
+                'message' => ['These credentials do not match our records.']
+            ], 404);
+        }
+
+        $token = $user->createToken('login-api-token')->plainTextToken;
+
+        $response = [
+            'user' => $user,
+            'token' => $token
+        ];
+
+        return response($response, 201);
     }
 }

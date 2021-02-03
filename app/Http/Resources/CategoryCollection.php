@@ -2,8 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Category;
-use App\Models\Product;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Collection;
 
@@ -14,7 +13,7 @@ class CategoryCollection extends ResourceCollection
     /**
      * Transform the resource collection into an array.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return Collection
      */
     public function toArray($request)

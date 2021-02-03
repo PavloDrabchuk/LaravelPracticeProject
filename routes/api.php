@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\UserController;
 use App\Http\Resources\CategoryCollection;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\ProductResource;
@@ -20,11 +21,31 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+/*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});*/
+
+Route::post("login", [UserController::class, 'login']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('categories', function () {
+        return new CategoryCollection(Category::all());
+    });
+
+    Route::get('categories/{id}', function ($id) {
+        return new CategoryResource(Category::findOrFail($id));
+    });
+
+    Route::get('products', function () {
+        return ProductResource::collection(Product::all());
+    });
+
+    Route::get('products/{id}', function ($id) {
+        return new ProductResource(Product::findOrFail($id));
+    });
 });
 
-Route::get('categories', function() {
+/*Route::get('categories', function() {
     return new CategoryCollection(Category::all());
 });
 
@@ -38,5 +59,7 @@ Route::get('products', function() {
 
 Route::get('products/{id}', function($id) {
     return new ProductResource(Product::findOrFail($id));
-});
+});*/
+
+
 
