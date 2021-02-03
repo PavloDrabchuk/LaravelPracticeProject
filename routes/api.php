@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Resources\CategoryCollection;
+use App\Http\Resources\CategoryResource;
 use App\Http\Resources\ProductResource;
 use App\Models\Category;
 use App\Models\Product;
@@ -28,15 +29,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });*/
 
 Route::get('categories', function() {
-    return new CategoryCollection(Category::all());
+    return CategoryResource::collection(Category::all());
 });
 
 Route::get('categories/{id}', function($id) {
-    return Category::findOrFail($id);
+    return new CategoryResource(Category::findOrFail($id));
 });
 
 Route::get('products', function() {
-    return Product::all();
+    return ProductResource::collection(Product::all());
 });
 
 Route::get('products/{id}', function($id) {
