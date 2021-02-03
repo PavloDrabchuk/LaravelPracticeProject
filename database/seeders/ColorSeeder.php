@@ -26,5 +26,7 @@ class ColorSeeder extends Seeder
         foreach ($colors as $key => $value) {
             Color::create($value);
         }
+
+        Color::factory(10)->create();
     }
 }

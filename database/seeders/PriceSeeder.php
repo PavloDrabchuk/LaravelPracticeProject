@@ -26,5 +26,7 @@ class PriceSeeder extends Seeder
         foreach ($prices as $key => $value) {
             Price::create($value);
         }
+
+        Price::factory(10)->create();
     }
 }
