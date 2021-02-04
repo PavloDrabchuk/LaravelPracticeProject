@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserController;
 use App\Http\Resources\CategoryCollection;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\ProductResource;
+use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -43,6 +45,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('products/{id}', function ($id) {
         return new ProductResource(Product::findOrFail($id));
     });
+
+    Route::post('card/add_product', [CartController::class, 'addProducts']);
 });
 
 /*Route::get('categories', function() {
@@ -61,5 +65,9 @@ Route::get('products/{id}', function($id) {
     return new ProductResource(Product::findOrFail($id));
 });*/
 
+//Route::post('card/add_product', [CartController::class, 'addProducts']);
 
+Route::get('carts',function (){
+    return Cart::get();
+});
 
