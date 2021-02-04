@@ -30,7 +30,9 @@ use Illuminate\Support\Facades\Route;
 Route::post("login", [UserController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
-
+    Route::get('categories', function () {
+        return new CategoryCollection(Category::all());
+    });
 
     Route::get('categories/{id}', function ($id) {
         return new CategoryResource(Category::findOrFail($id));
@@ -47,9 +49,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('card/add_product', [CartController::class, 'addProducts']);
 });
 
-Route::get('categories', function () {
-    return new CategoryCollection(Category::all());
-});
+
 /*Route::get('carts',function (){
     return Cart::get();
 });*/

@@ -11,16 +11,13 @@ class CategoryCollection extends ResourceCollection
     public static $wrap = 'categories';
 
     /**
-     * Transform the resource collection into an array.
-     *
-     * @param Request $request
-     * @return Collection
      *
      * @OA\Get(
      *     path="/categories",
      *     operationId="allCategories",
-     *     tags={"Get"},
-     *     summary="Get all categories",
+     *     tags={"Category"},
+     *     summary="Transform the resource collection into an array.",
+     *     security={{"bearerAuth":{}}},
      *     @OA\Response(
      *          response=200,
      *          description="Successful operation",
@@ -34,6 +31,11 @@ class CategoryCollection extends ResourceCollection
      *          description="Forbidden"
      *      )
      *     )
+     *
+     * Transform the resource collection into an array.
+     *
+     * @param Request $request
+     * @return Collection
      */
     public function toArray($request)
     {
