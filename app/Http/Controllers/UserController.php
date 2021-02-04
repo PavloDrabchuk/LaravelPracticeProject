@@ -125,6 +125,43 @@ class UserController extends Controller
     }
 
     /**
+     *
+     * @OA\Post(
+     *      path="/login",
+     *      operationId="login",
+     *      tags={"Authentication "},
+     *      summary="Authentication",
+     *      description="Login to use API",
+     *      security={{"default": {}}},
+     *      @OA\RequestBody(
+     *          required=true,
+     *          description="Pass user credentials",
+     *          @OA\JsonContent(
+     *          type="object",
+     *          required={"phone","password"},
+     *          @OA\Property(property="phone", type="string" , example="380123456789"),
+     *          @OA\Property(property="password", type="string", format="password", example="password")
+     *    ),
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *     @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
+     *
      * API login
      *
      * @param Request $request
@@ -132,7 +169,7 @@ class UserController extends Controller
      */
     function login(Request $request)
     {
-        $user= User::where('phone', $request->input('phone'))->first();
+        $user = User::where('phone', $request->input('phone'))->first();
 
         if (!$user || !Hash::check($request->input('password'), $user->password)) {
             return response([

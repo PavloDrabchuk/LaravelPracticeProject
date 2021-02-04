@@ -16,7 +16,8 @@ class CategoryCollection extends ResourceCollection
      *     path="/categories",
      *     operationId="allCategories",
      *     tags={"Category"},
-     *     summary="Transform the resource collection into an array.",
+     *     summary="Get categories information",
+     *     description="Returns categories data by id",
      *     security={{"bearerAuth":{}}},
      *     @OA\Response(
      *          response=200,

@@ -15,8 +15,8 @@ class CategoryResource extends JsonResource
      *      path="/categories/{id}",
      *      operationId="getCategoryById",
      *      tags={"Category"},
-     *      summary="Get category information",
-     *      description="Returns category data",
+     *      summary="Get category information by id",
+     *      description="Returns category data by id",
      *      security={{"bearerAuth":{}}},
      *      @OA\Parameter(
      *          name="id",

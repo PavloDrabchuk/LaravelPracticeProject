@@ -12,7 +12,10 @@ use Illuminate\Routing\Controller as BaseController;
  * @package App\Http\Controllers
  * @OA\Info (
  *     title = "Api",
- *     version = "1.0.0"
+ *     version = "1.0.0",
+ *     @OA\Contact(
+ *         email="ravluk2000@gmail.com"
+ *      )
  * )
  *
  * @OA\Server (
@@ -25,6 +28,13 @@ use Illuminate\Routing\Controller as BaseController;
  *     type="http",
  *     scheme="bearer"
  * )
+ *
+ * @SWG\SecurityScheme(
+ *          securityDefinition="default",
+ *          type="apiKey",
+ *          in="header",
+ *          name="Authorization"
+ *      )
  *
  */
 class Controller extends BaseController
