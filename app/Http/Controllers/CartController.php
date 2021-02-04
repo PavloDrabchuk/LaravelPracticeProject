@@ -86,7 +86,6 @@ class CartController extends Controller
     }
 
     /**
-     * @param Cart $cart
      * @param Request $request
      */
     public function addProducts(Request $request)

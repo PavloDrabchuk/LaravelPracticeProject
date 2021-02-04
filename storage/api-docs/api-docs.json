@@ -1,0 +1,32 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Api",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/categories": {
+            "get": {
+                "tags": [
+                    "Get"
+                ],
+                "summary": "Get all categories",
+                "operationId": "allCategories",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        }
+    },
+    "security": [
+        []
+    ]
+}
