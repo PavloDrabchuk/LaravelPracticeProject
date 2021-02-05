@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class CartController extends Controller
 {
@@ -95,7 +96,9 @@ class CartController extends Controller
     public function show(Cart $cart)
     {
         $userId = auth('sanctum')->user()->getKey();
-        return Cart::where('user_id', $userId)->first();
+        $cart = Cart::where('user_id', $userId)->first();
+        return ($cart) ? response($cart, 200) : response(
+            ['message' => ['Cart not yet created.']], 404);
     }
 
     /**
@@ -174,10 +177,13 @@ class CartController extends Controller
             $userId = auth('sanctum')->user()->getKey();
         }
 
-        $request->validate([
+        $validator = Validator::make($request->json()->all(), [
             'product_id' => 'required|numeric|min:1',
             'quantity' => 'required|numeric|min:1|max:10',
         ]);
+
+        if ($validator->fails()) return response($validator->errors(), 400);
+
 
         $product_id = $request->input('product_id');
         $quantity = $request->input('quantity');
@@ -194,6 +200,7 @@ class CartController extends Controller
             $cart->save();
 
             //return $cart;
+            return response(["message" => "Product added to cart."], 200);
         } else {
             Cart::create([
                 'user_id' => $userId,
@@ -204,6 +211,8 @@ class CartController extends Controller
                     ],
                 ],
             ]);
+
+            return response(["message" => "Cart created and product added."], 200);
         }
     }
 }
