@@ -46,7 +46,11 @@ Route::middleware('auth:sanctum')->group(function () {
         return new ProductResource(Product::findOrFail($id));
     });
 
-    Route::post('card/add_product', [CartController::class, 'addProducts']);
+    Route::post('cart/add_product', [CartController::class, 'addProducts']);
+
+    Route::get('carts', [CartController::class, 'index']);
+
+    Route::get('cart', [CartController::class, 'show']);
 });
 
 

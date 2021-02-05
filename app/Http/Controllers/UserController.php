@@ -132,10 +132,6 @@ class UserController extends Controller
      *      tags={"Authentication "},
      *      summary="Authentication",
      *      description="Login to use API",
-     *      security={
-     *     {"default": {}},
-     *     {"api_token": {}}
-     *     },
      *      @OA\RequestBody(
      *          required=true,
      *          description="Pass user credentials",
