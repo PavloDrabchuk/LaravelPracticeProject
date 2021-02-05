@@ -30,6 +30,7 @@ class CategoryResource extends JsonResource
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *       ),
      *      @OA\Response(
      *          response=400,

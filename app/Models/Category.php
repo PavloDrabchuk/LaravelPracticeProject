@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
 
+/**
+ *
+ * Class Category
+ * @package App\Models
+ */
+
 class Category extends Model
 {
     use HasFactory, HasTranslations;

@@ -10,6 +10,7 @@ use Illuminate\Routing\Controller as BaseController;
 /**
  * Class Controller
  * @package App\Http\Controllers
+ *
  * @OA\Info (
  *     title = "Api",
  *     version = "1.0.0",
@@ -22,6 +23,22 @@ use Illuminate\Routing\Controller as BaseController;
  *      )
  * )
  *
+ * @OA\Tag (
+ *     name = "Authorization"
+ * )
+ *
+ * @OA\Tag (
+ *     name = "Category"
+ * )
+ *
+ * @OA\Tag (
+ *     name = "Product"
+ * )
+ *
+ * @OA\Tag (
+ *     name = "Cart"
+ * )
+ *
  * @OA\Server (
  *     description = "Laravel Swagger API server",
  *     url = "http://127.0.0.1:8000/api"
@@ -32,14 +49,6 @@ use Illuminate\Routing\Controller as BaseController;
  *     type="http",
  *     scheme="bearer"
  * )
- *
- * @SWG\SecurityScheme(
- *          securityDefinition="default",
- *          type="apiKey",
- *          in="header",
- *          name="Authorization"
- *      )
- *
  *
  */
 class Controller extends BaseController

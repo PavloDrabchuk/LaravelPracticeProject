@@ -129,18 +129,14 @@ class UserController extends Controller
      * @OA\Post(
      *      path="/login",
      *      operationId="login",
-     *      tags={"Authentication "},
-     *      summary="Authentication",
+     *      tags={"Authorization"},
+     *      summary="Authorization",
      *      description="Login to use API",
      *      @OA\RequestBody(
      *          required=true,
      *          description="Pass user credentials",
      *          @OA\JsonContent(
-     *          type="object",
-     *          required={"phone","password"},
-     *          @OA\Property(property="phone", type="string" , example="380123456789"),
-     *          @OA\Property(property="password", type="string", format="password", example="password")
-     *    ),
+     *          ref="#/components/schemas/Request")
      *      ),
      *      @OA\Response(
      *          response=201,
@@ -151,6 +147,10 @@ class UserController extends Controller
      *          response=400,
      *          description="Bad Request"
      *      ),
+     *     @OA\Response(
+     *          response=200,
+     *          description="Ok"
+     *      ),
      *      @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
@@ -158,6 +158,14 @@ class UserController extends Controller
      *      @OA\Response(
      *          response=403,
      *          description="Forbidden"
+     *      ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Not found"
+     *      ),
+     *     @OA\Response(
+     *          response=419,
+     *          description="Authentication Timeout"
      *      )
      * )
      *
@@ -166,6 +174,8 @@ class UserController extends Controller
      * @param Request $request
      * @return Application|ResponseFactory|Response
      */
+
+
     function login(Request $request)
     {
         $user = User::where('phone', $request->input('phone'))->first();
@@ -185,4 +195,5 @@ class UserController extends Controller
 
         return response($response, 201);
     }
+
 }

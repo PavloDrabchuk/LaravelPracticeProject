@@ -143,6 +143,7 @@ class CartController extends Controller
      *      tags={"Cart"},
      *      summary="Add product to cart",
      *      description="Add product to cart",
+     *     security={{"bearerAuth":{}}},
      *      @OA\RequestBody(
      *          required=true,
      *          description="Input product information",
@@ -153,11 +154,11 @@ class CartController extends Controller
      *          @OA\Property(property="quantity", type="integer" , example="1")
      *    ),
      *      ),
+     *
      *      @OA\Response(
      *          response=201,
-     *          description="Successful operation",
-     *     @OA\JsonContent()
-     *       ),
+     *          description="Successful operation"
+     *),
      *      @OA\Response(
      *          response=400,
      *          description="Bad Request"
@@ -169,6 +170,7 @@ class CartController extends Controller
      * )
      *
      * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|Response
      */
     public function addProducts(Request $request)
     {

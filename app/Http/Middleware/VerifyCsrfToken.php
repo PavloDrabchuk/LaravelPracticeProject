@@ -2,7 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use Closure;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as Middleware;
+use Illuminate\Support\Facades\Redirect;
 
 class VerifyCsrfToken extends Middleware
 {
@@ -14,4 +16,18 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         //
     ];
+
+    /*public function handle( $request, Closure $next )
+    {
+        if (
+            $this->isReading($request) ||
+            $this->runningUnitTests() ||
+            $this->tokensMatch($request)
+        ) {
+            return $this->addCookieToResponse($request, $next($request));
+        }
+
+        // redirect the user back to the last page and show error
+        return Redirect::back()->withError('Sorry, we could not verify your request. Please try again.');
+    }*/
 }
