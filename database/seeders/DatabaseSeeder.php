@@ -19,10 +19,10 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             AdminSeeder::class,
             CategorySeeder::class,
-            PriceSeeder::class,
             ColorSeeder::class,
             ProductSeeder::class,
             CartSeeder::class,
+            PriceSeeder::class,
         ]);
     }
 }

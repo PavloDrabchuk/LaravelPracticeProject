@@ -20,7 +20,7 @@ class Product extends Model
         'quantity',
         'article',
         'color_id',
-        'price_id',
+        //'price_id',
     ];
 
     public function category()
@@ -33,8 +33,18 @@ class Product extends Model
         return $this->belongsTo(Color::class);
     }
 
-    public function price()
+    /*public function price()
     {
         return $this->belongsTo(Price::class);
+    }*/
+
+    /*public function prices()
+    {
+        return $this->hasMany(Price::class);
+    }*/
+
+    public function prices()
+    {
+        return $this->morphMany(Price::class, 'price');
     }
 }

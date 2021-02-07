@@ -136,7 +136,7 @@ class UserController extends Controller
      *          required=true,
      *          description="Pass user credentials",
      *          @OA\JsonContent(
-     *          ref="#/components/schemas/Request")
+     *          ref="#/components/schemas/ExRequest")
      *      ),
      *      @OA\Response(
      *          response=201,

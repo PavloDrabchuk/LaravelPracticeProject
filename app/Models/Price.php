@@ -11,5 +11,12 @@ class Price extends Model
 
     protected $fillable = [
         'value',
+        'currency',
+        'product_id',
     ];
+
+    public function price()
+    {
+        return $this->morphTo();
+    }
 }

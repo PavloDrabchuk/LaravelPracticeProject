@@ -25,11 +25,11 @@ class CreateProductsTable extends Migration
             $table->foreignId('color_id')
                 ->constrained('colors')
                 ->onUpdate('cascade')
-                ->onDelete('cascade');;
-            $table->foreignId('price_id')
+                ->onDelete('cascade');
+            /*$table->foreignId('price_id')
                 ->constrained('prices')
                 ->onUpdate('cascade')
-                ->onDelete('cascade');;
+                ->onDelete('cascade');*/
             $table->timestamps();
         });
     }

@@ -16,6 +16,11 @@ class CreatePricesTable extends Migration
         Schema::create('prices', function (Blueprint $table) {
             $table->id();
             $table->double('value');
+            $table->string('currency');
+            $table->foreignId('product_id')
+                ->constrained('tours')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');;
             $table->timestamps();
         });
     }

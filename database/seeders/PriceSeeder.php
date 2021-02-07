@@ -17,9 +17,13 @@ class PriceSeeder extends Seeder
         $prices = [
             [
                 'value' => 150,
+                'currency' => 'UAH',
+                'product_id' => 1,
             ],
             [
-                'value' => 170,
+                'value' => 5.40,
+                'currency' => 'USD',
+                'product_id' => 1,
             ],
         ];
 

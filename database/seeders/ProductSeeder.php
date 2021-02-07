@@ -25,7 +25,7 @@ class ProductSeeder extends Seeder
                 'quantity' => 12,
                 'article' => '123abc',
                 'color_id' => 1,
-                'price_id' => 1,
+                //'price_id' => 1,
             ],
             [
                 'name' => [
@@ -37,7 +37,7 @@ class ProductSeeder extends Seeder
                 'quantity' => 13,
                 'article' => 'a1b2c3',
                 'color_id' => 2,
-                'price_id' => 2,
+                //'price_id' => 2,
             ],
         ];
 
