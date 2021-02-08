@@ -78,7 +78,12 @@
                                 <td>{{$product->quantity}}</td>
                                 <td>{{$product->article}}</td>
                                 <td>{{$product->color->name}}</td>
-                                <td>{{$product->price->value}}</td>
+                                <td>
+                                    {{-- {{$product->prices}} --}}
+                                    @foreach($product->prices as $price)
+                                        {{$price->currency->sign}} {{$price->value}} {{$price->currency->code}}<br/>
+                                    @endforeach
+                                </td>
 
                                 <td>
                                     <div class="table-data-feature">
