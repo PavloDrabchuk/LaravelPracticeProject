@@ -61,11 +61,11 @@ class ProductController extends Controller
             'name' => $request->input('color'),
         ]);
 
-        $price = Price::create([
+        /*$price = Price::create([
             'value' => $request->input('price'),
-        ]);
+        ]);*/
 
-        Product::create([
+        $product = Product::create([
 
             'name' => [
                 'ua' => $request->input('nameUA'),
@@ -76,8 +76,11 @@ class ProductController extends Controller
             'quantity' => $request->input('quantity'),
             'article' => $request->input('article'),
             'color_id' => $color->id,
-            'price_id' => $price->id,
+            //'price_id' => $price->id,
         ]);
+
+
+        (new PriceController)->convert($request->input('price'),$product);
 
         return redirect()->route('products.index')
             ->with('ok', 'Product successfully added');

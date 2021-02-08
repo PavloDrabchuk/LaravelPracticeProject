@@ -98,12 +98,13 @@
 
                     <div class="row form-group">
                         <div class="col col-md-3">
-                            <label for="text-input" class=" form-control-label">Price</label>
+                            <label for="text-input" class=" form-control-label">Price (UAH)</label>
                         </div>
                         <div class="col-12 col-md-9">
                             <input type="number" min="0" step="0.01" id="price" name="price" placeholder="Price"
                                    class="form-control">
                         </div>
+
                     </div>
 
 

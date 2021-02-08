@@ -17,7 +17,8 @@
         "laravel/framework": "^v8.24.0",
         "laravel/sanctum": "^2.9",
         "laravel/tinker": "^2.5|dev-develop",
-        "spatie/laravel-translatable": "^4.6"
+        "spatie/laravel-translatable": "^4.6",
+        "ext-json": "*"
     },
     "require-dev": {
         "laravel/breeze": "^1.0",

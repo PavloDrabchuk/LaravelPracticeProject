@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Currency;
 use App\Models\Price;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class PriceController extends Controller
@@ -30,7 +32,7 @@ class PriceController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -41,7 +43,7 @@ class PriceController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Price  $price
+     * @param \App\Models\Price $price
      * @return \Illuminate\Http\Response
      */
     public function show(Price $price)
@@ -52,7 +54,7 @@ class PriceController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Price  $price
+     * @param \App\Models\Price $price
      * @return \Illuminate\Http\Response
      */
     public function edit(Price $price)
@@ -63,8 +65,8 @@ class PriceController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Price  $price
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Price $price
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Price $price)
@@ -75,7 +77,7 @@ class PriceController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Price  $price
+     * @param \App\Models\Price $price
      * @return \Illuminate\Http\Response
      */
     public function destroy(Price $price)
@@ -83,5 +85,33 @@ class PriceController extends Controller
         //
     }
 
+    /**
+     * @param $value
+     * @param Product $product
+     */
+    public function convert($value, Product $product)
+    {
+        Price::create([
+            'value'=>$value,
+            'currency_id'=>1,
+            'product_id'=>$product->id,
+        ]);
 
+        $exchangeRate = file_get_contents("https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json");
+        $exchange = json_decode($exchangeRate, true);
+
+        $currencyCodes=Currency::all()->where('code','!=',"UAH");
+
+        foreach ($currencyCodes as $currency) {
+            $key = array_search($currency->code, array_column($exchange, 'cc'));
+            if ($key) {
+                $newValue=$value/$exchange[$key]['rate'];
+                Price::create([
+                    'value'=>round($newValue,2),
+                    'currency_id'=>$currency->id,
+                    'product_id'=>$product->id,
+                ]);
+            }
+        }
+    }
 }
