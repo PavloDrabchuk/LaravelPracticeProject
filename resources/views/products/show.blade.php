@@ -48,9 +48,16 @@
                         <td>{{$product->color->name}}</td>
                     </tr>
                     <tr>
-                        <td>Price</td>
-                        <td>{{$product->price->value}}</td>
+                        <td colspan="2" ><h5 >Prices</h5></td>
+                        <td></td>
                     </tr>
+                    @foreach($product->prices as $price)
+                        <tr>
+                            <td>{{$price->currency->code}}</td>
+                            <td>{{$price->currency->sign}} {{$price->value}}</td>
+                        </tr>
+                    @endforeach
+
                     </tbody>
                 </table>
             </div>

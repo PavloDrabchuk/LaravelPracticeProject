@@ -114,7 +114,7 @@
                         </div>
                         <div class="col-12 col-md-9">
                             <input type="number" min="0" step="0.01" id="price" name="price" placeholder="Price"
-                                   value="{{$product->price->value}}"
+                                   value="{{$product->prices->first()->value}}"
                                    class="form-control">
                         </div>
                     </div>

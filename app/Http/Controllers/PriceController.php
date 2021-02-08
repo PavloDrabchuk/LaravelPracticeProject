@@ -92,24 +92,24 @@ class PriceController extends Controller
     public function convert($value, Product $product)
     {
         Price::create([
-            'value'=>$value,
-            'currency_id'=>1,
-            'product_id'=>$product->id,
+            'value' => $value,
+            'currency_id' => 1,
+            'product_id' => $product->id,
         ]);
 
-        $exchangeRate = file_get_contents("https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json");
+        $exchangeRate = file_get_contents(env('BANK_EXCHANGE_URL'));
         $exchange = json_decode($exchangeRate, true);
 
-        $currencyCodes=Currency::all()->where('code','!=',"UAH");
+        $currencyCodes = Currency::all()->where('code', '!=', "UAH");
 
         foreach ($currencyCodes as $currency) {
             $key = array_search($currency->code, array_column($exchange, 'cc'));
             if ($key) {
-                $newValue=$value/$exchange[$key]['rate'];
+                $newValue = $value / $exchange[$key]['rate'];
                 Price::create([
-                    'value'=>round($newValue,2),
-                    'currency_id'=>$currency->id,
-                    'product_id'=>$product->id,
+                    'value' => round($newValue, 2),
+                    'currency_id' => $currency->id,
+                    'product_id' => $product->id,
                 ]);
             }
         }
