@@ -124,9 +124,7 @@ class PriceController extends Controller
                         'product_id' => $product->id,
                     ]);
                 } else if ($action == "update") {
-                    //$product->prices()->where('currency_id','=', $currency->id)->update([
                     $product->prices()->where('currency_id', '=', $currency->id)->updateOrCreate([
-                        //$product->prices()->updateOrCreate([
                         'currency_id' => $currency->id,
                         'product_id' => $product->id,
                     ], ['value' => round($newValue, 2)]);
