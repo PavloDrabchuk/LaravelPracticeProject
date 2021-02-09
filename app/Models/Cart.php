@@ -9,14 +9,18 @@ class Cart extends Model
 {
     use HasFactory;
 
-     protected $casts = [
+     /*protected $casts = [
         'products' => 'array'
-    ];
+    ];*/
 
     protected $fillable = [
-        'id',
+        //'id',
         'user_id',
-        'products',
+        //'products',
         ];
 
+    public function cartItems()
+    {
+        return $this->hasMany(CartItem::class);
+    }
 }

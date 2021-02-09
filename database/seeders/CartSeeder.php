@@ -17,7 +17,7 @@ class CartSeeder extends Seeder
         $carts = [
             [
                 'user_id' => 1,
-                'products' => [
+                /*'products' => [
                     [
                         'product_id' => 1,
                         'quantity' => 2,
@@ -26,11 +26,11 @@ class CartSeeder extends Seeder
                         'product_id' => 2,
                         'quantity' => 3,
                     ],
-                ],
+                ],*/
             ],
             [
                 'user_id' => 2,
-                'products' => [
+                /*'products' => [
                     [
                         'product_id' => 4,
                         'quantity' => 4,
@@ -39,7 +39,7 @@ class CartSeeder extends Seeder
                         'product_id' => 3,
                         'quantity' => 2,
                     ],
-                ],
+                ],*/
             ],
         ];
 

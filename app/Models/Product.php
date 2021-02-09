@@ -34,7 +34,6 @@ class Product extends Model
     }
 
 
-
     /*public function price()
     {
         return $this->belongsTo(Price::class);
@@ -49,4 +48,9 @@ class Product extends Model
     {
         return $this->morphMany(Price::class, 'prices');
     }*/
+
+    public function cartItem()
+    {
+        return $this->belongsTo(CartItem::class);
+    }
 }
