@@ -4,6 +4,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserController;
+use App\Http\Resources\CartResource;
 use App\Http\Resources\CategoryCollection;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\ProductResource;
@@ -50,7 +51,10 @@ Route::middleware('auth:sanctum')->group(function () {
     //Route::post('cart/add_product', [CartController::class, 'addProducts']);
     Route::post('cart/add_product', [CartItemController::class, 'store']);
 
-    Route::get('carts', [CartController::class, 'index']);
+    //Route::get('carts', [CartController::class, 'index']);
+    Route::get('carts', function () {
+        return CartResource::collection(Cart::all());
+    });
 
     Route::get('cart', [CartController::class, 'show']);
 });

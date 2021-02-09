@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CartResource;
 use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Collection;
@@ -104,7 +105,7 @@ class CartController extends Controller
     {
         $userId = auth('sanctum')->user()->getKey();
         $cart = Cart::where('user_id', $userId)->first();
-        return ($cart) ? response($cart, 200) : response(
+        return ($cart) ? response( new CartResource($cart), 200) : response(
             ['message' => ['Cart not yet created.']], 404);
     }
 
