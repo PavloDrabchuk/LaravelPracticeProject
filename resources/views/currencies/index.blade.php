@@ -13,6 +13,16 @@
         </div>
     @endif
 
+    @if($message=\Illuminate\Support\Facades\Session::get('alert'))
+        <div class="sufee-alert alert with-close alert-warning alert-dismissible fade show">
+            <span class="badge badge-pill badge-warning">Alert</span>
+            {{$message}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+    @endif
+
     <div class="row">
         <div class="col-md-12">
 

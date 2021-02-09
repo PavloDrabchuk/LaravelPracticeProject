@@ -32,8 +32,8 @@ class CurrencyController extends Controller
      */
     public function create()
     {
-        $currencyCodes= (new Currency)->getAllPossibleCurrencyCode();
-        return view('currencies.create',compact('currencyCodes'));
+        $currencyCodes = (new Currency)->getAllPossibleCurrencyCode();
+        return view('currencies.create', compact('currencyCodes'));
     }
 
     /**
@@ -44,26 +44,22 @@ class CurrencyController extends Controller
      */
     public function store(Request $request)
     {
-        /*$exchangeRate = file_get_contents(env('BANK_EXCHANGE_URL'));
-        $exchange = json_decode($exchangeRate, true);
-        $currencyCodes = array_column($exchange, 'cc');*/
-        $currencyCodes= (new Currency)->getAllPossibleCurrencyCode();
+        $currencyCodes = (new Currency)->getAllPossibleCurrencyCode();
 
         $request->validate([
-            'code'=>[
-                'required','string','max:3','unique:currencies',
+            'code' => [
+                'required', 'string', 'max:3', 'unique:currencies',
                 Rule::in($currencyCodes)],
-            //'code' => 'required|string|max:3|in_array:currencyCodes.*',
             'sign' => 'required|string|max:1',
         ]);
 
         Currency::create([
-            'code'=>$request->input('code'),
-            'sign'=>$request->input('sign'),
+            'code' => $request->input('code'),
+            'sign' => $request->input('sign'),
         ]);
 
         return redirect()->route('currencies.index')
-            ->with('ok','Currency successfully added.');
+            ->with('ok', 'Currency successfully added.');
     }
 
     /**
@@ -81,11 +77,18 @@ class CurrencyController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param Currency $currency
-     * @return Response
+     * @return Application|Factory|View|RedirectResponse
      */
     public function edit(Currency $currency)
     {
-        //
+        if($currency->code=='UAH'){
+            return redirect()->route('currencies.index')
+                ->with('alert', 'This currency cannot be changed.');
+        }
+        $currencyCodes = (new Currency)->getAllPossibleCurrencyCode();
+        return view('currencies.edit',
+            compact('currencyCodes'),
+            compact('currency'));
     }
 
     /**
@@ -93,11 +96,26 @@ class CurrencyController extends Controller
      *
      * @param Request $request
      * @param Currency $currency
-     * @return Response
+     * @return RedirectResponse
      */
     public function update(Request $request, Currency $currency)
     {
-        //
+        $currencyCodes = (new Currency)->getAllPossibleCurrencyCode();
+
+        $request->validate([
+            'code' => [
+                'required', 'string', 'max:3', 'unique:currencies',
+                Rule::in($currencyCodes)],
+            'sign' => 'required|string|max:1',
+        ]);
+
+        $currency->update([
+            'code' => $request->input('code'),
+            'sign' => $request->input('sign'),
+        ]);
+
+        return redirect()->route('currencies.index')
+            ->with('ok', 'Currency successfully updated.');
     }
 
     /**
@@ -109,6 +127,11 @@ class CurrencyController extends Controller
      */
     public function destroy(Currency $currency)
     {
+        if($currency->code=='UAH'){
+            return redirect()->route('currencies.index')
+                ->with('alert', 'This currency cannot be deleted.');
+        }
+
         $currency->delete();
 
         return redirect()->route('currencies.index')
