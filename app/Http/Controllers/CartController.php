@@ -62,7 +62,14 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $userId = -1;
+        if (Auth::guard('sanctum')->check()) {
+            $userId = auth('sanctum')->user()->getKey();
+        }
+
+        Cart::create([
+            'user_id' => $userId,
+        ]);
     }
 
     /**

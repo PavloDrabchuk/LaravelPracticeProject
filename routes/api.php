@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserController;
 use App\Http\Resources\CategoryCollection;
@@ -46,7 +47,8 @@ Route::middleware('auth:sanctum')->group(function () {
         return new ProductResource(Product::findOrFail($id));
     });
 
-    Route::post('cart/add_product', [CartController::class, 'addProducts']);
+    //Route::post('cart/add_product', [CartController::class, 'addProducts']);
+    Route::post('cart/add_product', [CartItemController::class, 'store']);
 
     Route::get('carts', [CartController::class, 'index']);
 

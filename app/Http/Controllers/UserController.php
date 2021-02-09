@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\User;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
@@ -192,6 +193,19 @@ class UserController extends Controller
             'user' => $user,
             'token' => $token
         ];
+
+        $cart = Cart::where('user_id', $user->id)->first();
+
+        if (!$cart) {
+            /*$userId = -1;
+            if (Auth::guard('sanctum')->check()) {
+                $userId = auth('sanctum')->user()->getKey();
+            }*/
+
+            Cart::create([
+                'user_id' => $user->id,
+            ])->save();
+        }
 
         return response($response, 201);
     }
