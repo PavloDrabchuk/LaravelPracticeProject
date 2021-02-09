@@ -99,8 +99,8 @@ class PriceController extends Controller
                 'currency_id' => 1,
                 'product_id' => $product->id,
             ]);
-        } else if($action=="update"){
-            $product->prices()->where('currency_id','=', 1)->update([
+        } else if ($action == "update") {
+            $product->prices()->where('currency_id', '=', 1)->update([
                 'value' => round($value, 2),
                 'currency_id' => 1,
                 'product_id' => $product->id,
@@ -124,12 +124,12 @@ class PriceController extends Controller
                         'product_id' => $product->id,
                     ]);
                 } else if ($action == "update") {
-                    $product->prices()->where('currency_id','=', $currency->id)->updateOrCreate([
-                    //$product->prices()->updateOrCreate([
-                        'value' => round($newValue, 2),
+                    //$product->prices()->where('currency_id','=', $currency->id)->update([
+                    $product->prices()->where('currency_id', '=', $currency->id)->updateOrCreate([
+                        //$product->prices()->updateOrCreate([
                         'currency_id' => $currency->id,
                         'product_id' => $product->id,
-                    ]);
+                    ], ['value' => round($newValue, 2)]);
                 }
             }
         }

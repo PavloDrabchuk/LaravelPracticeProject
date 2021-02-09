@@ -36,7 +36,7 @@ class PriceSeeder extends Seeder
             Price::create($value);
         }
 
-        for ($i = 2; $i <= 11; $i++) {
+        for ($i = 2; $i <= 12; $i++) {
             for ($j = 1; $j <= 3; $j++) {
                 Price::factory([
                     'currency_id' => $j,
