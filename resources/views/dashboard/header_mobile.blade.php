@@ -29,6 +29,10 @@
                     <a href="{{route('products.index')}}">
                         <i class="fas fa-truck"></i>Products</a>
                 </li>
+                <li>
+                    <a href="{{route('currencies.index')}}">
+                        <i class="fas fa-money-bill-alt"></i>Currencies</a>
+                </li>
 
                 <li class="has-sub">
                     <a class="js-arrow" href="#">

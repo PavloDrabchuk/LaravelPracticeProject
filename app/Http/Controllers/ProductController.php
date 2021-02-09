@@ -23,7 +23,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::get();
+        $products = Product::all();
         return view('products.index', compact('products'));
     }
 
@@ -80,7 +80,7 @@ class ProductController extends Controller
         ]);
 
 
-        (new PriceController)->convert($request->input('price'),$product);
+        (new PriceController)->convert($request->input('price'),$product,'create');
 
         return redirect()->route('products.index')
             ->with('ok', 'Product successfully added');
@@ -137,9 +137,9 @@ class ProductController extends Controller
             'name' => $request->input('color'),
         ]);
 
-        $product->price()->update([
+        /*$product->price()->update([
             'value' => $request->input('price'),
-        ]);
+        ]);*/
 
         $product->update([
             'name' => [
@@ -151,6 +151,8 @@ class ProductController extends Controller
             'quantity' => $request->input('quantity'),
             'article' => $request->input('article'),
         ]);
+
+        (new PriceController)->convert($request->input('price'),$product,'update');
 
         return redirect()->route('products.index')
             ->with('ok', 'Product successfully updated');
