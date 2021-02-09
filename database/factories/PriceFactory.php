@@ -23,9 +23,6 @@ class PriceFactory extends Factory
     {
         return [
             'value' => $this->faker->numberBetween(1, 190),
-            //'currencies' => $this->faker->randomElement(['UAH', 'USD']),
-            'currency_id' => $this->faker->numberBetween(1,3),
-            'product_id' => $this->faker->numberBetween(1, 10),
         ];
     }
 }

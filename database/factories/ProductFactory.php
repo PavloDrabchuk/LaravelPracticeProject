@@ -23,9 +23,9 @@ class ProductFactory extends Factory
     {
         return [
             'name' => [
-                'ua' => $this->faker->lexify('ua-??????????'),
-                'en' => $this->faker->lexify('en-??????????'),
-                'ru' => $this->faker->lexify('ru-??????????'),
+                'ua' => 'ua-' . $this->faker->word,
+                'en' => 'en-' . $this->faker->word,
+                'ru' => 'ru-' . $this->faker->word,
             ],
             'category_id' => $this->faker->numberBetween(1, 13),
             'quantity' => $this->faker->numberBetween(0, 150),
