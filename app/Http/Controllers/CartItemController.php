@@ -5,15 +5,18 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\CartItem;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class CartItemController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -23,8 +26,8 @@ class CartItemController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -36,48 +39,41 @@ class CartItemController extends Controller
         $cart = Cart::where('user_id', $userId)->first();
 
         if (!$cart) {
-            /*$userId = -1;
-            if (Auth::guard('sanctum')->check()) {
-                $userId = auth('sanctum')->user()->getKey();
-            }*/
-
             Cart::create([
                 'user_id' => $userId,
             ])->save();
         }
 
-        //if ($cart) {
-            /*$newProduct = [
-                'product_id' => $product_id,
-                'quantity' => $quantity];
+        $validator = Validator::make($request->json()->all(), [
+            'product_id' => ['required','numeric','min:1','exists:tours,id',
+                /*Rule::exists('cart_items,product_id')->where(function ($query) use ($cart) {
+                    return $query->where('cart_id', $cart->id);
+                }),*/
+                Rule::notIn(array_column(CartItem::all()->where('cart_id','=', $cart->id)->toArray(),'product_id')),
+                //Rule::notIn(['1','2','3']),
+                /*Rule::notIn(DB::table('cart_items')
+                    ->where('cart_id', '=', $cart->id)
+                    ->get()),*/
+            ],
+            'quantity' => 'required|numeric|min:1',
+        ]);
 
-            $products = $cart->products;
-            $products[] = $newProduct;
-            $cart->products = $products;
-            $cart->save();*/
-            $validator = Validator::make($request->json()->all(), [
-                'product_id' => 'required|numeric|min:1',
-                'quantity' => 'required|numeric|min:1|max:10',
-            ]);
+        if ($validator->fails()) return response($validator->errors(), 400);
 
-            if ($validator->fails()) return response($validator->errors(), 400);
-
-            CartItem::create([
-                'cart_id' => $cart->id,
-                'product_id' => $request->input('product_id'),
-                'quantity' => $request->input('quantity'),
-            ]);
-
-            //return $cart;
-            return response(["message" => "Product added to cart."], 200);
-       // }
+        CartItem::create([
+            'cart_id' => $cart->id,
+            'product_id' => $request->input('product_id'),
+            'quantity' => $request->input('quantity'),
+        ]);
+//return array_column(CartItem::all()->where('cart_id','=', $cart->id)->toArray(),'product_id');
+        return response(["message" => "Product added to cart."], 200);
     }
 
     /**
      * Display the specified resource.
      *
      * @param \App\Models\CartItem $cartItem
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show(CartItem $cartItem)
     {
@@ -87,9 +83,9 @@ class CartItemController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @param \App\Models\CartItem $cartItem
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, CartItem $cartItem)
     {
@@ -100,7 +96,7 @@ class CartItemController extends Controller
      * Remove the specified resource from storage.
      *
      * @param \App\Models\CartItem $cartItem
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(CartItem $cartItem)
     {

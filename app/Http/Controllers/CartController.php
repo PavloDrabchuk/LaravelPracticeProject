@@ -180,7 +180,7 @@ class CartController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|Response
      */
-    public function addProducts(Request $request)
+   /* public function addProducts(Request $request)
     {
         $userId = -1;
         if (Auth::guard('sanctum')->check()) {
@@ -224,5 +224,5 @@ class CartController extends Controller
 
             return response(["message" => "Cart created and product added."], 200);
         }
-    }
+    }*/
 }
