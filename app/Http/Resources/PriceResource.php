@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Currency;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -15,9 +16,12 @@ class PriceResource extends JsonResource
      */
     public function toArray($request)
     {
+//        return parent::toArray($request);
         return [
             'id'=>$this->id,
             'value'=>$this->value,
+            'currency'=>new CurrencyResource(Currency::findOrFail($this->currency_id)),
         ];
+
     }
 }

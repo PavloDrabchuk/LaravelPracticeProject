@@ -62,7 +62,8 @@ class ProductResource extends JsonResource
             'quantity' => $this->quantity,
             'article' => $this->article,
             'color' => new ColorResource(Color::findOrFail($this->color_id)),
-            'price' => new PriceResource(Price::findOrFail($this->price_id)),
+            'prices' => PriceResource::collection($this->prices),
+            //'price' => new PriceResource(Price::findOrFail($this->price_id)),
         ];
     }
 }
