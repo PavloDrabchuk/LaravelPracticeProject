@@ -16,10 +16,10 @@ class ColorSeeder extends Seeder
     {
         $colors = [
             [
-                'name' => 'Natural history tour',
+                'name' => 'Natural history tour.',
             ],
             [
-                'name' => 'Vacation at sea',
+                'name' => 'Vacation at sea.',
             ],
         ];
 

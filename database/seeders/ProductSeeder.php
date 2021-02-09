@@ -44,7 +44,10 @@ class ProductSeeder extends Seeder
         foreach ($tours as $key => $value) {
             Product::create($value);
         }
-
-        Product::factory(10)->create();
+        for ($i = 3; $i <= 12; $i++) {
+            Product::factory([
+                'color_id' => $i,
+            ])->create();
+        }
     }
 }

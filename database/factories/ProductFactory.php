@@ -30,7 +30,7 @@ class ProductFactory extends Factory
             'category_id' => $this->faker->numberBetween(1, 13),
             'quantity' => $this->faker->numberBetween(0, 150),
             'article' => $this->faker->unique()->regexify('[a-zA-Z]{2}[0-9]{2}[a-zA-Z]{1}[0-9]{1}'),
-            'color_id' => $this->faker->numberBetween(1, 12),
+            //'color_id' => $this->faker->numberBetween(1, 12),
             //'price_id' => $this->faker->numberBetween(1, 12),
         ];
     }
