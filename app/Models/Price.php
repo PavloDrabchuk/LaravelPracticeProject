@@ -15,11 +15,6 @@ class Price extends Model
         'product_id',
     ];
 
-    /*public function prices()
-    {
-        return $this->morphTo();
-    }*/
-
     public function products()
     {
         return $this->belongsTo(Product::class);

@@ -13,7 +13,6 @@ class Currency extends Model
         'code',
         'sign'
     ];
-// signs - https://index.minfin.com.ua/ua/reference/currency/sign/
 
     public function prices()
     {

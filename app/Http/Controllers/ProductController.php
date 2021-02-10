@@ -61,10 +61,6 @@ class ProductController extends Controller
             'name' => $request->input('color'),
         ]);
 
-        /*$price = Price::create([
-            'value' => $request->input('price'),
-        ]);*/
-
         $product = Product::create([
 
             'name' => [
@@ -76,7 +72,6 @@ class ProductController extends Controller
             'quantity' => $request->input('quantity'),
             'article' => $request->input('article'),
             'color_id' => $color->id,
-            //'price_id' => $price->id,
         ]);
 
 
@@ -116,8 +111,6 @@ class ProductController extends Controller
      *
      * @param Request $request
      * @param Product $product
-     * @param Color $color
-     * @param Price $price
      * @return RedirectResponse
      */
     public function update(Request $request, Product $product)
@@ -136,10 +129,6 @@ class ProductController extends Controller
         $product->color()->update([
             'name' => $request->input('color'),
         ]);
-
-        /*$product->price()->update([
-            'value' => $request->input('price'),
-        ]);*/
 
         $product->update([
             'name' => [
@@ -169,7 +158,6 @@ class ProductController extends Controller
     {
         $product->delete();
         $product->color()->delete();
-        $product->price()->delete();
 
         return redirect()->route('products.index')
             ->with('ok', 'Product successfully deleted');

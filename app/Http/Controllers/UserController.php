@@ -145,11 +145,6 @@ class UserController extends Controller
         $cart = Cart::where('user_id', $user->id)->first();
 
         if (!$cart) {
-            /*$userId = -1;
-            if (Auth::guard('sanctum')->check()) {
-                $userId = auth('sanctum')->user()->getKey();
-            }*/
-
             Cart::create([
                 'user_id' => $user->id,
             ])->save();
