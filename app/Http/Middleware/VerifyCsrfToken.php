@@ -16,18 +16,4 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         //
     ];
-
-    /*public function handle( $request, Closure $next )
-    {
-        if (
-            $this->isReading($request) ||
-            $this->runningUnitTests() ||
-            $this->tokensMatch($request)
-        ) {
-            return $this->addCookieToResponse($request, $next($request));
-        }
-
-        // redirect the user back to the last page and show error
-        return Redirect::back()->withError('Sorry, we could not verify your request. Please try again.');
-    }*/
 }
