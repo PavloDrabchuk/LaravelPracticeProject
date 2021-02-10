@@ -45,15 +45,10 @@ class CartItemController extends Controller
         }
 
         $validator = Validator::make($request->json()->all(), [
-            'product_id' => ['required','numeric','min:1','exists:tours,id',
-                /*Rule::exists('cart_items,product_id')->where(function ($query) use ($cart) {
-                    return $query->where('cart_id', $cart->id);
-                }),*/
-                Rule::notIn(array_column(CartItem::all()->where('cart_id','=', $cart->id)->toArray(),'product_id')),
-                //Rule::notIn(['1','2','3']),
-                /*Rule::notIn(DB::table('cart_items')
+            'product_id' => ['required', 'numeric', 'min:1', 'exists:tours,id',
+                Rule::notIn(array_column(CartItem::all()
                     ->where('cart_id', '=', $cart->id)
-                    ->get()),*/
+                    ->toArray(), 'product_id')),
             ],
             'quantity' => 'required|numeric|min:1',
         ]);
@@ -65,7 +60,7 @@ class CartItemController extends Controller
             'product_id' => $request->input('product_id'),
             'quantity' => $request->input('quantity'),
         ]);
-//return array_column(CartItem::all()->where('cart_id','=', $cart->id)->toArray(),'product_id');
+
         return response(["message" => "Product added to cart."], 200);
     }
 
