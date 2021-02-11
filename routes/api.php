@@ -31,6 +31,7 @@ use Illuminate\Support\Facades\Route;
 //Route::('*', 'csrf', array('post', 'put', 'delete'));
 Route::post("login", [UserController::class, 'login']);
 
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('categories', function () {
         return new CategoryCollection(Category::all());
