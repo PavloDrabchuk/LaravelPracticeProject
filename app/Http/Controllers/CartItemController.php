@@ -24,6 +24,39 @@ class CartItemController extends Controller
     }
 
     /**
+     *
+     * @OA\Post(
+     *      path="/cart/add_product",
+     *      operationId="addProduct",
+     *      tags={"Cart"},
+     *      summary="Add product to cart",
+     *      description="Add product to cart",
+     *     security={{"bearerAuth":{}}},
+     *      @OA\RequestBody(
+     *          required=true,
+     *          description="Input product information",
+     *          @OA\JsonContent(
+     *          type="object",
+     *          required={"product_id","quantity"},
+     *          @OA\Property(property="product_id", type="integer" , example="1"),
+     *          @OA\Property(property="quantity", type="integer" , example="1")
+     *    ),
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation"
+     *),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
+     *
      * Store a newly created resource in storage.
      *
      * @param Request $request

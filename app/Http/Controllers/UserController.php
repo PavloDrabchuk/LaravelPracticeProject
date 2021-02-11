@@ -125,6 +125,46 @@ class UserController extends Controller
             ->with('ok', 'User successfully deleted.');
     }
 
+    /**
+     *
+     * @OA\Post(
+     *      path="/login",
+     *      operationId="login",
+     *      tags={"Authentication "},
+     *      summary="Authentication",
+     *      description="Login to use API",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          description="Pass user credentials",
+     *          @OA\JsonContent(
+     *          type="object",
+     *          required={"phone","password"},
+     *          @OA\Property(property="phone", type="string" , example="380123456789"),
+     *          @OA\Property(property="password", type="string", format="password", example="password")
+     *    ),
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *     @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
+     *
+     * @param Request $request
+     * @return Application|ResponseFactory|Response
+     */
     function login(Request $request)
     {
         $user = User::where('phone', $request->input('phone'))->first();
