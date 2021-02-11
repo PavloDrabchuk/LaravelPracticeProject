@@ -2,8 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\User;
+use Exception;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -11,18 +19,18 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View|Response
      */
     public function index()
     {
-        $users = User::get();
+        $users = User::all();
         return view('users.index', compact('users'));
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View|Response
      */
     public function create()
     {
@@ -32,8 +40,8 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return RedirectResponse
      */
     public function store(Request $request)
     {
@@ -46,9 +54,9 @@ class UserController extends Controller
 
         //  User::create($request->all());
         User::create([
-            'name' => $request->name,
-            'phone' => $request->phone,
-            'password' => Hash::make($request->password),
+            'name' => $request->input('name'),
+            'phone' => $request->input('phone'),
+            'password' => Hash::make($request->input('password')),
         ]);
 
         return redirect()->route('users.index')
@@ -59,7 +67,7 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param User $user
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View|Response
      */
     public function show(User $user)
     {
@@ -70,7 +78,7 @@ class UserController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param User $user
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View|Response
      */
     public function edit(User $user)
     {
@@ -80,10 +88,9 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
+     * @param Request $request
      * @param User $user
-     * @return void
+     * @return RedirectResponse
      */
     public function update(Request $request, User $user)
     {
@@ -94,9 +101,9 @@ class UserController extends Controller
         ]);
 
         $user->update([
-            'name' => $request->name,
-            'phone' => $request->phone,
-            'password' => Hash::make($request->password),
+            'name' => $request->input('name'),
+            'phone' => $request->input('phone'),
+            'password' => Hash::make($request->input('password')),
         ]);
         return redirect()->route('users.index')
             ->with('ok', 'User successfully updated.');
@@ -106,10 +113,9 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
      * @param User $user
-     * @return void
-     * @throws \Exception
+     * @return RedirectResponse
+     * @throws Exception
      */
     public function destroy(User $user)
     {
@@ -118,4 +124,33 @@ class UserController extends Controller
         return redirect()->route('users.index')
             ->with('ok', 'User successfully deleted.');
     }
+
+    function login(Request $request)
+    {
+        $user = User::where('phone', $request->input('phone'))->first();
+
+        if (!$user || !Hash::check($request->input('password'), $user->password)) {
+            return response([
+                'message' => ['These credentials do not match our records.']
+            ], 404);
+        }
+
+        $token = $user->createToken('login-api-token')->plainTextToken;
+
+        $response = [
+            'user' => $user,
+            'token' => $token
+        ];
+
+        $cart = Cart::where('user_id', $user->id)->first();
+
+        if (!$cart) {
+            Cart::create([
+                'user_id' => $user->id,
+            ])->save();
+        }
+
+        return response($response, 201);
+    }
+
 }

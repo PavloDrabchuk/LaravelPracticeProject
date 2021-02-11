@@ -9,14 +9,18 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "darkaonline/l5-swagger": "^8.0",
+        "fakerphp/faker": "^1.13",
         "fideloper/proxy": "^4.4.1",
         "fruitcake/laravel-cors": "^2.0.3",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^v8.24.0",
-        "laravel/tinker": "^2.5|dev-develop"
+        "laravel/sanctum": "^2.9",
+        "laravel/tinker": "^2.5|dev-develop",
+        "spatie/laravel-translatable": "^4.6",
+        "ext-json": "*"
     },
     "require-dev": {
-        "fakerphp/faker": "^1.9.1",
         "laravel/breeze": "^1.0",
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.2",

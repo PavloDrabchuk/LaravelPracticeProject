@@ -4,8 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 
 class UserSeeder extends Seeder
 {
@@ -47,7 +45,12 @@ class UserSeeder extends Seeder
                 'name' => 'Ivan',
                 'phone' => '380444444444',
                 'password' => bcrypt('ivan')
-            ]
+            ],
+            [
+                'name' => 'username',
+                'phone' => '380123456789',
+                'password' => bcrypt('password')
+            ],
         ];
 
         foreach ($users as $key => $value) {

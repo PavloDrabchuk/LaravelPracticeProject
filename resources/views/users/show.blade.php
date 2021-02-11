@@ -1,7 +1,5 @@
 @extends('layouts.dashboard_app')
 
-
-
 @section('content')
 
     @if($errors->any())
@@ -15,10 +13,25 @@
         </div>
     @endif
 
-    <h1>Show</h1>
-
-    <h3>Name: {{$user->name}}</h3>
-    <h3>Phone: {{$user->phone}}</h3>
+    <div class="col-lg-4">
+        <div class="top-campaign">
+            <h3 class="title-5 m-b-15">User information</h3>
+            <div class="table-responsive">
+                <table class="table table-top-campaign">
+                    <tbody>
+                    <tr>
+                        <td>Name</td>
+                        <td>{{$user->name}}</td>
+                    </tr>
+                    <tr>
+                        <td>Phone</td>
+                        <td>{{$user->phone}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
     <a href="{{route('users.index')}}">Go back</a>
 @endsection
