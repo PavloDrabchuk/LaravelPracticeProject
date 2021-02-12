@@ -130,9 +130,9 @@ class UserController extends Controller
      * @OA\Post(
      *      path="/login",
      *      operationId="login",
-     *      tags={"Authentication "},
-     *      summary="Authentication",
-     *      description="Login to use API",
+     *      tags={"Authorization"},
+     *      summary="Login to use API",
+     *      description="Authentication",
      *      @OA\RequestBody(
      *          required=true,
      *          description="Pass user credentials",
@@ -191,6 +191,47 @@ class UserController extends Controller
         }
 
         return response($response, 201);
+    }
+
+    /**
+     *
+     * @OA\Post(
+     *      path="/logout",
+     *      operationId="logout",
+     *      tags={"Authorization"},
+     *      summary="Logout",
+     *      description="User logout",
+     *      security={{"bearerAuth":{}}},
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *     @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
+     *
+     * @return Application|ResponseFactory|Response
+     */
+    function logout()
+    {
+        $user = request()->user();
+
+        $user->tokens()->where('id', $user->currentAccessToken()->id)->delete();
+
+        return response([
+            'message' => ['Logout was successful.']
+        ], 200);
     }
 
 }

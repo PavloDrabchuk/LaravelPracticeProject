@@ -133,9 +133,22 @@ class CartController extends Controller
     }
 
     /**
+     *
+     * @OA\Delete(
+     *     path="/cart",
+     *     operationId="deleteCart",
+     *     tags={"Cart"},
+     *     summary="Delete user cart",
+     *     security={{"bearerAuth":{}}},
+     *
+     *     @OA\Response(
+     *         response="200",
+     *         description="Deleted",
+     *     ),
+     * )
+     *
      * Remove the specified resource from storage.
      *
-     * @param $id
      * @return string
      */
     public function destroy()

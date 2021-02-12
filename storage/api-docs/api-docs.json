@@ -68,16 +68,33 @@
                         "bearerAuth": []
                     }
                 ]
+            },
+            "delete": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Delete user cart",
+                "operationId": "deleteCart",
+                "responses": {
+                    "200": {
+                        "description": "Deleted"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
-        "/cart/add_product": {
+        "/cart/add_item": {
             "post": {
                 "tags": [
                     "Cart"
                 ],
                 "summary": "Add product to cart",
                 "description": "Add product to cart",
-                "operationId": "addProduct",
+                "operationId": "addItem",
                 "requestBody": {
                     "description": "Input product information",
                     "required": true,
@@ -124,10 +141,10 @@
         "/login": {
             "post": {
                 "tags": [
-                    "Authentication "
+                    "Authorization"
                 ],
-                "summary": "Authentication",
-                "description": "Login to use API",
+                "summary": "Login to use API",
+                "description": "Authentication",
                 "operationId": "login",
                 "requestBody": {
                     "description": "Pass user credentials",
@@ -174,6 +191,40 @@
                         "description": "Forbidden"
                     }
                 }
+            }
+        },
+        "/logout": {
+            "post": {
+                "tags": [
+                    "Authorization"
+                ],
+                "summary": "Logout",
+                "description": "User logout",
+                "operationId": "logout",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/categories": {

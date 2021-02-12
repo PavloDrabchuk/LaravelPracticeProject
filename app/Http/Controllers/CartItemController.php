@@ -26,8 +26,8 @@ class CartItemController extends Controller
     /**
      *
      * @OA\Post(
-     *      path="/cart/add_product",
-     *      operationId="addProduct",
+     *      path="/cart/add_item",
+     *      operationId="addItem",
      *      tags={"Cart"},
      *      summary="Add product to cart",
      *      description="Add product to cart",
