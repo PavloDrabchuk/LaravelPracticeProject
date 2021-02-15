@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 class UserTest extends TestCase
 {
-    public function test_users_can_authenticate_using_the_api()
+    /*public function test_users_can_authenticate_using_the_api()
     {
         $user = User::factory()->create();
 
@@ -21,5 +21,5 @@ class UserTest extends TestCase
         $this->assertAuthenticated();
         $response->assertStatus(201);
         //$response->assertRedirect(RouteServiceProvider::HOME);
-    }
+    }*/
 }

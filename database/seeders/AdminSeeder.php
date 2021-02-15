@@ -31,5 +31,7 @@ class AdminSeeder extends Seeder
         foreach ($admins as $key => $value) {
             Admin::create($value);
         }
+
+        //Admin::factory()->create();
     }
 }
