@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -23,20 +24,22 @@ class CategoryTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_the_returns_data_in_valid_format(){
+    public function test_the_returns_data_in_valid_format()
+    {
         Sanctum::actingAs(
             User::factory()->create(),
             ['*']
         );
 
-        $response = $this->get('api/categories');
-            $response->assertJsonStructure(
+        $this->get('api/categories')
+            ->assertStatus(200)
+            ->assertJsonStructure(
                 [
                     'categories' => [
                         '*' => [
                             'id',
                             'name',
-                            'products'=>[
+                            'products' => [
                                 'id',
                                 'name',
                                 'category',
@@ -51,6 +54,39 @@ class CategoryTest extends TestCase
             );
     }
 
+    public function test_category_by_id_is_shows_correctly_with_authorized_user()
+    {
+        Sanctum::actingAs(
+            User::factory()->create(),
+            ['*']
+        );
+
+        $category = Category::factory()->create();
+
+        $this->json('get', "/api/categories/$category->id")
+            ->assertStatus(200)
+            ->assertExactJson(
+                [
+                    'categories' => [
+                        'id' => $category->id,
+                        'name' => [
+                            'ua' => $category->getTranslation('name', 'ua'),
+                            'en' => $category->getTranslation('name', 'en'),
+                            'ru' => $category->getTranslation('name', 'ru'),
+                        ]
+                    ]
+                ]
+            );
+    }
+
+    public function test_category_by_id_is_shows_correctly_without_authorized_user()
+    {
+        $category = Category::factory()->create();
+
+        $this->json('get', "/api/categories/$category->id")
+            ->assertStatus(401);
+    }
+
     /*public function test_the_post_example(){
         $response=$this->post('/api/examples',[
             'name'=>'test_name',
@@ -58,4 +94,21 @@ class CategoryTest extends TestCase
         ]);
         $response->assertStatus(200);
     }*/
+
+    public function test_category_by_id_is_shows_correctly_with_incorrect_id()
+    {
+        Sanctum::actingAs(
+            User::factory()->create(),
+            ['*']
+        );
+
+        do {
+            $_id = 888;
+            $_id++;
+            $is = Category::where('id', $_id)->first();
+        } while ($is);
+
+        $this->json('get', "/api/categories/$_id")
+            ->assertStatus(404);
+    }
 }
