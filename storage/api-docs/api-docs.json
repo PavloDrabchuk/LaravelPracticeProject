@@ -233,7 +233,7 @@
                     "Category"
                 ],
                 "summary": "Get categories information",
-                "description": "Returns categories data by id",
+                "description": "Returns categories data",
                 "operationId": "allCategories",
                 "responses": {
                     "200": {
@@ -299,7 +299,7 @@
                     "Product"
                 ],
                 "summary": "Get products information",
-                "description": "Returns products data by id",
+                "description": "Returns products data",
                 "operationId": "allProducts",
                 "responses": {
                     "200": {

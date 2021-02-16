@@ -167,9 +167,21 @@ class UserController extends Controller
      */
     function login(Request $request)
     {
+       /* $request->validate([
+            'phone' => 'required',
+            'password' => 'required'
+        ]);*/
+        /*if(empty($request)){
+
+            return response([
+                'message' => ['The given data was invalid.']
+            ], 404);
+        }*/
+
+
         $user = User::where('phone', $request->input('phone'))->first();
 
-        if (!$user || !Hash::check($request->input('password'), $user->password)) {
+        if (empty($request) || !$user || !Hash::check($request->input('password'), $user->password)) {
             return response([
                 'message' => ['These credentials do not match our records.']
             ], 404);

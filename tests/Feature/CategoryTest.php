@@ -23,6 +23,34 @@ class CategoryTest extends TestCase
         $response->assertStatus(200);
     }
 
+    public function test_the_returns_data_in_valid_format(){
+        Sanctum::actingAs(
+            User::factory()->create(),
+            ['*']
+        );
+
+        $response = $this->get('api/categories');
+            $response->assertJsonStructure(
+                [
+                    'categories' => [
+                        '*' => [
+                            'id',
+                            'name',
+                            'products'=>[
+                                'id',
+                                'name',
+                                'category',
+                                'quantity',
+                                'article',
+                                'color',
+                                'prices',
+                            ],
+                        ]
+                    ]
+                ]
+            );
+    }
+
     /*public function test_the_post_example(){
         $response=$this->post('/api/examples',[
             'name'=>'test_name',
