@@ -19,8 +19,10 @@ class ProductTest extends TestCase
 {
     public function test_the_application_returns_a_successful_response()
     {
+        $user = User::all()->first();
+        $user = $user ?: User::factory()->create();
         Sanctum::actingAs(
-            User::factory()->create(),
+            $user,
             ['*']
         );
 
@@ -32,8 +34,10 @@ class ProductTest extends TestCase
 
     public function test_the_returns_data_in_valid_format()
     {
+        $user = User::all()->first();
+        $user = $user ?: User::factory()->create();
         Sanctum::actingAs(
-            User::factory()->create(),
+            $user,
             ['*']
         );
 
@@ -58,8 +62,10 @@ class ProductTest extends TestCase
 
     public function test_product_by_id_is_shows_correctly_with_authorized_user()
     {
+        $user = User::all()->first();
+        $user = $user ?: User::factory()->create();
         Sanctum::actingAs(
-            User::factory()->create(),
+            $user,
             ['*']
         );
 
@@ -79,7 +85,8 @@ class ProductTest extends TestCase
         ];
 
         foreach ($codes as $key => $value) {
-            Currency::create($value);
+            $currency=Currency::where('code',$value['code'])->first();
+            $currency ?: Currency::create($value);
         }
 
         $color = Color::factory()->create();
@@ -149,8 +156,10 @@ class ProductTest extends TestCase
 
     public function test_product_by_id_is_shows_correctly_with_incorrect_id()
     {
+        $user = User::all()->first();
+        $user = $user ?: User::factory()->create();
         Sanctum::actingAs(
-            User::factory()->create(),
+            $user,
             ['*']
         );
 

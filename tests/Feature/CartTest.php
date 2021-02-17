@@ -5,22 +5,30 @@ namespace Tests\Feature;
 use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Color;
+use App\Models\Currency;
 use App\Models\Price;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class CartTest extends TestCase
 {
+
     public function test_the_application_returns_a_successful_response_with_all_carts()
     {
+        $user = User::all()->first();
+        $user = $user ?: User::factory()->create();
         Sanctum::actingAs(
-            User::factory()->create(),
+            $user,
             ['*']
         );
+
+        Log::debug("test_the_application_returns_a_successful_response_with_all_carts: user: $user");
+
 
         $response = $this->get('/api/carts');
         $this->assertAuthenticated();
@@ -30,10 +38,14 @@ class CartTest extends TestCase
 
     public function test_the_application_returns_a_successful_response()
     {
+        $user = User::all()->first();
+        $user = $user ?: User::factory()->create();
         Sanctum::actingAs(
-            $user = User::factory()->create(),
+            $user,
             ['*']
         );
+
+        Log::debug("test_the_application_returns_a_successful_response: user: $user");
 
         Cart::create([
             'user_id' => $user->id,
@@ -45,12 +57,36 @@ class CartTest extends TestCase
         $response->assertStatus(200);
     }
 
-    /*public function test_the_user_can_add_item_to_cart(){
+    public function test_the_user_can_add_item_to_cart()
+    {
 
+        $user = User::all()->first();
+        $user = $user ?: User::factory()->create();
         Sanctum::actingAs(
-            $user=User::factory()->create(),
+            $user,
             ['*']
         );
+
+        $codes = [
+            [
+                'code' => 'UAH',
+                'sign' => '₴',
+            ],
+            [
+                'code' => 'USD',
+                'sign' => '$',
+            ],
+            [
+                'code' => 'EUR',
+                'sign' => '€',
+            ],
+        ];
+
+        foreach ($codes as $key => $value) {
+            $currency = Currency::where('code', $value['code'])->first();
+            $currency ?: Currency::create($value);
+        }
+
 
         $color = Color::factory()->create();
 
@@ -65,15 +101,19 @@ class CartTest extends TestCase
                 'currency_id' => $j,
                 'product_id' => $product->id])->create();
         }
+        $prod = Product::all();
+        Log::debug("prod: $product->id --- prod:: $prod");
 
-        $this->post('/cart/add_item', [
+
+        $response = $this->json('POST', '/api/cart/add_item', [
             'product_id' => $product->id,
-            'quantity' => 1,
-        ])->assertStatus(200);
+            'quantity' => 2,
+        ]);
+        $response
+            ->assertStatus(200);
 //            ->assertJsonStructure([
-//                "message"=> "Product added to cart.",
+//                "message" => "Product added to cart.",
 //            ]);
 
-        //$this->assertAuthenticated();
-    }*/
+    }
 }
