@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Cart;
+use App\Models\CartItem;
 use App\Models\Category;
 use App\Models\Color;
 use App\Models\Currency;
@@ -28,9 +29,6 @@ class CartTest extends TestCase
             ['*']
         );
 
-        Log::debug("1: user: $user");
-
-
         $response = $this->get('/api/carts');
         $this->assertAuthenticated();
 
@@ -45,8 +43,6 @@ class CartTest extends TestCase
             $user,
             ['*']
         );
-
-        Log::debug("test_the_application_returns_a_successful_response: user: $user");
 
         Cart::create([
             'user_id' => $user->id,
@@ -72,7 +68,6 @@ class CartTest extends TestCase
             'user_id' => $user->id,
         ])->save();
 
-        Log::debug("2: user: $user");
         $codes = [
             [
                 'code' => 'UAH',
@@ -102,24 +97,108 @@ class CartTest extends TestCase
             'color_id' => $color->id,
         ])->create();
 
-        for ($j = 1; $j <= 3; $j++) {
+        $currency_first_id = Currency::all()->first()->id;
+        for ($j = $currency_first_id; $j <= $currency_first_id + 2; $j++) {
             Price::factory([
                 'currency_id' => $j,
                 'product_id' => $product->id])->create();
         }
         $prod = Product::all();
-        Log::debug("prod: $product->id --- prod:: $prod");
-
 
         $response = $this->json('POST', '/api/cart/add_item', [
             'product_id' => $product->id,
             'quantity' => 2,
         ]);
         $response
-            ->assertStatus(200);
-//            ->assertJsonStructure([
-//                "message" => "Product added to cart.",
-//            ]);
+            ->assertStatus(200)
+            ->assertJson([
+                "message" => "Product added to cart.",
+            ]);
 
+    }
+
+    public function test_the_user_can_clear_the_cart()
+    {
+
+        $user = User::all()->first();
+        $user = $user ?: User::factory()->create();
+        Sanctum::actingAs(
+            $user,
+            ['*']
+        );
+
+        Cart::create([
+            'user_id' => $user->id,
+        ])->save();
+
+        $response = $this->delete('/api/cart');
+        $response
+            ->assertStatus(200)
+            ->assertJson(['message' => ['Cart cleared.']]);
+
+    }
+
+    public function test_the_user_can_clear_the_undefined_cart()
+    {
+
+        $user = User::all()->first();
+        $user = $user ?: User::factory()->create();
+        Sanctum::actingAs(
+            $user,
+            ['*']
+        );
+
+        $response = $this->delete('/api/cart');
+        $response
+            ->assertStatus(404)
+            ->assertJson(['message' => ['Cart not found.']]);
+    }
+
+    public function test_cart_has_many_cart_items()
+    {
+        $codes = [
+            [
+                'code' => 'UAH',
+                'sign' => '₴',
+            ],
+            [
+                'code' => 'USD',
+                'sign' => '$',
+            ],
+            [
+                'code' => 'EUR',
+                'sign' => '€',
+            ],
+        ];
+
+        foreach ($codes as $key => $value) {
+            $currency = Currency::where('code', $value['code'])->first();
+            $currency ?: Currency::create($value);
+        }
+
+        $color = Color::factory()->create();
+
+        $category = Category::factory()->create();
+        $product = Product::factory([
+            'category_id' => $category->id,
+            'color_id' => $color->id,
+        ])->create();
+
+        $currency_first_id = Currency::all()->first()->id;
+        for ($j = $currency_first_id; $j <= $currency_first_id + 2; $j++) {
+            Price::factory([
+                'currency_id' => $j,
+                'product_id' => $product->id])->create();
+        }
+
+        $user = User::factory()->create();
+        $cart = Cart::create(['user_id' => $user->id]);
+        $cart_item = CartItem::create([
+            'cart_id' => $cart->id,
+            'product_id' => $product->id,
+            'quantity' => 3,
+        ]);
+
+        $this->assertTrue($cart->cartItems->contains($cart_item));
     }
 }

@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Log;
+use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class ApiAuthenticationTest extends TestCase
@@ -55,6 +56,21 @@ class ApiAuthenticationTest extends TestCase
         ])->assertStatus(404);
 
         $this->assertGuest();
+    }
+
+    public function test_authenticate_user_can_logout_using_the_api()
+    {
+        $user = User::all()->first();
+        $user = $user ?: User::factory()->create();
+        Sanctum::actingAs(
+            $user,
+            ['*']
+        );
+
+        $this->post('/api/logout')
+            ->assertStatus(200)
+            ->assertJson(['message' => ['Logout was successful.']]);
+
     }
 
 

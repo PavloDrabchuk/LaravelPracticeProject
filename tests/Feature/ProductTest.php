@@ -146,8 +146,6 @@ class ProductTest extends TestCase
             'category_id' => $category->id,
             'color_id' => $color->id,
         ])->create();
-//Log::info("tt: $product->id");
-//Log::info('cur:'.Currency::all());
 
         $currency_first_id = Currency::all()->first()->id;
         for ($j = $currency_first_id; $j <= $currency_first_id + 2; $j++) {

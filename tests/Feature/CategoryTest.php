@@ -37,7 +37,7 @@ class CategoryTest extends TestCase
             $user,
             ['*']
         );
-        //Log::debug("3: user: $user");
+
         $this->withoutExceptionHandling();
         $this->get('/api/categories')
             ->assertStatus(200)
@@ -96,14 +96,6 @@ class CategoryTest extends TestCase
         $this->json('get', "/api/categories/$category->id")
             ->assertStatus(401);
     }
-
-    /*public function test_the_post_example(){
-        $response=$this->post('/api/examples',[
-            'name'=>'test_name',
-            'value'=>142,
-        ]);
-        $response->assertStatus(200);
-    }*/
 
     public function test_category_by_id_is_shows_correctly_with_incorrect_id()
     {
