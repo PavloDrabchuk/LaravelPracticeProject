@@ -17,6 +17,8 @@ use Tests\TestCase;
 
 class ProductTest extends TestCase
 {
+    //use RefreshDatabase;
+
     public function test_the_application_returns_a_successful_response()
     {
         $user = User::all()->first();
@@ -85,7 +87,7 @@ class ProductTest extends TestCase
         ];
 
         foreach ($codes as $key => $value) {
-            $currency=Currency::where('code',$value['code'])->first();
+            $currency = Currency::where('code', $value['code'])->first();
             $currency ?: Currency::create($value);
         }
 
@@ -97,7 +99,8 @@ class ProductTest extends TestCase
             'color_id' => $color->id,
         ])->create();
 
-        for ($j = 1; $j <= 3; $j++) {
+        $currency_first_id = Currency::all()->first()->id;
+        for ($j = $currency_first_id; $j <= $currency_first_id + 2; $j++) {
             Price::factory([
                 'currency_id' => $j,
                 'product_id' => $product->id])->create();
@@ -143,8 +146,11 @@ class ProductTest extends TestCase
             'category_id' => $category->id,
             'color_id' => $color->id,
         ])->create();
+//Log::info("tt: $product->id");
+//Log::info('cur:'.Currency::all());
 
-        for ($j = 1; $j <= 3; $j++) {
+        $currency_first_id = Currency::all()->first()->id;
+        for ($j = $currency_first_id; $j <= $currency_first_id + 2; $j++) {
             Price::factory([
                 'currency_id' => $j,
                 'product_id' => $product->id])->create();

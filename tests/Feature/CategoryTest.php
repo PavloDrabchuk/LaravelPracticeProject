@@ -12,6 +12,8 @@ use Tests\TestCase;
 
 class CategoryTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function test_the_application_returns_a_successful_response()
     {
         $user = User::all()->first();
@@ -35,8 +37,9 @@ class CategoryTest extends TestCase
             $user,
             ['*']
         );
-
-        $this->get('api/categories')
+        //Log::debug("3: user: $user");
+        $this->withoutExceptionHandling();
+        $this->get('/api/categories')
             ->assertStatus(200)
             ->assertJsonStructure(
                 [

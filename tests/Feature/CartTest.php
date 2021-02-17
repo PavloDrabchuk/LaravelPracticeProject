@@ -17,6 +17,7 @@ use Tests\TestCase;
 
 class CartTest extends TestCase
 {
+    use RefreshDatabase;
 
     public function test_the_application_returns_a_successful_response_with_all_carts()
     {
@@ -27,7 +28,7 @@ class CartTest extends TestCase
             ['*']
         );
 
-        Log::debug("test_the_application_returns_a_successful_response_with_all_carts: user: $user");
+        Log::debug("1: user: $user");
 
 
         $response = $this->get('/api/carts');
@@ -67,6 +68,11 @@ class CartTest extends TestCase
             ['*']
         );
 
+        Cart::create([
+            'user_id' => $user->id,
+        ])->save();
+
+        Log::debug("2: user: $user");
         $codes = [
             [
                 'code' => 'UAH',
