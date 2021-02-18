@@ -2,6 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Models\CartItem;
+use App\Models\Category;
+use App\Models\Color;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -119,5 +122,29 @@ class ProductTest extends TestCase
 
         $this->json('get', "/api/products/$_id")
             ->assertStatus(404);
+    }
+
+    public function test_the_product_belongs_to_a_category()
+    {
+        $this->seed();
+        $product = Product::all()->first();
+
+        $this->assertInstanceOf(Category::class, $product->category);
+    }
+
+    public function test_the_product_belongs_to_a_color()
+    {
+        $this->seed();
+        $product = Product::all()->first();
+
+        $this->assertInstanceOf(Color::class, $product->color);
+    }
+
+    public function test_the_product_belongs_to_a_cart_item()
+    {
+        $this->seed();
+        $product = Product::all()->first();
+
+        $this->assertInstanceOf(CartItem::class, $product->cartItem);
     }
 }

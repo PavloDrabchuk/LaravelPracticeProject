@@ -3,7 +3,9 @@
 namespace Tests\Feature;
 
 use App\Models\Category;
+use App\Models\Product;
 use App\Models\User;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
@@ -11,6 +13,7 @@ use Tests\TestCase;
 class CategoryTest extends TestCase
 {
     use RefreshDatabase;
+    use DatabaseMigrations;
 
     public function test_the_application_returns_a_successful_response()
     {
@@ -104,5 +107,14 @@ class CategoryTest extends TestCase
 
         $this->json('get', "/api/categories/$_id")
             ->assertStatus(404);
+    }
+
+    public function test_category_has_many_products()
+    {
+        $this->seed();
+        $category = Category::all()->first();
+        $product = Product::all()->first();
+
+        $this->assertTrue($category->products->contains($product));
     }
 }
