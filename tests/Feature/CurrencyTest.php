@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Currency;
 use App\Models\Price;
+use Database\Seeders\CurrencySeeder;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -20,5 +21,12 @@ class CurrencyTest extends TestCase
         $price = Price::all()->first();
 
         $this->assertTrue($currency->prices->contains($price));
+    }
+
+    public function test_function_for_get_all_possible_currency_codes(){
+        $this->seed(CurrencySeeder::class);
+        $currency=Currency::all()->first();
+
+        $this->assertTrue(count($currency->getAllPossibleCurrencyCode())>0);
     }
 }

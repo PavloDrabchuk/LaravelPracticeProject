@@ -75,6 +75,7 @@ class CartItemController extends Controller
             Cart::create([
                 'user_id' => $userId,
             ])->save();
+            $cart = Cart::where('user_id', $userId)->first();
         }
 
         $validator = Validator::make($request->json()->all(), [
