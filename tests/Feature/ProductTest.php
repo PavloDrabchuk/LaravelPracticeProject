@@ -9,6 +9,7 @@ use App\Models\Currency;
 use App\Models\Price;
 use App\Models\Product;
 use App\Models\User;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Log;
@@ -17,14 +18,13 @@ use Tests\TestCase;
 
 class ProductTest extends TestCase
 {
-    //use RefreshDatabase;
+    use RefreshDatabase;
+    use DatabaseMigrations;
 
     public function test_the_application_returns_a_successful_response()
     {
-        $user = User::all()->first();
-        $user = $user ?: User::factory()->create();
         Sanctum::actingAs(
-            $user,
+            User::all()->first() ?: User::factory()->create(),
             ['*']
         );
 
@@ -36,10 +36,8 @@ class ProductTest extends TestCase
 
     public function test_the_returns_data_in_valid_format()
     {
-        $user = User::all()->first();
-        $user = $user ?: User::factory()->create();
         Sanctum::actingAs(
-            $user,
+            User::all()->first() ?: User::factory()->create(),
             ['*']
         );
 
@@ -64,47 +62,13 @@ class ProductTest extends TestCase
 
     public function test_product_by_id_is_shows_correctly_with_authorized_user()
     {
-        $user = User::all()->first();
-        $user = $user ?: User::factory()->create();
         Sanctum::actingAs(
-            $user,
+            User::all()->first() ?: User::factory()->create(),
             ['*']
         );
 
-        $codes = [
-            [
-                'code' => 'UAH',
-                'sign' => '₴',
-            ],
-            [
-                'code' => 'USD',
-                'sign' => '$',
-            ],
-            [
-                'code' => 'EUR',
-                'sign' => '€',
-            ],
-        ];
-
-        foreach ($codes as $key => $value) {
-            $currency = Currency::where('code', $value['code'])->first();
-            $currency ?: Currency::create($value);
-        }
-
-        $color = Color::factory()->create();
-
-        $category = Category::factory()->create();
-        $product = Product::factory([
-            'category_id' => $category->id,
-            'color_id' => $color->id,
-        ])->create();
-
-        $currency_first_id = Currency::all()->first()->id;
-        for ($j = $currency_first_id; $j <= $currency_first_id + 2; $j++) {
-            Price::factory([
-                'currency_id' => $j,
-                'product_id' => $product->id])->create();
-        }
+        $this->seed();
+        $product = Product::all()->first();
 
         $this->json('get', "/api/products/$product->id")
             ->assertStatus(200);
@@ -139,20 +103,8 @@ class ProductTest extends TestCase
 
     public function test_product_by_id_is_shows_correctly_without_authorized_user()
     {
-        $color = Color::factory()->create();
-
-        $category = Category::factory()->create();
-        $product = Product::factory([
-            'category_id' => $category->id,
-            'color_id' => $color->id,
-        ])->create();
-
-        $currency_first_id = Currency::all()->first()->id;
-        for ($j = $currency_first_id; $j <= $currency_first_id + 2; $j++) {
-            Price::factory([
-                'currency_id' => $j,
-                'product_id' => $product->id])->create();
-        }
+        $this->seed();
+        $product = Product::all()->first();
 
         $this->json('get', "/api/products/$product->id")
             ->assertStatus(401);
@@ -160,10 +112,8 @@ class ProductTest extends TestCase
 
     public function test_product_by_id_is_shows_correctly_with_incorrect_id()
     {
-        $user = User::all()->first();
-        $user = $user ?: User::factory()->create();
         Sanctum::actingAs(
-            $user,
+            User::all()->first() ?: User::factory()->create(),
             ['*']
         );
 

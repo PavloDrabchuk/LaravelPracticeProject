@@ -60,10 +60,8 @@ class ApiAuthenticationTest extends TestCase
 
     public function test_authenticate_user_can_logout_using_the_api()
     {
-        $user = User::all()->first();
-        $user = $user ?: User::factory()->create();
         Sanctum::actingAs(
-            $user,
+            User::all()->first() ?: User::factory()->create(),
             ['*']
         );
 
