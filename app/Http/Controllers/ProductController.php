@@ -75,7 +75,7 @@ class ProductController extends Controller
         ]);
 
 
-        (new PriceController)->convert($request->input('price'),$product,'create');
+        (new PriceController)->convert($request->input('price'), $product, 'create');
 
         return redirect()->route('products.index')
             ->with('ok', 'Product successfully added');
@@ -141,7 +141,7 @@ class ProductController extends Controller
             'article' => $request->input('article'),
         ]);
 
-        (new PriceController)->convert($request->input('price'),$product,'update');
+        (new PriceController)->convert($request->input('price'), $product, 'update');
 
         return redirect()->route('products.index')
             ->with('ok', 'Product successfully updated');

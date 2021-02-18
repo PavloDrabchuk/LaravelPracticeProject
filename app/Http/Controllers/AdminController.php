@@ -35,17 +35,6 @@ class AdminController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param Admin $admin
@@ -89,16 +78,5 @@ class AdminController extends Controller
         ]);
         return redirect()->route('account')
             ->with('ok', 'Account successfully updated.');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param Admin $admin
-     * @return Response
-     */
-    public function destroy(Admin $admin)
-    {
-        //
     }
 }
