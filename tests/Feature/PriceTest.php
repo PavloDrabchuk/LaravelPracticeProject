@@ -2,20 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Models\Cart;
-use App\Models\CartItem;
-use App\Models\Category;
-use App\Models\Color;
 use App\Models\Currency;
 use App\Models\Price;
 use App\Models\Product;
-use App\Models\User;
-use Database\Seeders\CurrencySeeder;
-use Database\Seeders\PriceSeeder;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
 
 class PriceTest extends TestCase

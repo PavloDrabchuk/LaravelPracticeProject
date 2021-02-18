@@ -2,17 +2,10 @@
 
 namespace Tests\Feature;
 
-use App\Http\Resources\PriceResource;
-use App\Models\Category;
-use App\Models\Color;
-use App\Models\Currency;
-use App\Models\Price;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
