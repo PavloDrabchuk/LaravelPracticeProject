@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Color;
-use App\Models\Price;
 use App\Models\Product;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
@@ -73,7 +72,6 @@ class ProductController extends Controller
             'article' => $request->input('article'),
             'color_id' => $color->id,
         ]);
-
 
         (new PriceController)->convert($request->input('price'), $product, 'create');
 

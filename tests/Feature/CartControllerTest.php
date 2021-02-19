@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Http\Controllers\CartController;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;

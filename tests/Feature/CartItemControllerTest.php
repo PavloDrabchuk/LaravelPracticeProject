@@ -4,8 +4,6 @@ namespace Tests\Feature;
 
 use App\Http\Controllers\CartItemController;
 use App\Models\CartItem;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
 use Tests\TestCase;
 

@@ -4,11 +4,8 @@ namespace Tests\Feature;
 
 use App\Models\Admin;
 use App\Models\Category;
-use App\Models\Product;
 use Database\Seeders\CategorySeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
 
 class CategoryControllerTest extends TestCase
