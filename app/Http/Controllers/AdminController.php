@@ -14,27 +14,6 @@ use Illuminate\Support\Facades\Hash;
 class AdminController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return Application|Factory|View|Response
-     */
-    public function index()
-    {
-        $admins = Admin::all();
-        return view('admins.index', compact('admins'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Application|Factory|View|Response
-     */
-    public function create()
-    {
-        return view('admins.create');
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param Admin $admin
@@ -42,7 +21,7 @@ class AdminController extends Controller
      */
     public function show(Admin $admin)
     {
-        return view('admins.show', compact('admin'));
+        return view('account', compact('admin'));
     }
 
     /**
@@ -53,7 +32,7 @@ class AdminController extends Controller
      */
     public function edit(Admin $admin)
     {
-        return view('admins.edit', compact('admin'));
+        return view('account.edit', compact('admin'));
     }
 
     /**
@@ -67,13 +46,11 @@ class AdminController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:40',
-            'email' => 'required|email',
             'password' => 'required|string|confirmed|min:8'
         ]);
 
         $admin->update([
             'name' => $request->name,
-            'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
         return redirect()->route('account')

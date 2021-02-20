@@ -26,13 +26,14 @@ Route::get('/dashboard', function () {
     return view('new_dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-Route::get('/account', function () {
-    return view('account');
-})->middleware(['auth'])->name('account');
+Route::get('/account', [AdminController::class, 'show'])
+    ->middleware(['auth'])->name('account');
 
-Route::get('/account/edit', function () {
-    return view('account.edit');
-})->middleware(['auth'])->name('account.edit');
+Route::get('/account/edit', [AdminController::class, 'edit'])
+    ->middleware(['auth'])->name('account.edit');
+
+Route::get('/account/edit', [AdminController::class, 'edit'])
+    ->middleware(['auth'])->name('account.edit');
 
 Route::resource('users', UserController::class)
     ->middleware(['auth']);
