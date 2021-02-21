@@ -58,7 +58,7 @@ class CurrencyControllerTest extends TestCase
         $response->assertSuccessful();
     }
 
-    public function test_admin_can_edit_information_about_currency_UAH_with_view()
+    public function test_admin_can_edit_information_about_currency_uah_with_view()
     {
         $this->seed(CurrencySeeder::class);
         $currency = Currency::where('code','UAH')->first();
@@ -126,7 +126,7 @@ class CurrencyControllerTest extends TestCase
         $response->assertRedirect('/currencies');
     }
 
-    public function test_admin_can_delete_currency_with_code_UAH()
+    public function test_admin_can_delete_currency_with_code_uah()
     {
         $this->seed(CurrencySeeder::class);
         $currency = Currency::where('code','UAH')->first();

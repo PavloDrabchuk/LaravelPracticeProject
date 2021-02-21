@@ -15,13 +15,13 @@ class ProductControllerTest extends TestCase
     use RefreshDatabase;
     use DatabaseMigrations;
 
-    public function test_redirect_to_login_page_if_user_unauthorized()
+    public function test_redirect_to_login_page_if_admin_unauthorized()
     {
         $response = $this->get('/products');
         $response->assertRedirect('/login');
     }
 
-    public function test_user_can_read_information_about_products_with_view()
+    public function test_admin_can_read_information_about_products_with_view()
     {
         $response = $this->actingAs(
             Admin::all()->first() ?: Admin::factory()->create()
@@ -32,7 +32,7 @@ class ProductControllerTest extends TestCase
         $response->assertSuccessful();
     }
 
-    public function test_user_can_read_information_about_product_by_id_with_view()
+    public function test_admin_can_read_information_about_product_by_id_with_view()
     {
         $this->seed();
         $product = Product::all()->first();
@@ -46,7 +46,7 @@ class ProductControllerTest extends TestCase
         $response->assertSuccessful();
     }
 
-    public function test_user_can_edit_information_about_product_by_id_with_view()
+    public function test_admin_can_edit_information_about_product_by_id_with_view()
     {
         $this->seed();
         $product = Product::all()->first();
@@ -60,7 +60,7 @@ class ProductControllerTest extends TestCase
         $response->assertSuccessful();
     }
 
-    public function test_authenticated_users_can_create_a_new_product_with_view()
+    public function test_authenticated_admin_can_create_a_new_product_with_view()
     {
         $response = $this->actingAs(
             Admin::all()->first() ?: Admin::factory()->create()
@@ -70,7 +70,7 @@ class ProductControllerTest extends TestCase
         $response->assertSuccessful();
     }
 
-    public function test_authenticated_users_can_create_a_new_product()
+    public function test_authenticated_admin_can_create_a_new_product()
     {
         $this->actingAs(
             Admin::all()->first() ?: Admin::factory()->create()
@@ -93,7 +93,7 @@ class ProductControllerTest extends TestCase
         $response->assertRedirect('/products');
     }
 
-    public function test_authenticated_users_can_update_product()
+    public function test_authenticated_admin_can_update_product()
     {
         $this->actingAs(
             Admin::all()->first() ?: Admin::factory()->create()
@@ -112,13 +112,13 @@ class ProductControllerTest extends TestCase
             'color' => 'color7',
             'price' => 120,
         ]);
-        Log::info('ttt: ' . $product);
+
         $this->assertEquals(1, Product::where('article', '888888')->count());
 
         $response->assertRedirect('/products');
     }
 
-    public function test_user_can_delete_product_by_id()
+    public function test_admin_can_delete_product_by_id()
     {
         $this->seed();
         $product = Product::all()->first();

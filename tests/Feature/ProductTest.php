@@ -39,6 +39,7 @@ class ProductTest extends TestCase
 
         $this->get('api/products')
             ->assertStatus(200)
+            ->assertJson(Product::all()->toArray())
             ->assertJsonStructure(
                 [
                     'data' => [

@@ -18,7 +18,7 @@ class CartControllerTest extends TestCase
         $this->assertIsObject((new CartController())->index());
     }
 
-    public function test_store_function_with_authorized_user()
+    public function test_store_function_with_authorized_admin()
     {
         Sanctum::actingAs(
             User::all()->first() ?: User::factory()->create(),
@@ -28,7 +28,7 @@ class CartControllerTest extends TestCase
         $this->assertEquals(1, (new CartController())->store(new Request()));
     }
 
-    public function test_store_function_without_authorized_user()
+    public function test_store_function_without_authorized_admin()
     {
         $this->assertEquals(0, (new CartController())->store(new Request()));
     }

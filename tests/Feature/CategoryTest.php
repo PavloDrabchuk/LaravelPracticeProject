@@ -38,6 +38,7 @@ class CategoryTest extends TestCase
         $this->withoutExceptionHandling();
         $this->get('/api/categories')
             ->assertStatus(200)
+            ->assertJson(Category::all()->toArray())
             ->assertJsonStructure(
                 [
                     'categories' => [

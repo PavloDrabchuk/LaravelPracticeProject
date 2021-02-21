@@ -18,7 +18,7 @@ class CategoryControllerTest extends TestCase
         $response->assertRedirect('/login');
     }
 
-    public function test_user_can_read_information_about_categories_with_view()
+    public function test_admin_can_read_information_about_categories_with_view()
     {
         $response = $this->actingAs(
             Admin::all()->first() ?: Admin::factory()->create()
@@ -29,7 +29,7 @@ class CategoryControllerTest extends TestCase
         $response->assertSuccessful();
     }
 
-    public function test_user_can_read_information_about_category_by_id_with_view()
+    public function test_admin_can_read_information_about_category_by_id_with_view()
     {
         $this->seed(CategorySeeder::class);
         $category = Category::all()->first();
@@ -43,7 +43,7 @@ class CategoryControllerTest extends TestCase
         $response->assertSuccessful();
     }
 
-    public function test_user_can_edit_information_about_category_by_id_with_view()
+    public function test_admin_can_edit_information_about_category_by_id_with_view()
     {
         $this->seed(CategorySeeder::class);
         $category = Category::all()->first();
@@ -57,7 +57,7 @@ class CategoryControllerTest extends TestCase
         $response->assertSuccessful();
     }
 
-    public function test_authenticated_users_can_create_a_new_category_with_view()
+    public function test_authenticated_admin_can_create_a_new_category_with_view()
     {
         $response = $this->actingAs(
             Admin::all()->first() ?: Admin::factory()->create()
@@ -67,7 +67,7 @@ class CategoryControllerTest extends TestCase
         $response->assertSuccessful();
     }
 
-    public function test_authenticated_users_can_create_a_new_category()
+    public function test_authenticated_admin_can_create_a_new_category()
     {
         $this->actingAs(
             Admin::all()->first() ?: Admin::factory()->create()
@@ -84,7 +84,7 @@ class CategoryControllerTest extends TestCase
         $response->assertRedirect('/categories');
     }
 
-    public function test_authenticated_users_can_update_category()
+    public function test_authenticated_admin_can_update_category()
     {
         $this->actingAs(
             Admin::all()->first() ?: Admin::factory()->create()
@@ -101,7 +101,7 @@ class CategoryControllerTest extends TestCase
         $response->assertRedirect('/categories');
     }
 
-    public function test_user_can_delete_category_by_id()
+    public function test_admin_can_delete_category_by_id()
     {
         $this->seed(CategorySeeder::class);
         $category = Category::all()->first();
