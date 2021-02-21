@@ -14,6 +14,7 @@ class RegistrationTest extends TestCase
     {
         $response = $this->get('/register');
 
+        $response->assertViewIs('auth.register');
         $response->assertStatus(200);
     }
 
