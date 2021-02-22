@@ -63,6 +63,7 @@ class CategoryControllerTest extends TestCase
             Admin::all()->first() ?: Admin::factory()->create()
         )->get("/categories/create");
 
+        //$response->assertViewIs('layouts.app');
         $response->assertViewIs('categories.create');
         $response->assertSuccessful();
     }

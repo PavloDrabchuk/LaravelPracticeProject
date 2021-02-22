@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class CartController extends Controller
@@ -138,6 +139,22 @@ class CartController extends Controller
         } else {
             return response(['message' => ['Cart not found.']], 404);
         }
+    }
+
+    public function buyTours()
+    {
+        $to_name = 'Павло Драбчук';
+        $to_email = 'ravluk2000@gmail.com';
+        $data = array('name' => "Ogbonna Vitalis(sender_name)", "body" => "A test mail");
+
+        Mail::send([], $data, function ($message) use ($to_name, $to_email) {
+            $message->to($to_email, $to_name)
+                ->subject('Laravel Test Mail');
+            $message->from('solar.power.plant.system@gmail.com', 'Test Mail');
+        });
+
+        //ProcessPodcast::dispatch();
+        return 'buy';
     }
 
 
