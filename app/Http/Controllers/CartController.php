@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\CartResource;
+use App\Jobs\CartJob;
 use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Collection;
@@ -143,17 +144,7 @@ class CartController extends Controller
 
     public function buyTours()
     {
-        $to_name = 'Павло Драбчук';
-        $to_email = 'ravluk2000@gmail.com';
-        $data = array('name' => "Ogbonna Vitalis(sender_name)", "body" => "A test mail");
-
-        Mail::send([], $data, function ($message) use ($to_name, $to_email) {
-            $message->to($to_email, $to_name)
-                ->subject('Laravel Test Mail');
-            $message->from('solar.power.plant.system@gmail.com', 'Test Mail');
-        });
-
-        //ProcessPodcast::dispatch();
+        CartJob::dispatch()->onQueue('emails');
         return 'buy';
     }
 
