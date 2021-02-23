@@ -37,21 +37,11 @@ class CartJob implements ShouldQueue
      */
     public function handle()
     {
-        $to_email = 'ravluk2000@gmail.com';
-
         $emails_json = json_decode(Admin::select('email')->get(), true);
         $emails = [];
         foreach ($emails_json as $key => $value) {
-            //Log::info($value['email']);
             $emails[] = $value['email'];
         }
-        /*$data = array('name' => "name", "body" => "A test mail");
-
-        Mail::send('emails.buy', $data, function ($message) use ($emails) {
-            $message->to($emails)
-                ->subject('Laravel Test Mail');
-            $message->from('solar.power.plant.system@gmail.com', 'Test Mail');
-        });*/
 
         Log::info('cart'.$this->cart);
 

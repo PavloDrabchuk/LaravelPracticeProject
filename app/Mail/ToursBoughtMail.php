@@ -4,7 +4,6 @@ namespace App\Mail;
 
 use App\Models\Cart;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
@@ -31,7 +30,6 @@ class ToursBoughtMail extends Mailable
     {
         $totalCost = 0;
         foreach ($this->cart->cartItems as $cartItem) {
-            //$totalCost += $cartItem->quantity;
             $totalCost += $cartItem->product->prices->first()->value * $cartItem->quantity;
         }
         return $totalCost;
