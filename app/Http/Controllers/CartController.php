@@ -144,7 +144,10 @@ class CartController extends Controller
 
     public function buyTours()
     {
-        CartJob::dispatch()->onQueue('emails');
+        $userId = auth('sanctum')->user()->getKey();
+        $cart = Cart::where('user_id', $userId)->first();
+
+        CartJob::dispatch($cart)->onQueue('emails');
         return 'buy';
     }
 

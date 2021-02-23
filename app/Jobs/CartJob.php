@@ -2,7 +2,9 @@
 
 namespace App\Jobs;
 
+use App\Mail\ToursBoughtMail;
 use App\Models\Admin;
+use App\Models\Cart;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -16,14 +18,16 @@ class CartJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    protected  $cart;
+
     /**
      * Create a new job instance.
      *
-     * @return void
+     * @param Cart $cart
      */
-    public function __construct()
+    public function __construct(Cart $cart)
     {
-        //
+        $this->cart = $cart;
     }
 
     /**
@@ -41,13 +45,16 @@ class CartJob implements ShouldQueue
             //Log::info($value['email']);
             $emails[] = $value['email'];
         }
-        $data = array('name' => "name", "body" => "A test mail");
+        /*$data = array('name' => "name", "body" => "A test mail");
 
-        Mail::send([], $data, function ($message) use ($emails) {
+        Mail::send('emails.buy', $data, function ($message) use ($emails) {
             $message->to($emails)
                 ->subject('Laravel Test Mail');
             $message->from('solar.power.plant.system@gmail.com', 'Test Mail');
-        });
+        });*/
+
+        Mail::to('ravluk2000@gmail.com')->send(new ToursBoughtMail($this->cart));
+        //Mail::bcc($emails)->send(new ToursBoughtMail($this->cart));
 
     }
 }
