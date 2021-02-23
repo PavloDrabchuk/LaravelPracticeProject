@@ -53,8 +53,10 @@ class CartJob implements ShouldQueue
             $message->from('solar.power.plant.system@gmail.com', 'Test Mail');
         });*/
 
-        Mail::to('ravluk2000@gmail.com')->send(new ToursBoughtMail($this->cart));
-        //Mail::bcc($emails)->send(new ToursBoughtMail($this->cart));
+        Log::info('cart'.$this->cart);
+
+        //Mail::to('ravluk2000@gmail.com')->send(new ToursBoughtMail($this->cart));
+        Mail::to($emails)->send(new ToursBoughtMail($this->cart));
 
     }
 }

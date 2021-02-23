@@ -1,30 +1,29 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+<h3>Order information</h3>
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
-    <!-- Fonts -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
-
-    <!-- Styles -->
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-</head>
-< class="font-sans antialiased">
-<h1>Mail</h1>
-<h3>mmmmmmm</h3>
-
-
-<hr/>
 <div>
-    User id: {{ $cart->user_id }}
+    <h4>Name: {{ $cart->user->name }}</h4>
+    <h3>Items:</h3>
+    <table border="1" cellspacing="0" cellpadding="5px">
+        <tr>
+            <th>#</th>
+            <th>Tour</th>
+            <th>Quantity</th>
+            <th>Price (x1)</th>
+            <th>Cost</th>
+        </tr>
+        @foreach($cart->cartItems as $cartItem)
+            <tr>
+                <td>{{($loop->index)+1}}</td>
+                <td>{{$cartItem->product->name}}</td>
+                <td>{{$cartItem->quantity}}</td>
+                <td>{{$cartItem->product->prices->first()->value}}</td>
+                <td>{{$cartItem->product->prices->first()->value * $cartItem->quantity}}</td>
+            </tr>
+        @endforeach
+        <tr>
+            <th colspan="4">Total</th>
+            <th>{{$totalCost}}</th>
+        </tr>
+    </table>
 </div>
 
-</body>
-</html>

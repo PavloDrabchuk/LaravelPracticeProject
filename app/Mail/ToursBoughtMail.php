@@ -24,7 +24,17 @@ class ToursBoughtMail extends Mailable
      */
     public function __construct(Cart $cart)
     {
-        $this->cart=$cart;
+        $this->cart = $cart;
+    }
+
+    public function getTotalCost()
+    {
+        $totalCost = 0;
+        foreach ($this->cart->cartItems as $cartItem) {
+            //$totalCost += $cartItem->quantity;
+            $totalCost += $cartItem->product->prices->first()->value * $cartItem->quantity;
+        }
+        return $totalCost;
     }
 
     /**
@@ -34,6 +44,11 @@ class ToursBoughtMail extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.tours-bought');
+        return $this->from('solar.power.plant.system@gmail.com', 'Laravel project')
+            ->subject('Tours order')
+            ->view('emails.tours-bought')
+            ->with([
+                'totalCost' => $this->getTotalCost(),
+            ]);
     }
 }
