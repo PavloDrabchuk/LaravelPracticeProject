@@ -19,8 +19,7 @@
         "laravel/sanctum": "^2.9",
         "laravel/tinker": "^2.5|dev-develop",
         "predis/predis": "^1.1",
-        "spatie/laravel-translatable": "^4.6",
-      "ext-redis": "*"
+        "spatie/laravel-translatable": "^4.6"
     },
     "require-dev": {
         "laravel/breeze": "^1.0",
