@@ -7,6 +7,7 @@ use App\Jobs\CartJob;
 use App\Mail\ToursBoughtMail;
 use App\Models\Admin;
 use App\Models\Cart;
+use App\Models\CartItem;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -152,10 +153,36 @@ class CartController extends Controller
         $userId = auth('sanctum')->user()->getKey();
         $cart = Cart::where('user_id', $userId)->first();
 
+        $checkQuantity = true;
+        foreach ($cart->cartItems as $cartItem) {
+            if ((Product::whereId($cartItem->product_id)->first()->quantity - $cartItem->quantity) < 0) {
+                $checkQuantity = false;
+                break;
+            }
+        }
+
+        if ($checkQuantity && CartItem::whereCartId($cart->id)->count() > 0) {
+            foreach ($cart->cartItems as $cartItem) {
+                $quantity = Product::whereId($cartItem->product_id)->first()->quantity;
+
+                Product::whereId($cartItem->product_id)->update([
+                    'quantity' => $quantity - $cartItem->quantity,
+                ]);
+            }
+        } else {
+            return response([
+                "message" => "These tours are over."
+            ], 400);
+        }
+
+        try {
+            CartItem::whereCartId($cart->id)->delete();
+        } catch (\Exception $e) {
+        }
         CartJob::dispatch($cart)
             ->onQueue('emails');
 
-        return 'buy';
+        return response(["message" => "Tours purchased successfully."], 200);
     }
 
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\CartItem;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -78,16 +79,24 @@ class CartItemController extends Controller
             $cart = Cart::where('user_id', $userId)->first();
         }
 
-        $validator = Validator::make($request->json()->all(), [
+        $productIdValidate = Validator::make($request->json()->all(), [
             'product_id' => ['required', 'numeric', 'min:1', 'exists:tours,id',
                 Rule::notIn(array_column(CartItem::all()
                     ->where('cart_id', '=', $cart->id)
                     ->toArray(), 'product_id')),
             ],
-            'quantity' => 'required|numeric|min:1',
+//            'quantity' => ['required','numeric','min:1'],
         ]);
 
-        if ($validator->fails()) return response($validator->errors(), 400);
+        if ($productIdValidate->fails()) return response($productIdValidate->errors(), 400);
+
+        $maxQuantity = Product::where('id', $request->input('product_id'))->first()->quantity;
+        $quantityValidate = Validator::make($request->json()->all(), [
+            'quantity' => ['required', 'numeric', 'min:1',
+                "max:$maxQuantity"],
+        ]);
+
+        if ($quantityValidate->fails()) return response($quantityValidate->errors(), 400);
 
         CartItem::create([
             'cart_id' => $cart->id,
