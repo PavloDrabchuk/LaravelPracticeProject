@@ -175,12 +175,13 @@ class CartController extends Controller
             ], 400);
         }
 
+        CartJob::dispatch($cart)
+            ->onQueue('emails');
+
         try {
             CartItem::whereCartId($cart->id)->delete();
         } catch (\Exception $e) {
         }
-        CartJob::dispatch($cart)
-            ->onQueue('emails');
 
         return response(["message" => "Tours purchased successfully."], 200);
     }
