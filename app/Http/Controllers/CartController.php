@@ -11,7 +11,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Validator;
+
 
 class CartController extends Controller
 {
@@ -144,10 +146,14 @@ class CartController extends Controller
 
     public function buyTours()
     {
+        //Redis::get('user:profile:'.$id);
+
         $userId = auth('sanctum')->user()->getKey();
         $cart = Cart::where('user_id', $userId)->first();
 
-        CartJob::dispatch($cart)->onQueue('emails');
+        CartJob::dispatch($cart)
+            //->onConnection('redis')
+            ->onQueue('emails');
         return 'buy';
     }
 
