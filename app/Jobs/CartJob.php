@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Mail\ToursBoughtMail;
 use App\Models\Admin;
 use App\Models\Cart;
+use App\Models\CartItem;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -18,7 +19,7 @@ class CartJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected  $cart;
+    protected $cart;
 
     /**
      * Create a new job instance.
@@ -43,10 +44,13 @@ class CartJob implements ShouldQueue
             $emails[] = $value['email'];
         }
 
-        Log::info('cart'.$this->cart);
-
         //Mail::to('ravluk2000@gmail.com')->send(new ToursBoughtMail($this->cart));
         Mail::to($emails)->send(new ToursBoughtMail($this->cart));
+
+        try {
+            CartItem::whereCartId($this->cart->id)->delete();
+        } catch (\Exception $e) {
+        }
 
     }
 }

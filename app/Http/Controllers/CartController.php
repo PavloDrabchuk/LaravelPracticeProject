@@ -9,6 +9,8 @@ use App\Models\Admin;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Product;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -148,6 +150,30 @@ class CartController extends Controller
         }
     }
 
+    /**
+     *
+     * @OA\Get(
+     *     path="/cart/checkout",
+     *     operationId="checkout",
+     *     tags={"Cart"},
+     *     description="Making an order to purchase tours.",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad request"
+     *      )
+     *     )
+     *
+     * @return Application|ResponseFactory|Response
+     */
     public function buyTours()
     {
         $userId = auth('sanctum')->user()->getKey();
@@ -178,10 +204,7 @@ class CartController extends Controller
         CartJob::dispatch($cart)
             ->onQueue('emails');
 
-        try {
-            CartItem::whereCartId($cart->id)->delete();
-        } catch (\Exception $e) {
-        }
+
 
         return response(["message" => "Tours purchased successfully."], 200);
     }

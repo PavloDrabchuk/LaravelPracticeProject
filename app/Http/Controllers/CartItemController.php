@@ -134,6 +134,32 @@ class CartItemController extends Controller
     }
 
     /**
+     *
+     * @OA\Delete(
+     *     path="/cart/item/{id}",
+     *     operationId="deleteCartItem",
+     *     tags={"Cart"},
+     *     summary="Delete cart item",
+     *     security={{"bearerAuth":{}}},
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Cart item id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Deleted",
+     *     ),
+     *     @OA\Response(
+     *         response="400",
+     *         description="Bad request",
+     *     ),
+     * )
+     *
      * Remove the specified resource from storage.
      *
      * @param $id
