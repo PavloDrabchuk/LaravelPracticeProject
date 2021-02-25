@@ -57,13 +57,15 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('cart', [CartController::class, 'show']);
 
-    Route::get('cart/checkout',[CartController::class,'buyTours']);
+    Route::get('cart/checkout', [CartController::class, 'buyTours']);
 
     Route::post('cart/add_item', [CartItemController::class, 'store']);
 
+    Route::delete('cart/item/{id}', [CartItemController::class, 'destroy']);
+
     Route::delete('cart', [CartController::class, 'destroy']);
 
-    Route::get('cart/checkout',[CartController::class,'buyTours']);
+    Route::get('cart/checkout', [CartController::class, 'buyTours']);
 });
 
 
