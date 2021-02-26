@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\Route;
 /*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });*/
-//Route::('*', 'csrf', array('post', 'put', 'delete'));
+
 Route::post("login", [UserController::class, 'login']);
 
 
@@ -57,13 +57,15 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('cart', [CartController::class, 'show']);
 
+    Route::get('cart/checkout', [CartController::class, 'buyTours']);
+
     Route::post('cart/add_item', [CartItemController::class, 'store']);
 
+    Route::delete('cart/item/{id}', [CartItemController::class, 'destroy']);
+
     Route::delete('cart', [CartController::class, 'destroy']);
+
+    Route::get('cart/checkout', [CartController::class, 'buyTours']);
 });
 
-
-/*Route::get('carts',function (){
-    return Cart::get();
-});*/
 

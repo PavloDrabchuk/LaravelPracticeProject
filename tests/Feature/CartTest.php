@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -133,5 +134,88 @@ class CartTest extends TestCase
         $cart_item = CartItem::all()->first();
 
         $this->assertTrue($cart->cartItems->contains($cart_item));
+    }
+
+    public function test_the_user_can_remove_cart_item_by_id()
+    {
+        $this->seed();
+
+        Sanctum::actingAs(
+            User::all()->first() ?: User::factory()->create(),
+            ['*']
+        );
+
+        $cartItem = CartItem::all()->first();
+
+        $response = $this->json('DELETE', "/api/cart/item/$cartItem->id");
+        $response
+            ->assertStatus(200)
+            ->assertJson([
+                "message" => "Deleted.",
+            ]);
+    }
+
+    public function test_the_user_can_not_remove_cart_item_by_non_existent_id()
+    {
+        $this->seed();
+
+        Sanctum::actingAs(
+            User::all()->first() ?: User::factory()->create(),
+            ['*']
+        );
+
+        do {
+            $_id = 888;
+            $_id++;
+            $is = CartItem::where('id', $_id)->first();
+        } while ($is);
+
+        $response = $this->json('DELETE', "/api/cart/item/$_id");
+        $response
+            ->assertStatus(400)
+            ->assertJson([
+                "message" => "Cart item not found.",
+            ]);
+    }
+
+    public function test_the_user_can_buy_tours()
+    {
+        $this->seed();
+
+        Sanctum::actingAs(
+            $user=User::all()->first() ?: User::factory()->create(),
+            ['*']
+        );
+
+        $response = $this->get('/api/cart/checkout');
+        $response
+            ->assertStatus(200)
+            ->assertJson([
+                "message" => "Tours purchased successfully.",
+            ]);
+
+    }
+
+    public function test_the_user_can_not_buy_tours()
+    {
+        $this->seed();
+
+        Sanctum::actingAs(
+            User::all()->first() ?: User::factory()->create(),
+            ['*']
+        );
+
+        $product = Product::all()->first();
+        Product::whereId($product->id)->update([
+            'quantity' => 1,
+        ]);
+
+        $response = $this->get('/api/cart/checkout');
+        $response
+            ->assertStatus(400)
+            ->assertJson([
+                "message" => "These tours are over.",
+            ]);
+
     }
 }

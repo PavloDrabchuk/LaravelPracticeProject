@@ -3,13 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\CartResource;
+use App\Jobs\CartJob;
+use App\Mail\ToursBoughtMail;
+use App\Models\Admin;
 use App\Models\Cart;
+use App\Models\CartItem;
 use App\Models\Product;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Validator;
+
 
 class CartController extends Controller
 {
@@ -138,6 +148,65 @@ class CartController extends Controller
         } else {
             return response(['message' => ['Cart not found.']], 404);
         }
+    }
+
+    /**
+     *
+     * @OA\Get(
+     *     path="/cart/checkout",
+     *     operationId="checkout",
+     *     tags={"Cart"},
+     *     description="Making an order to purchase tours.",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad request"
+     *      )
+     *     )
+     *
+     * @return Application|ResponseFactory|Response
+     */
+    public function buyTours()
+    {
+        $userId = auth('sanctum')->user()->getKey();
+        $cart = Cart::where('user_id', $userId)->first();
+
+        $checkQuantity = true;
+        foreach ($cart->cartItems as $cartItem) {
+            if ((Product::whereId($cartItem->product_id)->first()->quantity - $cartItem->quantity) < 0) {
+                $checkQuantity = false;
+                break;
+            }
+        }
+
+        if ($checkQuantity && CartItem::whereCartId($cart->id)->count() > 0) {
+            foreach ($cart->cartItems as $cartItem) {
+                $quantity = Product::whereId($cartItem->product_id)->first()->quantity;
+
+                Product::whereId($cartItem->product_id)->update([
+                    'quantity' => $quantity - $cartItem->quantity,
+                ]);
+            }
+        } else {
+            return response([
+                "message" => "These tours are over."
+            ], 400);
+        }
+
+        CartJob::dispatch($cart)
+            ->onQueue('emails');
+
+
+
+        return response(["message" => "Tours purchased successfully."], 200);
     }
 
 
