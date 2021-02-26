@@ -44,7 +44,6 @@ class CartJob implements ShouldQueue
             $emails[] = $value['email'];
         }
 
-        //Mail::to('ravluk2000@gmail.com')->send(new ToursBoughtMail($this->cart));
         Mail::to($emails)->send(new ToursBoughtMail($this->cart));
 
         try {

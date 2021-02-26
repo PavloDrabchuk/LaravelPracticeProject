@@ -17,16 +17,17 @@ class CurrencyTest extends TestCase
     public function test_currency_has_many_prices()
     {
         $this->seed();
-        $currency = Currency::all()->first();
-        $price = Price::all()->first();
+        $currency = Currency::first();
+        $price = Price::first();
 
         $this->assertTrue($currency->prices->contains($price));
     }
 
-    public function test_function_for_get_all_possible_currency_codes(){
+    public function test_function_for_get_all_possible_currency_codes()
+    {
         $this->seed(CurrencySeeder::class);
-        $currency=Currency::all()->first();
+        $currency = Currency::first();
 
-        $this->assertTrue(count($currency->getAllPossibleCurrencyCode())>0);
+        $this->assertTrue(count($currency->getAllPossibleCurrencyCode()) > 0);
     }
 }

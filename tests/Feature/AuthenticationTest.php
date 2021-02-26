@@ -23,7 +23,7 @@ class AuthenticationTest extends TestCase
         $user = Admin::factory()->create();
 
         $response = $this->post('/login', [
-            'email' => $user->email,
+            'email' => $user->getAttribute('email'),
             'password' => 'password',
         ]);
 
@@ -36,7 +36,7 @@ class AuthenticationTest extends TestCase
         $user = Admin::factory()->create();
 
         $this->post('/login', [
-            'email' => $user->email,
+            'email' => $user->getAttribute('email'),
             'password' => 'wrong-password',
         ]);
 
@@ -46,7 +46,7 @@ class AuthenticationTest extends TestCase
     public function test_users_can_logout()
     {
         $response = $this->actingAs(
-            Admin::all()->first() ?: Admin::factory()->create()
+            Admin::first() ?: Admin::factory()->create()
         )->get("/logout");
 
         $response->assertRedirect('/');

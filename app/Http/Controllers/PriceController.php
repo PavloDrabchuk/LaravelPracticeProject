@@ -34,7 +34,7 @@ class PriceController extends Controller
         $exchangeRate = file_get_contents(env('BANK_EXCHANGE_URL'));
         $exchange = json_decode($exchangeRate, true);
 
-        $currencyCodes = Currency::all()->where('code', '!=', "UAH");
+        $currencyCodes = Currency::where('code', '!=', "UAH")->get();
 
         foreach ($currencyCodes as $currency) {
             $key = array_search($currency->code, array_column($exchange, 'cc'));

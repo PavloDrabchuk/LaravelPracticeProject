@@ -17,7 +17,7 @@ class PriceTest extends TestCase
     public function test_price_belongs_to_a_currency()
     {
         $this->seed();
-        $price = Price::all()->first();
+        $price = Price::first();
 
         $this->assertInstanceOf(Currency::class, $price->currency);
     }
@@ -25,7 +25,7 @@ class PriceTest extends TestCase
     public function test_price_belongs_to_a_product()
     {
         $this->seed();
-        $price = Price::all()->first();
+        $price = Price::first();
 
         $this->assertInstanceOf(Product::class, $price->product);
     }

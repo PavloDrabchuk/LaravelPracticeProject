@@ -84,8 +84,8 @@ class CartItemController extends Controller
 
         $productIdValidate = Validator::make($request->json()->all(), [
             'product_id' => ['required', 'numeric', 'min:1', 'exists:tours,id',
-                Rule::notIn(array_column(CartItem::all()
-                    ->where('cart_id', '=', $cart->id)
+                Rule::notIn(array_column(CartItem::where('cart_id', '=', $cart->id)
+                    ->get()
                     ->toArray(), 'product_id')),
             ],
 //            'quantity' => ['required','numeric','min:1'],

@@ -3,8 +3,10 @@
 namespace Tests\Feature;
 
 use App\Models\Admin;
+use Database\Seeders\AdminSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
 
 class AdminControllerTest extends TestCase
@@ -20,7 +22,7 @@ class AdminControllerTest extends TestCase
     public function test_admin_can_read_information_about_account_with_view()
     {
         $response = $this->actingAs(
-            Admin::all()->first() ?: Admin::factory()->create()
+            Admin::first() ?: Admin::factory()->create()
         )->get("/account");
 
         $response->assertViewIs('account');
@@ -31,7 +33,7 @@ class AdminControllerTest extends TestCase
     public function test_admin_can_edit_information_about_account_with_view()
     {
         $response = $this->actingAs(
-            Admin::all()->first() ?: Admin::factory()->create()
+            Admin::first() ?: Admin::factory()->create()
         )->get("/account/edit");
 
         $response->assertViewIs('account.edit');
@@ -42,15 +44,16 @@ class AdminControllerTest extends TestCase
     public function test_admin_can_update_information_of_account()
     {
         $this->actingAs(
-            $admin=Admin::all()->first() ?: Admin::factory()->create()
+            $admin = Admin::first() ?: Admin::factory()->create()
         );
 
-        $response = $this->put("/admins/$admin->id", [
+        $response = $this->put("/admins/{$admin->getAttribute('id')}", [
             'name' => 'admin_upd',
             'password' => 'password_upd',
-            'password_confirmation'=>'password_upd',
+            'password_confirmation' => 'password_upd',
         ]);
-        $this->assertEquals(1, Admin::where('name','admin_upd')->count());
+
+        $this->assertEquals(1, Admin::where('name', 'admin_upd')->count());
 
         $response->assertRedirect('/account');
     }

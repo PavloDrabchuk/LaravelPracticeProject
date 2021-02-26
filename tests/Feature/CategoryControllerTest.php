@@ -21,7 +21,7 @@ class CategoryControllerTest extends TestCase
     public function test_admin_can_read_information_about_categories_with_view()
     {
         $response = $this->actingAs(
-            Admin::all()->first() ?: Admin::factory()->create()
+            Admin::first() ?: Admin::factory()->create()
         )->get('/categories');
 
         $response->assertViewIs('categories.index');
@@ -32,11 +32,11 @@ class CategoryControllerTest extends TestCase
     public function test_admin_can_read_information_about_category_by_id_with_view()
     {
         $this->seed(CategorySeeder::class);
-        $category = Category::all()->first();
+        $category = Category::first();
 
         $response = $this->actingAs(
-            Admin::all()->first() ?: Admin::factory()->create()
-        )->get("/categories/$category->id");
+            Admin::first() ?: Admin::factory()->create()
+        )->get("/categories/{$category->id}");
 
         $response->assertViewIs('categories.show');
         $response->assertViewHas('category');
@@ -46,11 +46,12 @@ class CategoryControllerTest extends TestCase
     public function test_admin_can_edit_information_about_category_by_id_with_view()
     {
         $this->seed(CategorySeeder::class);
-        $category = Category::all()->first();
+
+        $category = Category::first();
 
         $response = $this->actingAs(
-            Admin::all()->first() ?: Admin::factory()->create()
-        )->get("/categories/$category->id/edit");
+            Admin::first() ?: Admin::factory()->create()
+        )->get("/categories/{$category->id}/edit");
 
         $response->assertViewIs('categories.edit');
         $response->assertViewHas('category');
@@ -60,10 +61,9 @@ class CategoryControllerTest extends TestCase
     public function test_authenticated_admin_can_create_a_new_category_with_view()
     {
         $response = $this->actingAs(
-            Admin::all()->first() ?: Admin::factory()->create()
+            Admin::first() ?: Admin::factory()->create()
         )->get("/categories/create");
 
-        //$response->assertViewIs('layouts.app');
         $response->assertViewIs('categories.create');
         $response->assertSuccessful();
     }
@@ -71,9 +71,8 @@ class CategoryControllerTest extends TestCase
     public function test_authenticated_admin_can_create_a_new_category()
     {
         $this->actingAs(
-            Admin::all()->first() ?: Admin::factory()->create()
+            Admin::first() ?: Admin::factory()->create()
         );
-        //$category = Category::factory()->create();
 
         $response = $this->post('/categories', [
             'nameUA' => 'ua-name',
@@ -88,16 +87,17 @@ class CategoryControllerTest extends TestCase
     public function test_authenticated_admin_can_update_category()
     {
         $this->actingAs(
-            Admin::all()->first() ?: Admin::factory()->create()
+            Admin::first() ?: Admin::factory()->create()
         );
         $category = Category::factory()->create();
 
-        $response = $this->put("/categories/$category->id", [
+        $response = $this->put("/categories/{$category->getAttribute('id')}", [
             'nameUA' => 'ua-name-upd',
             'nameEN' => 'en-name-upd',
             'nameRU' => 'ru-name-upd',
         ]);
-        $this->assertEquals('ua-name-upd', Category::all()->first()->getTranslation('name', 'ua'));
+
+        $this->assertEquals('ua-name-upd', Category::first()->getTranslation('name', 'ua'));
 
         $response->assertRedirect('/categories');
     }
@@ -105,11 +105,11 @@ class CategoryControllerTest extends TestCase
     public function test_admin_can_delete_category_by_id()
     {
         $this->seed(CategorySeeder::class);
-        $category = Category::all()->first();
+        $category = Category::first();
 
         $response = $this->actingAs(
-            Admin::all()->first() ?: Admin::factory()->create()
-        )->delete("/categories/$category->id");
+            Admin::first() ?: Admin::factory()->create()
+        )->delete("/categories/{$category->id}");
 
         $this->assertNull(Category::where('id', $category->id)->first());
 

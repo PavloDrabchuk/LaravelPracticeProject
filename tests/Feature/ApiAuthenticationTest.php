@@ -26,7 +26,7 @@ class ApiAuthenticationTest extends TestCase
         $user = User::factory()->create();
 
         $this->post('/api/login', [
-            'phone' => $user->phone,
+            'phone' => $user->getAttribute('phone'),
             'password' => 'password',
         ])->assertStatus(201)
             ->assertJsonStructure([
@@ -49,7 +49,7 @@ class ApiAuthenticationTest extends TestCase
         $user = User::factory()->create();
 
         $this->post('/api/login', [
-            'phone' => $user->phone,
+            'phone' => $user->getAttribute('phone'),
             'password' => 'wrong-password',
         ])->assertStatus(404);
 
