@@ -17,7 +17,7 @@ class CategoryCollection extends ResourceCollection
      *     operationId="allCategories",
      *     tags={"Category"},
      *     summary="Get categories information",
-     *     description="Returns categories data by id",
+     *     description="Returns categories data",
      *     security={{"bearerAuth":{}}},
      *     @OA\Response(
      *          response=200,

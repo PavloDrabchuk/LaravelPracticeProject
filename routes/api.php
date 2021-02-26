@@ -28,10 +28,13 @@ use Illuminate\Support\Facades\Route;
 /*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });*/
-
+//Route::('*', 'csrf', array('post', 'put', 'delete'));
 Route::post("login", [UserController::class, 'login']);
 
+
 Route::middleware('auth:sanctum')->group(function () {
+    Route::post("logout", [UserController::class, 'logout']);
+
     Route::get('categories', function () {
         return new CategoryCollection(Category::all());
     });
@@ -48,15 +51,15 @@ Route::middleware('auth:sanctum')->group(function () {
         return new ProductResource(Product::findOrFail($id));
     });
 
-    //Route::post('cart/add_product', [CartController::class, 'addProducts']);
-    Route::post('cart/add_product', [CartItemController::class, 'store']);
-
-    //Route::get('carts', [CartController::class, 'index']);
     Route::get('carts', function () {
         return CartResource::collection(Cart::all());
     });
 
     Route::get('cart', [CartController::class, 'show']);
+
+    Route::post('cart/add_item', [CartItemController::class, 'store']);
+
+    Route::delete('cart', [CartController::class, 'destroy']);
 });
 
 

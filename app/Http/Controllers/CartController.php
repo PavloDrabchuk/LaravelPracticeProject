@@ -46,20 +46,10 @@ class CartController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @return Response
+     * @return int
      */
     public function store(Request $request)
     {
@@ -68,9 +58,13 @@ class CartController extends Controller
             $userId = auth('sanctum')->user()->getKey();
         }
 
-        Cart::create([
-            'user_id' => $userId,
-        ]);
+        if ($userId != -1) {
+            Cart::create([
+                'user_id' => $userId,
+            ]);
+            return 1;
+        }
+        return 0;
     }
 
     /**
@@ -105,42 +99,45 @@ class CartController extends Controller
     {
         $userId = auth('sanctum')->user()->getKey();
         $cart = Cart::where('user_id', $userId)->first();
-        return ($cart) ? response( new CartResource($cart), 200) : response(
+        return ($cart) ? response(new CartResource($cart), 200) : response(
             ['message' => ['Cart not yet created.']], 404);
     }
 
     /**
-     * Show the form for editing the specified resource.
      *
-     * @param \App\Models\Cart $cart
-     * @return Response
-     */
-    public function edit(Cart $cart)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * @OA\Delete(
+     *     path="/cart",
+     *     operationId="deleteCart",
+     *     tags={"Cart"},
+     *     summary="Delete user cart",
+     *     security={{"bearerAuth":{}}},
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Cart $cart
-     * @return Response
-     */
-    public function update(Request $request, Cart $cart)
-    {
-        //
-    }
-
-    /**
+     *     @OA\Response(
+     *         response="200",
+     *         description="Deleted",
+     *     ),
+     * )
+     *
      * Remove the specified resource from storage.
      *
-     * @param \App\Models\Cart $cart
-     * @return Response
+     * @return string
      */
-    public function destroy(Cart $cart)
+    public function destroy()
     {
-        //
+        $userId = auth('sanctum')->user()->getKey();
+        $cart = Cart::where('user_id', $userId)->first();
+
+        if ($cart) {
+            $cart->delete();
+
+            Cart::create([
+                'user_id' => $userId,
+            ])->save();
+
+            return response(['message' => ['Cart cleared.']], 200);
+        } else {
+            return response(['message' => ['Cart not found.']], 404);
+        }
     }
 
 

@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
+use App\Models\Admin;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -20,7 +20,7 @@ class AuthenticationTest extends TestCase
 
     public function test_users_can_authenticate_using_the_login_screen()
     {
-        $user = User::factory()->create();
+        $user = Admin::factory()->create();
 
         $response = $this->post('/login', [
             'email' => $user->email,
@@ -33,13 +33,23 @@ class AuthenticationTest extends TestCase
 
     public function test_users_can_not_authenticate_with_invalid_password()
     {
-        $user = User::factory()->create();
+        $user = Admin::factory()->create();
 
         $this->post('/login', [
             'email' => $user->email,
             'password' => 'wrong-password',
         ]);
 
+        $this->assertGuest();
+    }
+
+    public function test_users_can_logout()
+    {
+        $response = $this->actingAs(
+            Admin::all()->first() ?: Admin::factory()->create()
+        )->get("/logout");
+
+        $response->assertRedirect('/');
         $this->assertGuest();
     }
 }

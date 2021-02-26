@@ -104,7 +104,7 @@ class CurrencyController extends Controller
 
         $request->validate([
             'code' => [
-                'required', 'string', 'max:3', 'unique:currencies',
+                'required', 'string', 'max:3',
                 Rule::in($currencyCodes)],
             'sign' => 'required|string|max:1',
         ]);

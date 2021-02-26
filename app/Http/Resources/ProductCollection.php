@@ -7,6 +7,8 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class ProductCollection extends ResourceCollection
 {
+    public static $wrap = 'products';
+
     /**
      *
      * @OA\Get(
@@ -14,7 +16,7 @@ class ProductCollection extends ResourceCollection
      *     operationId="allProducts",
      *     tags={"Product"},
      *     summary="Get products information",
-     *     description="Returns products data by id",
+     *     description="Returns products data",
      *     security={{"bearerAuth":{}}},
      *     @OA\Response(
      *          response=200,

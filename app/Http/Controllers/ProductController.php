@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Color;
-use App\Models\Price;
 use App\Models\Product;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
@@ -74,8 +73,7 @@ class ProductController extends Controller
             'color_id' => $color->id,
         ]);
 
-
-        (new PriceController)->convert($request->input('price'),$product,'create');
+        (new PriceController)->convert($request->input('price'), $product, 'create');
 
         return redirect()->route('products.index')
             ->with('ok', 'Product successfully added');
@@ -141,7 +139,7 @@ class ProductController extends Controller
             'article' => $request->input('article'),
         ]);
 
-        (new PriceController)->convert($request->input('price'),$product,'update');
+        (new PriceController)->convert($request->input('price'), $product, 'update');
 
         return redirect()->route('products.index')
             ->with('ok', 'Product successfully updated');

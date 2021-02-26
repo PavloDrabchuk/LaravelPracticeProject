@@ -125,11 +125,63 @@ class UserController extends Controller
             ->with('ok', 'User successfully deleted.');
     }
 
+    /**
+     *
+     * @OA\Post(
+     *      path="/login",
+     *      operationId="login",
+     *      tags={"Authorization"},
+     *      summary="Login to use API",
+     *      description="Authentication",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          description="Pass user credentials",
+     *          @OA\JsonContent(
+     *          type="object",
+     *          required={"phone","password"},
+     *          @OA\Property(property="phone", type="string" , example="380123456789"),
+     *          @OA\Property(property="password", type="string", format="password", example="password")
+     *    ),
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *     @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
+     *
+     * @param Request $request
+     * @return Application|ResponseFactory|Response
+     */
     function login(Request $request)
     {
+       /* $request->validate([
+            'phone' => 'required',
+            'password' => 'required'
+        ]);*/
+        /*if(empty($request)){
+
+            return response([
+                'message' => ['The given data was invalid.']
+            ], 404);
+        }*/
+
+
         $user = User::where('phone', $request->input('phone'))->first();
 
-        if (!$user || !Hash::check($request->input('password'), $user->password)) {
+        if (empty($request) || !$user || !Hash::check($request->input('password'), $user->password)) {
             return response([
                 'message' => ['These credentials do not match our records.']
             ], 404);
@@ -151,6 +203,47 @@ class UserController extends Controller
         }
 
         return response($response, 201);
+    }
+
+    /**
+     *
+     * @OA\Post(
+     *      path="/logout",
+     *      operationId="logout",
+     *      tags={"Authorization"},
+     *      summary="Logout",
+     *      description="User logout",
+     *      security={{"bearerAuth":{}}},
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *     @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
+     *
+     * @return Application|ResponseFactory|Response
+     */
+    function logout()
+    {
+        $user = request()->user();
+
+        $user->tokens()->where('id', $user->currentAccessToken()->id)->delete();
+
+        return response([
+            'message' => ['Logout was successful.']
+        ], 200);
     }
 
 }
