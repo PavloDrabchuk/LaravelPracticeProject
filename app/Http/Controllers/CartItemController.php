@@ -173,9 +173,9 @@ class CartItemController extends Controller
 
         if (count(CartItem::whereCartId($cart->id)->whereId($id)->get())) {
             CartItem::whereId($id)->delete();
-            return response(["Deleted."], 200);
+            return response(["message" => "Deleted."], 200);
         } else {
-            return response(["Cart item not found."], 400);
+            return response(["message" => "Cart item not found."], 400);
         }
     }
 }
