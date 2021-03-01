@@ -40,7 +40,7 @@ class UpdateCategoryJob implements ShouldQueue
         $this->updateCategory();
     }
 
-    public function updateCategory()
+    private function updateCategory()
     {
         $this->category->update([
             'name' => [

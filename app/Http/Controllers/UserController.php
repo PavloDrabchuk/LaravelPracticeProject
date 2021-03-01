@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Jobs\StoreUserJob;
+use App\Jobs\UpdateUserJob;
 use App\Models\Cart;
 use App\Models\User;
 use Exception;
@@ -50,11 +52,7 @@ class UserController extends Controller
         $request->validated();
 
         //  User::create($request->all());
-        User::create([
-            'name' => $request->input('name'),
-            'phone' => $request->input('phone'),
-            'password' => Hash::make($request->input('password')),
-        ]);
+        StoreUserJob::dispatchSync($request->all());
 
         return redirect()
             ->route('users.index')
@@ -94,15 +92,11 @@ class UserController extends Controller
     {
         $request->validated();
 
-        $user->update([
-            'name' => $request->input('name'),
-            'phone' => $request->input('phone'),
-            'password' => Hash::make($request->input('password')),
-        ]);
+        UpdateUserJob::dispatchSync($request->all(), $user);
+
         return redirect()
             ->route('users.index')
             ->with('ok', 'User successfully updated.');
-
     }
 
     /**

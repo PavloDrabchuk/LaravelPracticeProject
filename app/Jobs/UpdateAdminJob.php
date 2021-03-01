@@ -2,29 +2,31 @@
 
 namespace App\Jobs;
 
-use App\Http\Requests\StoreAndUpdateCategoryRequest;
-use App\Models\Category;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Hash;
 
-class StoreCategoryJob implements ShouldQueue
+class UpdateAdminJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $request;
+    protected $admin;
 
     /**
      * Create a new job instance.
      *
-     * @param StoreAndUpdateCategoryRequest $request
+     * @param $request
+     * @param $admin
      */
-    public function __construct($request)
+    public function __construct($request, $admin)
     {
         $this->request = $request;
+        $this->admin = $admin;
     }
 
     /**
@@ -34,17 +36,14 @@ class StoreCategoryJob implements ShouldQueue
      */
     public function handle()
     {
-        $this->saveCategory();
+        $this->updateAdmin();
     }
 
-    private function saveCategory()
+    private function updateAdmin()
     {
-        Category::create([
-            'name' => [
-                'ua' => $this->request['nameUA'],
-                'en' => $this->request['nameEN'],
-                'ru' => $this->request['nameRU'],
-            ],
+        $this->admin->update([
+            'name' => $this->request['name'],
+            'password' => Hash::make($this->request['password']),
         ]);
     }
 }

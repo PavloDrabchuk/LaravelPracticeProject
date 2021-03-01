@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateAdminRequest;
+use App\Jobs\UpdateAdminJob;
 use App\Models\Admin;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -47,10 +48,7 @@ class AdminController extends Controller
     {
         $request->validated();
 
-        $admin->update([
-            'name' => $request->input('name'),
-            'password' => Hash::make($request->input('password')),
-        ]);
+        UpdateAdminJob::dispatchSync($request->all(), $admin);
 
         return redirect()
             ->route('account')

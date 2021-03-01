@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\CartResource;
+use App\Jobs\BuyToursJob;
 use App\Jobs\CartJob;
 use App\Mail\ToursBoughtMail;
 use App\Models\Admin;
@@ -126,6 +127,7 @@ class CartController extends Controller
      * Remove the specified resource from storage.
      *
      * @return string
+     * @throws \Exception
      */
     public function destroy()
     {
@@ -133,11 +135,7 @@ class CartController extends Controller
         $cart = Cart::where('user_id', $userId)->first();
 
         if ($cart) {
-            $cart->delete();
-
-            Cart::create([
-                'user_id' => $userId,
-            ])->save();
+            CartItem::whereCartId($cart->id)->delete();
 
             return response(['message' => ['Cart cleared.']], 200);
         } else {
@@ -182,7 +180,7 @@ class CartController extends Controller
             }
         }
 
-        if ($checkQuantity && CartItem::whereCartId($cart->id)->count() > 0) {
+        if ($checkQuantity && CartItem::whereCartId($cart->id)->first()) {
             foreach ($cart->cartItems as $cartItem) {
                 $quantity = Product::whereId($cartItem->product_id)->first()->quantity;
 
@@ -196,9 +194,10 @@ class CartController extends Controller
             ], 400);
         }
 
+//        BuyToursJob::dispatchSync($cart);
+
         CartJob::dispatch($cart)
             ->onQueue('emails');
-
 
         return response(["message" => "Tours purchased successfully."], 200);
     }
