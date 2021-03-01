@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreAndUpdateProductRequest;
+use App\Jobs\StoreProductJob;
+use App\Jobs\UpdateProductJob;
 use App\Models\Category;
 use App\Models\Color;
 use App\Models\Product;
@@ -48,24 +50,7 @@ class ProductController extends Controller
     {
         $request->validated();
 
-        $color = Color::create([
-            'name' => $request->input('color'),
-        ]);
-
-        $product = Product::create([
-
-            'name' => [
-                'ua' => $request->input('nameUA'),
-                'en' => $request->input('nameEN'),
-                'ru' => $request->input('nameRU'),
-            ],
-            'category_id' => $request->get('category'),
-            'quantity' => $request->input('quantity'),
-            'article' => $request->input('article'),
-            'color_id' => $color->id,
-        ]);
-
-        (new PriceController)->convert($request->input('price'), $product, 'create');
+        StoreProductJob::dispatchSync($request->all());
 
         return redirect()
             ->route('products.index')
@@ -109,22 +94,7 @@ class ProductController extends Controller
     {
         $request->validated();
 
-        $product->color()->update([
-            'name' => $request->input('color'),
-        ]);
-
-        $product->update([
-            'name' => [
-                'ua' => $request->input('nameUA'),
-                'en' => $request->input('nameEN'),
-                'ru' => $request->input('nameRU'),
-            ],
-            'category_id' => $request->get('category'),
-            'quantity' => $request->input('quantity'),
-            'article' => $request->input('article'),
-        ]);
-
-        (new PriceController)->convert($request->input('price'), $product, 'update');
+        UpdateProductJob::dispatchSync($request->all(), $product);
 
         return redirect()
             ->route('products.index')
