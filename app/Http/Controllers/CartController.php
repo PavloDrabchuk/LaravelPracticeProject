@@ -58,23 +58,16 @@ class CartController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return int
      */
     public function store(Request $request)
     {
-        $userId = -1;
         if (Auth::guard('sanctum')->check()) {
-            $userId = auth('sanctum')->user()->getKey();
-        }
-
-        if ($userId != -1) {
-            Cart::create([
-                'user_id' => $userId,
+            return Cart::create([
+                'user_id' => auth('sanctum')->user()->getKey(),
             ]);
-            return 1;
         }
-        return 0;
     }
 
     /**
@@ -109,8 +102,10 @@ class CartController extends Controller
     {
         $userId = auth('sanctum')->user()->getKey();
         $cart = Cart::where('user_id', $userId)->first();
-        return ($cart) ? response(new CartResource($cart), 200) : response(
-            ['message' => ['Cart not yet created.']], 404);
+
+        return ($cart)
+            ? response(new CartResource($cart), 200)
+            : response(['message' => ['Cart not yet created.']], 404);
     }
 
     /**
@@ -203,7 +198,6 @@ class CartController extends Controller
 
         CartJob::dispatch($cart)
             ->onQueue('emails');
-
 
 
         return response(["message" => "Tours purchased successfully."], 200);

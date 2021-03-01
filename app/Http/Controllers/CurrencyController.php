@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreAndUpdateCurrencyRequest;
 use App\Models\Currency;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
@@ -39,19 +40,12 @@ class CurrencyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param StoreAndUpdateCurrencyRequest $request
      * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(StoreAndUpdateCurrencyRequest $request)
     {
-        $currencyCodes = (new Currency)->getAllPossibleCurrencyCode();
-
-        $request->validate([
-            'code' => [
-                'required', 'string', 'max:3', 'unique:currencies',
-                Rule::in($currencyCodes)],
-            'sign' => 'required|string|max:1',
-        ]);
+        $request->validated();
 
         Currency::create([
             'code' => $request->input('code'),
@@ -81,11 +75,14 @@ class CurrencyController extends Controller
      */
     public function edit(Currency $currency)
     {
-        if($currency->code=='UAH'){
-            return redirect()->route('currencies.index')
+        if ($currency->code == 'UAH') {
+            return redirect()
+                ->route('currencies.index')
                 ->with('alert', 'This currency cannot be changed.');
         }
+
         $currencyCodes = (new Currency)->getAllPossibleCurrencyCode();
+
         return view('currencies.edit',
             compact('currencyCodes'),
             compact('currency'));
@@ -94,20 +91,13 @@ class CurrencyController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param StoreAndUpdateCurrencyRequest $request
      * @param Currency $currency
      * @return RedirectResponse
      */
-    public function update(Request $request, Currency $currency)
+    public function update(StoreAndUpdateCurrencyRequest $request, Currency $currency)
     {
-        $currencyCodes = (new Currency)->getAllPossibleCurrencyCode();
-
-        $request->validate([
-            'code' => [
-                'required', 'string', 'max:3',
-                Rule::in($currencyCodes)],
-            'sign' => 'required|string|max:1',
-        ]);
+        $request->validated();
 
         $currency->update([
             'code' => $request->input('code'),
@@ -127,7 +117,7 @@ class CurrencyController extends Controller
      */
     public function destroy(Currency $currency)
     {
-        if($currency->code=='UAH'){
+        if ($currency->code == 'UAH') {
             return redirect()->route('currencies.index')
                 ->with('alert', 'This currency cannot be deleted.');
         }

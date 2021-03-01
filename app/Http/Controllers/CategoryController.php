@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreAndUpdateCategoryRequest;
 use App\Models\Category;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
@@ -40,13 +41,9 @@ class CategoryController extends Controller
      * @param Request $request
      * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(StoreAndUpdateCategoryRequest $request)
     {
-        $request->validate([
-            'nameUA' => 'required|string|max:60',
-            'nameEN' => 'required|string|max:60',
-            'nameRU' => 'required|string|max:60',
-        ]);
+        $request->validated();
 
         Category::create([
             'name' => [
@@ -89,13 +86,9 @@ class CategoryController extends Controller
      * @param Category $category
      * @return RedirectResponse
      */
-    public function update(Request $request, Category $category)
+    public function update(StoreAndUpdateCategoryRequest $request, Category $category)
     {
-        $request->validate([
-            'nameUA' => 'required|string|max:60',
-            'nameEN' => 'required|string|max:60',
-            'nameRU' => 'required|string|max:60',
-        ]);
+        $request->validated();
 
         $category->update([
             'name' => [

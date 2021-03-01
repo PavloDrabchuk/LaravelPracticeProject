@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateAdminRequest;
 use App\Models\Admin;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -38,22 +39,21 @@ class AdminController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param UpdateAdminRequest $request
      * @param Admin $admin
      * @return RedirectResponse
      */
-    public function update(Request $request, Admin $admin)
+    public function update(UpdateAdminRequest $request, Admin $admin)
     {
-        $request->validate([
-            'name' => 'required|string|max:40',
-            'password' => 'required|string|confirmed|min:8'
-        ]);
+        $request->validated();
 
         $admin->update([
-            'name' => $request->name,
-            'password' => Hash::make($request->password),
+            'name' => $request->input('name'),
+            'password' => Hash::make($request->input('password')),
         ]);
-        return redirect()->route('account')
+
+        return redirect()
+            ->route('account')
             ->with('ok', 'Account successfully updated.');
     }
 }

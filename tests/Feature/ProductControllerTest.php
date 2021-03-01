@@ -3,11 +3,9 @@
 namespace Tests\Feature;
 
 use App\Models\Admin;
-use App\Models\Color;
 use App\Models\Product;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
 
 class ProductControllerTest extends TestCase

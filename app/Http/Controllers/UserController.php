@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\Cart;
 use App\Models\User;
 use Exception;
@@ -40,17 +42,12 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param StoreUserRequest $request
      * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:40',
-            'phone' => 'required|unique:users',
-            'password' => 'required|string|min:8',
-            'password_confirmation' => 'required|min:8|same:password',
-        ]);
+        $request->validated();
 
         //  User::create($request->all());
         User::create([
@@ -59,7 +56,8 @@ class UserController extends Controller
             'password' => Hash::make($request->input('password')),
         ]);
 
-        return redirect()->route('users.index')
+        return redirect()
+            ->route('users.index')
             ->with('ok', 'User successfully added.');
     }
 
@@ -88,24 +86,21 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param UpdateUserRequest $request
      * @param User $user
      * @return RedirectResponse
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        $request->validate([
-            'name' => 'required|string|max:40',
-            'phone' => 'required',
-            'password' => 'required|string|confirmed|min:8'
-        ]);
+        $request->validated();
 
         $user->update([
             'name' => $request->input('name'),
             'phone' => $request->input('phone'),
             'password' => Hash::make($request->input('password')),
         ]);
-        return redirect()->route('users.index')
+        return redirect()
+            ->route('users.index')
             ->with('ok', 'User successfully updated.');
 
     }
@@ -121,7 +116,8 @@ class UserController extends Controller
     {
         $user->delete();
 
-        return redirect()->route('users.index')
+        return redirect()
+            ->route('users.index')
             ->with('ok', 'User successfully deleted.');
     }
 
@@ -167,18 +163,6 @@ class UserController extends Controller
      */
     function login(Request $request)
     {
-       /* $request->validate([
-            'phone' => 'required',
-            'password' => 'required'
-        ]);*/
-        /*if(empty($request)){
-
-            return response([
-                'message' => ['The given data was invalid.']
-            ], 404);
-        }*/
-
-
         $user = User::where('phone', $request->input('phone'))->first();
 
         if (empty($request) || !$user || !Hash::check($request->input('password'), $user->password)) {

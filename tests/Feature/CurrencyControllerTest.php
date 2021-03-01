@@ -6,7 +6,6 @@ use App\Models\Admin;
 use App\Models\Currency;
 use Database\Seeders\CurrencySeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class CurrencyControllerTest extends TestCase
