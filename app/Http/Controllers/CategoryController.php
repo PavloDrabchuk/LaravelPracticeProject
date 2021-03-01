@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreAndUpdateCategoryRequest;
+use App\Jobs\StoreCategoryJob;
+use App\Jobs\UpdateCategoryJob;
 use App\Models\Category;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
@@ -38,22 +40,17 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param StoreAndUpdateCategoryRequest $request
      * @return RedirectResponse
      */
     public function store(StoreAndUpdateCategoryRequest $request)
     {
         $request->validated();
 
-        Category::create([
-            'name' => [
-                'ua' => $request->input('nameUA'),
-                'en' => $request->input('nameEN'),
-                'ru' => $request->input('nameRU'),
-            ],
-        ]);
+        StoreCategoryJob::dispatchSync($request->all());
 
-        return redirect()->route('categories.index')
+        return redirect()
+            ->route('categories.index')
             ->with('ok', 'Category successfully added.');
     }
 
@@ -82,7 +79,7 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param StoreAndUpdateCategoryRequest $request
      * @param Category $category
      * @return RedirectResponse
      */
@@ -90,15 +87,10 @@ class CategoryController extends Controller
     {
         $request->validated();
 
-        $category->update([
-            'name' => [
-                'ua' => $request->input('nameUA'),
-                'en' => $request->input('nameEN'),
-                'ru' => $request->input('nameRU'),
-            ],
-        ]);
+        UpdateCategoryJob::dispatchSync($request->all(), $category);
 
-        return redirect()->route('categories.index')
+        return redirect()
+            ->route('categories.index')
             ->with('ok', 'Category successfully updated.');
 
     }
@@ -114,7 +106,8 @@ class CategoryController extends Controller
     {
         $category->delete();
 
-        return redirect()->route('categories.index')
+        return redirect()
+            ->route('categories.index')
             ->with('ok', 'The category and all related products have been removed successfully.');
     }
 }
