@@ -6,7 +6,7 @@ use App\Models\Currency;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class StoreAndUpdateCurrencyRequest extends FormRequest
+class StoreCurrencyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

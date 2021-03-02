@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreAndUpdateCurrencyRequest;
+use App\Http\Requests\StoreCurrencyRequest;
+use App\Http\Requests\UpdateCurrencyRequest;
+use App\Jobs\StoreCurrencyJob;
+use App\Jobs\UpdateCurrencyJob;
 use App\Models\Currency;
+use Composer\Command\UpdateCommand;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -40,17 +44,14 @@ class CurrencyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param StoreAndUpdateCurrencyRequest $request
+     * @param StoreCurrencyRequest $request
      * @return RedirectResponse
      */
-    public function store(StoreAndUpdateCurrencyRequest $request)
+    public function store(StoreCurrencyRequest $request)
     {
         $request->validated();
 
-        Currency::create([
-            'code' => $request->input('code'),
-            'sign' => $request->input('sign'),
-        ]);
+        StoreCurrencyJob::dispatchSync($request->all());
 
         return redirect()->route('currencies.index')
             ->with('ok', 'Currency successfully added.');
@@ -91,18 +92,15 @@ class CurrencyController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param StoreAndUpdateCurrencyRequest $request
+     * @param UpdateCurrencyRequest $request
      * @param Currency $currency
      * @return RedirectResponse
      */
-    public function update(StoreAndUpdateCurrencyRequest $request, Currency $currency)
+    public function update(UpdateCurrencyRequest $request, Currency $currency)
     {
         $request->validated();
 
-        $currency->update([
-            'code' => $request->input('code'),
-            'sign' => $request->input('sign'),
-        ]);
+        UpdateCurrencyJob::dispatchSync($request->all(), $currency);
 
         return redirect()->route('currencies.index')
             ->with('ok', 'Currency successfully updated.');

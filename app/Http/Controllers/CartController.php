@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\CartResource;
 use App\Jobs\BuyToursJob;
 use App\Jobs\CartJob;
+use App\Jobs\UpdateProductQuantityJob;
 use App\Mail\ToursBoughtMail;
 use App\Models\Admin;
 use App\Models\Cart;
@@ -172,7 +173,23 @@ class CartController extends Controller
         $userId = auth('sanctum')->user()->getKey();
         $cart = Cart::where('user_id', $userId)->first();
 
+        if ($this->checkQuantity($cart) && CartItem::whereCartId($cart->id)->first()) {
+
+            UpdateProductQuantityJob::dispatchSync($cart);
+
+            CartJob::dispatch($cart)
+                ->onQueue('emails');
+
+            return response(["message" => "Tours purchased successfully."], 200);
+        } else {
+            return response(["message" => "These tours are over."], 400);
+        }
+    }
+
+    private function checkQuantity($cart)
+    {
         $checkQuantity = true;
+
         foreach ($cart->cartItems as $cartItem) {
             if ((Product::whereId($cartItem->product_id)->first()->quantity - $cartItem->quantity) < 0) {
                 $checkQuantity = false;
@@ -180,27 +197,6 @@ class CartController extends Controller
             }
         }
 
-        if ($checkQuantity && CartItem::whereCartId($cart->id)->first()) {
-            foreach ($cart->cartItems as $cartItem) {
-                $quantity = Product::whereId($cartItem->product_id)->first()->quantity;
-
-                Product::whereId($cartItem->product_id)->update([
-                    'quantity' => $quantity - $cartItem->quantity,
-                ]);
-            }
-        } else {
-            return response([
-                "message" => "These tours are over."
-            ], 400);
-        }
-
-//        BuyToursJob::dispatchSync($cart);
-
-        CartJob::dispatch($cart)
-            ->onQueue('emails');
-
-        return response(["message" => "Tours purchased successfully."], 200);
+        return $checkQuantity;
     }
-
-
 }

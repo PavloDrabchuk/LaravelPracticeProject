@@ -35,21 +35,26 @@ class CartJob implements ShouldQueue
      * Execute the job.
      *
      * @return void
+     * @throws \Exception
      */
     public function handle()
     {
+        $emails = $this->getAdminEmailList();
+
+        Mail::to($emails)->send(new ToursBoughtMail($this->cart));
+
+        CartItem::whereCartId($this->cart->id)->delete();
+    }
+
+    private function getAdminEmailList()
+    {
         $emails_json = json_decode(Admin::select('email')->get(), true);
         $emails = [];
+
         foreach ($emails_json as $key => $value) {
             $emails[] = $value['email'];
         }
 
-        Mail::to($emails)->send(new ToursBoughtMail($this->cart));
-
-        try {
-            CartItem::whereCartId($this->cart->id)->delete();
-        } catch (\Exception $e) {
-        }
-
+        return $emails;
     }
 }
