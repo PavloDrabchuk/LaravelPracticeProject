@@ -96,8 +96,7 @@ class CartController extends Controller
      */
     public function show(Cart $cart)
     {
-        $userId = auth('sanctum')->user()->getKey();
-        $cart = Cart::where('user_id', $userId)->first();
+        $cart = $this->getCart();
 
         return ($cart)
             ? response(new CartResource($cart), 200)
@@ -126,8 +125,7 @@ class CartController extends Controller
      */
     public function destroy()
     {
-        $userId = auth('sanctum')->user()->getKey();
-        $cart = Cart::where('user_id', $userId)->first();
+        $cart = $this->getCart();
 
         if ($cart) {
             CartItem::whereCartId($cart->id)->delete();
@@ -164,8 +162,7 @@ class CartController extends Controller
      */
     public function buyTours()
     {
-        $userId = auth('sanctum')->user()->getKey();
-        $cart = Cart::where('user_id', $userId)->first();
+        $cart = $this->getCart();
 
         if ($this->checkQuantity($cart) && CartItem::whereCartId($cart->id)->first()) {
 
@@ -192,5 +189,11 @@ class CartController extends Controller
         }
 
         return $checkQuantity;
+    }
+
+    private function getCart()
+    {
+        $userId = auth('sanctum')->user()->getKey();
+        return Cart::where('user_id', $userId)->first();
     }
 }

@@ -67,18 +67,12 @@ class CartItemController extends Controller
      */
     public function store(Request $request)
     {
-        $userId = -1;
         if (Auth::guard('sanctum')->check()) {
             $userId = auth('sanctum')->user()->getKey();
-        }
 
-        $cart = Cart::where('user_id', $userId)->first();
-
-        if (!$cart) {
-            Cart::create([
+            $cart = Cart::where('user_id', $userId)->firstOrCreate([
                 'user_id' => $userId,
-            ])->save();
-            $cart = Cart::where('user_id', $userId)->first();
+            ]);
         }
 
         $productIdValidate = Validator::make($request->json()->all(), [

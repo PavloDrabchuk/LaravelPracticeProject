@@ -172,13 +172,9 @@ class UserController extends Controller
             'token' => $token
         ];
 
-        $cart = Cart::where('user_id', $user->id)->first();
-
-        if (!$cart) {
-            Cart::create([
-                'user_id' => $user->id,
-            ])->save();
-        }
+        Cart::where('user_id', $user->id)->firstOrCreate([
+            'user_id' => $user->id,
+        ]);
 
         return response($response, 201);
     }
