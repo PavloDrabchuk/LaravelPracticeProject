@@ -6,8 +6,6 @@ use App\Http\Resources\CartResource;
 use App\Jobs\BuyToursJob;
 use App\Jobs\CartJob;
 use App\Jobs\UpdateProductQuantityJob;
-use App\Mail\ToursBoughtMail;
-use App\Models\Admin;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Product;
@@ -17,10 +15,6 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Redis;
-use Illuminate\Support\Facades\Validator;
 
 
 class CartController extends Controller

@@ -6,14 +6,12 @@ use App\Http\Requests\StoreAndUpdateProductRequest;
 use App\Jobs\StoreProductJob;
 use App\Jobs\UpdateProductJob;
 use App\Models\Category;
-use App\Models\Color;
 use App\Models\Product;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class ProductController extends Controller

@@ -24,14 +24,14 @@ class StoreAndUpdateProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'nameUA' => 'required|string|max:60',
-            'nameEN' => 'required|string|max:60',
-            'nameRU' => 'required|string|max:60',
-            'category' => 'required',
-            'quantity' => 'required|min:0|numeric',
-            'article' => 'required',
-            'color' => 'required|string|max:150',
-            'price' => 'required|numeric|min:0',
+            'nameUA' => ['required', 'string', 'max:60'],
+            'nameEN' => ['required', 'string', 'max:60'],
+            'nameRU' => ['required', 'string', 'max:60'],
+            'category' => ['required'],
+            'quantity' => ['required', 'min:0', 'numeric'],
+            'article' => ['required'],
+            'color' => ['required', 'string', 'max:150'],
+            'price' => ['required', 'numeric', 'min:0'],
         ];
     }
 }

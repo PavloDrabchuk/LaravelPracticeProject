@@ -31,7 +31,7 @@ class StoreCurrencyRequest extends FormRequest
             'code' => [
                 'required', 'string', 'max:3', 'unique:currencies',
                 Rule::in($currencyCodes)],
-            'sign' => 'required|string|max:1',
+            'sign' => ['required', 'string', 'max:1'],
         ];
     }
 }

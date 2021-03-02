@@ -31,7 +31,7 @@ class UpdateCurrencyRequest extends FormRequest
             'code' => [
                 'required', 'string', 'max:3',
                 Rule::in($currencyCodes)],
-            'sign' => 'required|string|max:1',
+            'sign' => ['required', 'string', 'max:1'],
         ];
     }
 }

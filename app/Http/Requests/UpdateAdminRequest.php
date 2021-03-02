@@ -24,8 +24,8 @@ class UpdateAdminRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:40',
-            'password' => 'required|string|confirmed|min:8'
+            'name' => ['required', 'string', 'max:40'],
+            'password' => ['required', 'string', 'confirmed', 'min:8'],
         ];
     }
 }

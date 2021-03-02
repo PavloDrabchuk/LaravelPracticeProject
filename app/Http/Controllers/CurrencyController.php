@@ -7,15 +7,12 @@ use App\Http\Requests\UpdateCurrencyRequest;
 use App\Jobs\StoreCurrencyJob;
 use App\Jobs\UpdateCurrencyJob;
 use App\Models\Currency;
-use Composer\Command\UpdateCommand;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Validation\Rule;
 
 class CurrencyController extends Controller
 {

@@ -24,10 +24,10 @@ class StoreUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:40',
-            'phone' => 'required|unique:users',
-            'password' => 'required|string|min:8',
-            'password_confirmation' => 'required|min:8|same:password',
+            'name' => ['required', 'string', 'max:40'],
+            'phone' => ['required', 'unique:users'],
+            'password' => ['required', 'string', 'min:8'],
+            'password_confirmation' => ['required', 'min:8', 'same:password'],
         ];
     }
 }

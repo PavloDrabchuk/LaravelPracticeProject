@@ -2,26 +2,29 @@
 
 namespace App\Jobs;
 
-use App\Models\Product;
+use App\Models\CartItem;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class UpdateProductQuantityJob implements ShouldQueue
+class StoreCartItemJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    protected $request;
     protected $cart;
 
     /**
      * Create a new job instance.
      *
-     * @return void
+     * @param $request
+     * @param $cart
      */
-    public function __construct($cart)
+    public function __construct($request, $cart)
     {
+        $this->request = $request;
         $this->cart = $cart;
     }
 
@@ -32,17 +35,15 @@ class UpdateProductQuantityJob implements ShouldQueue
      */
     public function handle()
     {
-        $this->updateProductQuantity();
+        $this->saveCartItem();
     }
 
-    private function updateProductQuantity()
+    private function saveCartItem()
     {
-        foreach ($this->cart->cartItems as $cartItem) {
-            $quantity = Product::whereId($cartItem->product_id)->first()->quantity;
-
-            Product::whereId($cartItem->product_id)->update([
-                'quantity' => $quantity - $cartItem->quantity,
-            ]);
-        }
+        CartItem::create([
+            'cart_id' => $this->cart->id,
+            'product_id' => $this->request['product_id'],
+            'quantity' => $this->request['quantity'],
+        ]);
     }
 }

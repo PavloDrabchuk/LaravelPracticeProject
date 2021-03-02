@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\StoreCartItemJob;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Product;
+use App\Rules\NotExistInCartRule;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use function PHPUnit\Framework\isEmpty;
 
 class CartItemController extends Controller
 {
@@ -88,12 +87,12 @@ class CartItemController extends Controller
                     ->get()
                     ->toArray(), 'product_id')),
             ],
-//            'quantity' => ['required','numeric','min:1'],
         ]);
 
         if ($productIdValidate->fails()) return response($productIdValidate->errors(), 400);
 
         $maxQuantity = Product::where('id', $request->input('product_id'))->first()->quantity;
+
         $quantityValidate = Validator::make($request->json()->all(), [
             'quantity' => ['required', 'numeric', 'min:1',
                 "max:$maxQuantity"],
@@ -101,11 +100,7 @@ class CartItemController extends Controller
 
         if ($quantityValidate->fails()) return response($quantityValidate->errors(), 400);
 
-        CartItem::create([
-            'cart_id' => $cart->id,
-            'product_id' => $request->input('product_id'),
-            'quantity' => $request->input('quantity'),
-        ]);
+        StoreCartItemJob::dispatchSync($request->all(), $cart);
 
         return response(["message" => "Product added to cart."], 200);
     }
@@ -173,6 +168,7 @@ class CartItemController extends Controller
 
         if (count(CartItem::whereCartId($cart->id)->whereId($id)->get())) {
             CartItem::whereId($id)->delete();
+
             return response(["message" => "Deleted."], 200);
         } else {
             return response(["message" => "Cart item not found."], 400);

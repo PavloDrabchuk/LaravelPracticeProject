@@ -24,9 +24,9 @@ class StoreAndUpdateCategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'nameUA' => 'required|string|max:60',
-            'nameEN' => 'required|string|max:60',
-            'nameRU' => 'required|string|max:60',
+            'nameUA' => ['required', 'string', 'max:60'],
+            'nameEN' => ['required', 'string', 'max:60'],
+            'nameRU' => ['required', 'string', 'max:60'],
         ];
     }
 }
