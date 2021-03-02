@@ -3,11 +3,9 @@
 namespace Tests\Feature;
 
 use App\Models\Admin;
-use App\Models\Color;
 use App\Models\Product;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
 
 class ProductControllerTest extends TestCase
@@ -24,7 +22,7 @@ class ProductControllerTest extends TestCase
     public function test_admin_can_read_information_about_products_with_view()
     {
         $response = $this->actingAs(
-            Admin::all()->first() ?: Admin::factory()->create()
+            Admin::first() ?: Admin::factory()->create()
         )->get('/products');
 
         $response->assertViewIs('products.index');
@@ -35,11 +33,11 @@ class ProductControllerTest extends TestCase
     public function test_admin_can_read_information_about_product_by_id_with_view()
     {
         $this->seed();
-        $product = Product::all()->first();
+        $product = Product::first();
 
         $response = $this->actingAs(
-            Admin::all()->first() ?: Admin::factory()->create()
-        )->get("/products/$product->id");
+            Admin::first() ?: Admin::factory()->create()
+        )->get("/products/{$product->id}");
 
         $response->assertViewIs('products.show');
         $response->assertViewHas('product');
@@ -49,11 +47,11 @@ class ProductControllerTest extends TestCase
     public function test_admin_can_edit_information_about_product_by_id_with_view()
     {
         $this->seed();
-        $product = Product::all()->first();
+        $product = Product::first();
 
         $response = $this->actingAs(
-            Admin::all()->first() ?: Admin::factory()->create()
-        )->get("/products/$product->id/edit");
+            Admin::first() ?: Admin::factory()->create()
+        )->get("/products/{$product->id}/edit");
 
         $response->assertViewIs('products.edit');
         $response->assertViewHas('product');
@@ -63,7 +61,7 @@ class ProductControllerTest extends TestCase
     public function test_authenticated_admin_can_create_a_new_product_with_view()
     {
         $response = $this->actingAs(
-            Admin::all()->first() ?: Admin::factory()->create()
+            Admin::first() ?: Admin::factory()->create()
         )->get("/products/create");
 
         $response->assertViewIs('products.create');
@@ -72,11 +70,11 @@ class ProductControllerTest extends TestCase
 
     public function test_authenticated_admin_can_create_a_new_product()
     {
-        $this->actingAs(
-            Admin::all()->first() ?: Admin::factory()->create()
-        );
-
         $this->seed();
+
+        $this->actingAs(
+            Admin::first() ?: Admin::factory()->create()
+        );
 
         $response = $this->post('/products', [
             'nameUA' => 'ua-name',
@@ -96,13 +94,13 @@ class ProductControllerTest extends TestCase
     public function test_authenticated_admin_can_update_product()
     {
         $this->actingAs(
-            Admin::all()->first() ?: Admin::factory()->create()
+            Admin::first() ?: Admin::factory()->create()
         );
 
         $this->seed();
-        $product = Product::all()->first();
+        $product = Product::first();
 
-        $response = $this->put("/products/$product->id", [
+        $response = $this->put("/products/{$product->id}", [
             'nameUA' => 'ua-name',
             'nameEN' => 'en-name',
             'nameRU' => 'ru-name',
@@ -121,11 +119,11 @@ class ProductControllerTest extends TestCase
     public function test_admin_can_delete_product_by_id()
     {
         $this->seed();
-        $product = Product::all()->first();
+        $product = Product::first();
 
         $response = $this->actingAs(
-            Admin::all()->first() ?: Admin::factory()->create()
-        )->delete("/products/$product->id");
+            Admin::first() ?: Admin::factory()->create()
+        )->delete("/products/{$product->id}");
 
         $this->assertNull(Product::where('id', $product->id)->first());
 

@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreAndUpdateProductRequest;
+use App\Jobs\StoreProductJob;
+use App\Jobs\UpdateProductJob;
 use App\Models\Category;
-use App\Models\Color;
 use App\Models\Product;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class ProductController extends Controller
@@ -40,42 +41,17 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param StoreAndUpdateProductRequest $request
      * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(StoreAndUpdateProductRequest $request)
     {
-        $request->validate([
-            'nameUA' => 'required|string|max:60',
-            'nameEN' => 'required|string|max:60',
-            'nameRU' => 'required|string|max:60',
-            'category' => 'required',
-            'quantity' => 'required|min:0|numeric',
-            'article' => 'required',
-            'color' => 'required|string|max:150',
-            'price' => 'required|numeric|min:0',
-        ]);
+        $request->validated();
 
-        $color = Color::create([
-            'name' => $request->input('color'),
-        ]);
+        StoreProductJob::dispatchSync($request->all());
 
-        $product = Product::create([
-
-            'name' => [
-                'ua' => $request->input('nameUA'),
-                'en' => $request->input('nameEN'),
-                'ru' => $request->input('nameRU'),
-            ],
-            'category_id' => $request->get('category'),
-            'quantity' => $request->input('quantity'),
-            'article' => $request->input('article'),
-            'color_id' => $color->id,
-        ]);
-
-        (new PriceController)->convert($request->input('price'), $product, 'create');
-
-        return redirect()->route('products.index')
+        return redirect()
+            ->route('products.index')
             ->with('ok', 'Product successfully added');
     }
 
@@ -99,6 +75,7 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $categories = Category::all();
+
         return view('products.edit',
             compact('product'),
             compact('categories'));
@@ -107,41 +84,18 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param StoreAndUpdateProductRequest $request
      * @param Product $product
      * @return RedirectResponse
      */
-    public function update(Request $request, Product $product)
+    public function update(StoreAndUpdateProductRequest $request, Product $product)
     {
-        $request->validate([
-            'nameUA' => 'required|string|max:60',
-            'nameEN' => 'required|string|max:60',
-            'nameRU' => 'required|string|max:60',
-            'category' => 'required',
-            'quantity' => 'required|min:0|numeric',
-            'article' => 'required',
-            'color' => 'required|string|max:150',
-            'price' => 'required|numeric|min:0',
-        ]);
+        $request->validated();
 
-        $product->color()->update([
-            'name' => $request->input('color'),
-        ]);
+        UpdateProductJob::dispatchSync($request->all(), $product);
 
-        $product->update([
-            'name' => [
-                'ua' => $request->input('nameUA'),
-                'en' => $request->input('nameEN'),
-                'ru' => $request->input('nameRU'),
-            ],
-            'category_id' => $request->get('category'),
-            'quantity' => $request->input('quantity'),
-            'article' => $request->input('article'),
-        ]);
-
-        (new PriceController)->convert($request->input('price'), $product, 'update');
-
-        return redirect()->route('products.index')
+        return redirect()
+            ->route('products.index')
             ->with('ok', 'Product successfully updated');
     }
 
@@ -157,7 +111,8 @@ class ProductController extends Controller
         $product->delete();
         $product->color()->delete();
 
-        return redirect()->route('products.index')
+        return redirect()
+            ->route('products.index')
             ->with('ok', 'Product successfully deleted');
     }
 }

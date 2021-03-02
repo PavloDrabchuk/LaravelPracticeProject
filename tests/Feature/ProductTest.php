@@ -20,7 +20,7 @@ class ProductTest extends TestCase
     public function test_the_application_returns_a_successful_response()
     {
         Sanctum::actingAs(
-            User::all()->first() ?: User::factory()->create(),
+            User::first() ?: User::factory()->create(),
             ['*']
         );
 
@@ -33,7 +33,7 @@ class ProductTest extends TestCase
     public function test_the_returns_data_in_valid_format()
     {
         Sanctum::actingAs(
-            User::all()->first() ?: User::factory()->create(),
+            User::first() ?: User::factory()->create(),
             ['*']
         );
 
@@ -60,57 +60,30 @@ class ProductTest extends TestCase
     public function test_product_by_id_is_shows_correctly_with_authorized_user()
     {
         Sanctum::actingAs(
-            User::all()->first() ?: User::factory()->create(),
+            User::first() ?: User::factory()->create(),
             ['*']
         );
 
         $this->seed();
-        $product = Product::all()->first();
+        $product = Product::first();
 
-        $this->json('get', "/api/products/$product->id")
+        $this->json('get', "/api/products/{$product->id}")
             ->assertStatus(200);
-        /*->assertExactJson(
-            [
-                'products' => [
-                    'id' => $product->id,
-                    'name' => [
-                        'ua' => $product->getTranslation('name', 'ua'),
-                        'en' => $product->getTranslation('name', 'en'),
-                        'ru' => $product->getTranslation('name', 'ru'),
-                    ],
-                    'category' =>  [
-                        'id' => $category->id,
-                        'name' => [
-                            'ua' => $category->getTranslation('name', 'ua'),
-                            'en' => $category->getTranslation('name', 'en'),
-                            'ru' => $category->getTranslation('name', 'ru'),
-                        ]
-                    ],
-                    'quantity' => $product->quantity,
-                    'article' => $product->article,
-                    'color' => [
-                        'id'=>$color->id,
-                        'name'=>$color->name,
-                    ],
-                    'prices' => PriceResource::collection($product->prices),
-                ]
-            ]
-        );*/
     }
 
     public function test_product_by_id_is_shows_correctly_without_authorized_user()
     {
         $this->seed();
-        $product = Product::all()->first();
+        $product = Product::first();
 
-        $this->json('get', "/api/products/$product->id")
+        $this->json('get', "/api/products/{$product->id}")
             ->assertStatus(401);
     }
 
     public function test_product_by_id_is_shows_correctly_with_incorrect_id()
     {
         Sanctum::actingAs(
-            User::all()->first() ?: User::factory()->create(),
+            User::first() ?: User::factory()->create(),
             ['*']
         );
 
@@ -119,16 +92,15 @@ class ProductTest extends TestCase
             $_id++;
             $is = Product::where('id', $_id)->first();
         } while ($is);
-        //Log::debug("_id: $_id.");
 
-        $this->json('get', "/api/products/$_id")
+        $this->json('get', "/api/products/{$_id}")
             ->assertStatus(404);
     }
 
     public function test_the_product_belongs_to_a_category()
     {
         $this->seed();
-        $product = Product::all()->first();
+        $product = Product::first();
 
         $this->assertInstanceOf(Category::class, $product->category);
     }
@@ -136,7 +108,7 @@ class ProductTest extends TestCase
     public function test_the_product_belongs_to_a_color()
     {
         $this->seed();
-        $product = Product::all()->first();
+        $product = Product::first();
 
         $this->assertInstanceOf(Color::class, $product->color);
     }
@@ -144,7 +116,7 @@ class ProductTest extends TestCase
     public function test_the_product_belongs_to_a_cart_item()
     {
         $this->seed();
-        $product = Product::all()->first();
+        $product = Product::first();
 
         $this->assertInstanceOf(CartItem::class, $product->cartItem);
     }

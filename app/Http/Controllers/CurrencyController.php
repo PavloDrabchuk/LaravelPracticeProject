@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCurrencyRequest;
+use App\Http\Requests\UpdateCurrencyRequest;
+use App\Jobs\StoreCurrencyJob;
+use App\Jobs\UpdateCurrencyJob;
 use App\Models\Currency;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Validation\Rule;
 
 class CurrencyController extends Controller
 {
@@ -39,24 +41,14 @@ class CurrencyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param StoreCurrencyRequest $request
      * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(StoreCurrencyRequest $request)
     {
-        $currencyCodes = (new Currency)->getAllPossibleCurrencyCode();
+        $request->validated();
 
-        $request->validate([
-            'code' => [
-                'required', 'string', 'max:3', 'unique:currencies',
-                Rule::in($currencyCodes)],
-            'sign' => 'required|string|max:1',
-        ]);
-
-        Currency::create([
-            'code' => $request->input('code'),
-            'sign' => $request->input('sign'),
-        ]);
+        StoreCurrencyJob::dispatchSync($request->all());
 
         return redirect()->route('currencies.index')
             ->with('ok', 'Currency successfully added.');
@@ -81,11 +73,14 @@ class CurrencyController extends Controller
      */
     public function edit(Currency $currency)
     {
-        if($currency->code=='UAH'){
-            return redirect()->route('currencies.index')
+        if ($currency->code == 'UAH') {
+            return redirect()
+                ->route('currencies.index')
                 ->with('alert', 'This currency cannot be changed.');
         }
+
         $currencyCodes = (new Currency)->getAllPossibleCurrencyCode();
+
         return view('currencies.edit',
             compact('currencyCodes'),
             compact('currency'));
@@ -94,25 +89,15 @@ class CurrencyController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param UpdateCurrencyRequest $request
      * @param Currency $currency
      * @return RedirectResponse
      */
-    public function update(Request $request, Currency $currency)
+    public function update(UpdateCurrencyRequest $request, Currency $currency)
     {
-        $currencyCodes = (new Currency)->getAllPossibleCurrencyCode();
+        $request->validated();
 
-        $request->validate([
-            'code' => [
-                'required', 'string', 'max:3',
-                Rule::in($currencyCodes)],
-            'sign' => 'required|string|max:1',
-        ]);
-
-        $currency->update([
-            'code' => $request->input('code'),
-            'sign' => $request->input('sign'),
-        ]);
+        UpdateCurrencyJob::dispatchSync($request->all(), $currency);
 
         return redirect()->route('currencies.index')
             ->with('ok', 'Currency successfully updated.');
@@ -127,7 +112,7 @@ class CurrencyController extends Controller
      */
     public function destroy(Currency $currency)
     {
-        if($currency->code=='UAH'){
+        if ($currency->code == 'UAH') {
             return redirect()->route('currencies.index')
                 ->with('alert', 'This currency cannot be deleted.');
         }

@@ -17,7 +17,7 @@ class CartItemTest extends TestCase
     public function test_cart_item_belongs_to_a_cart()
     {
         $this->seed();
-        $cart_item = CartItem::all()->first();
+        $cart_item = CartItem::first();
 
         $this->assertInstanceOf(Cart::class, $cart_item->cart);
     }
@@ -25,7 +25,7 @@ class CartItemTest extends TestCase
     public function test_cart_item_has_a_product()
     {
         $this->seed();
-        $cart_item = CartItem::all()->first();
+        $cart_item = CartItem::first();
 
         $this->assertInstanceOf(Product::class, $cart_item->product);
     }

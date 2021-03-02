@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\CartResource;
+use App\Jobs\BuyToursJob;
 use App\Jobs\CartJob;
-use App\Mail\ToursBoughtMail;
-use App\Models\Admin;
+use App\Jobs\UpdateProductQuantityJob;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Product;
@@ -15,10 +15,6 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Redis;
-use Illuminate\Support\Facades\Validator;
 
 
 class CartController extends Controller
@@ -58,23 +54,15 @@ class CartController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
      * @return int
      */
-    public function store(Request $request)
+    public function store()
     {
-        $userId = -1;
         if (Auth::guard('sanctum')->check()) {
-            $userId = auth('sanctum')->user()->getKey();
-        }
-
-        if ($userId != -1) {
-            Cart::create([
-                'user_id' => $userId,
+            return Cart::create([
+                'user_id' => auth('sanctum')->user()->getKey(),
             ]);
-            return 1;
         }
-        return 0;
     }
 
     /**
@@ -107,10 +95,11 @@ class CartController extends Controller
      */
     public function show(Cart $cart)
     {
-        $userId = auth('sanctum')->user()->getKey();
-        $cart = Cart::where('user_id', $userId)->first();
-        return ($cart) ? response(new CartResource($cart), 200) : response(
-            ['message' => ['Cart not yet created.']], 404);
+        $cart = $this->getCart();
+
+        return ($cart)
+            ? response(new CartResource($cart), 200)
+            : response(['message' => ['Cart not yet created.']], 404);
     }
 
     /**
@@ -131,23 +120,13 @@ class CartController extends Controller
      * Remove the specified resource from storage.
      *
      * @return string
+     * @throws \Exception
      */
     public function destroy()
     {
         $userId = auth('sanctum')->user()->getKey();
-        $cart = Cart::where('user_id', $userId)->first();
 
-        if ($cart) {
-            $cart->delete();
-
-            Cart::create([
-                'user_id' => $userId,
-            ])->save();
-
-            return response(['message' => ['Cart cleared.']], 200);
-        } else {
-            return response(['message' => ['Cart not found.']], 404);
-        }
+        return Cart::where('user_id', $userId)->firstOrFail()->delete();
     }
 
     /**
@@ -176,10 +155,25 @@ class CartController extends Controller
      */
     public function buyTours()
     {
-        $userId = auth('sanctum')->user()->getKey();
-        $cart = Cart::where('user_id', $userId)->first();
+        $cart = $this->getCart();
 
+        if ($this->checkQuantity($cart) && CartItem::whereCartId($cart->id)->first()) {
+
+            UpdateProductQuantityJob::dispatchSync($cart);
+
+            CartJob::dispatch($cart)
+                ->onQueue('emails');
+
+            return response(["message" => "Tours purchased successfully."], 200);
+        } else {
+            return response(["message" => "These tours are over."], 400);
+        }
+    }
+
+    private function checkQuantity($cart)
+    {
         $checkQuantity = true;
+
         foreach ($cart->cartItems as $cartItem) {
             if ((Product::whereId($cartItem->product_id)->first()->quantity - $cartItem->quantity) < 0) {
                 $checkQuantity = false;
@@ -187,27 +181,12 @@ class CartController extends Controller
             }
         }
 
-        if ($checkQuantity && CartItem::whereCartId($cart->id)->count() > 0) {
-            foreach ($cart->cartItems as $cartItem) {
-                $quantity = Product::whereId($cartItem->product_id)->first()->quantity;
-
-                Product::whereId($cartItem->product_id)->update([
-                    'quantity' => $quantity - $cartItem->quantity,
-                ]);
-            }
-        } else {
-            return response([
-                "message" => "These tours are over."
-            ], 400);
-        }
-
-        CartJob::dispatch($cart)
-            ->onQueue('emails');
-
-
-
-        return response(["message" => "Tours purchased successfully."], 200);
+        return $checkQuantity;
     }
 
-
+    private function getCart()
+    {
+        $userId = auth('sanctum')->user()->getKey();
+        return Cart::where('user_id', $userId)->first();
+    }
 }

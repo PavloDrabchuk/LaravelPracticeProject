@@ -18,7 +18,7 @@ class CategoryTest extends TestCase
     public function test_the_application_returns_a_successful_response()
     {
         Sanctum::actingAs(
-            User::all()->first() ?: User::factory()->create(),
+            User::first() ?: User::factory()->create(),
             ['*']
         );
 
@@ -31,7 +31,7 @@ class CategoryTest extends TestCase
     public function test_the_returns_data_in_valid_format()
     {
         Sanctum::actingAs(
-            User::all()->first() ?: User::factory()->create(),
+            User::first() ?: User::factory()->create(),
             ['*']
         );
 
@@ -63,18 +63,18 @@ class CategoryTest extends TestCase
     public function test_category_by_id_is_shows_correctly_with_authorized_user()
     {
         Sanctum::actingAs(
-            User::all()->first() ?: User::factory()->create(),
+            User::first() ?: User::factory()->create(),
             ['*']
         );
 
         $category = Category::factory()->create();
 
-        $this->json('get', "/api/categories/$category->id")
+        $this->json('get', "/api/categories/{$category->getAttribute('id')}")
             ->assertStatus(200)
             ->assertExactJson(
                 [
                     'categories' => [
-                        'id' => $category->id,
+                        'id' => $category->getAttribute('id'),
                         'name' => [
                             'ua' => $category->getTranslation('name', 'ua'),
                             'en' => $category->getTranslation('name', 'en'),
@@ -89,14 +89,14 @@ class CategoryTest extends TestCase
     {
         $category = Category::factory()->create();
 
-        $this->json('get', "/api/categories/$category->id")
+        $this->json('get', "/api/categories/{$category->getAttribute('id')}")
             ->assertStatus(401);
     }
 
     public function test_category_by_id_is_shows_correctly_with_incorrect_id()
     {
         Sanctum::actingAs(
-            User::all()->first() ?: User::factory()->create(),
+            User::first() ?: User::factory()->create(),
             ['*']
         );
 
@@ -106,15 +106,16 @@ class CategoryTest extends TestCase
             $is = Category::where('id', $_id)->first();
         } while ($is);
 
-        $this->json('get', "/api/categories/$_id")
+        $this->json('get', "/api/categories/{$_id}")
             ->assertStatus(404);
     }
 
     public function test_category_has_many_products()
     {
         $this->seed();
-        $category = Category::all()->first();
-        $product = Product::all()->first();
+
+        $category = Category::first();
+        $product = Product::first();
 
         $this->assertTrue($category->products->contains($product));
     }
