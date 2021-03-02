@@ -34,7 +34,7 @@ class Currency extends Model
 {
     use HasFactory;
 
-    protected $fillable=[
+    protected $fillable = [
         'code',
         'sign'
     ];
@@ -44,10 +44,11 @@ class Currency extends Model
         return $this->hasMany(Price::class);
     }
 
-    public function getAllPossibleCurrencyCode(){
-        Log::info("---bank:  ".env('BANK_EXCHANGE_URL'));
+    public function getAllPossibleCurrencyCode()
+    {
         $exchangeRate = file_get_contents(env('BANK_EXCHANGE_URL'));
         $exchange = json_decode($exchangeRate, true);
+
         return array_column($exchange, 'cc');
     }
 }

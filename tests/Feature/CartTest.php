@@ -110,8 +110,7 @@ class CartTest extends TestCase
         $response = $this->delete('/api/cart');
 
         $response
-            ->assertStatus(200)
-            ->assertJson(['message' => ['Cart cleared.']]);
+            ->assertStatus(200);
 
     }
 
@@ -125,9 +124,7 @@ class CartTest extends TestCase
 
         $response = $this->delete('/api/cart');
 
-        $response
-            ->assertStatus(404)
-            ->assertJson(['message' => ['Cart not found.']]);
+        $response->assertStatus(404);
     }
 
     public function test_cart_has_many_cart_items()

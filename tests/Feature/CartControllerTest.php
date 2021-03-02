@@ -6,6 +6,7 @@ use App\Http\Controllers\CartController;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -25,7 +26,7 @@ class CartControllerTest extends TestCase
             ['*']
         );
 
-        $this->assertEquals(1, (new CartController())->store(new Request()));
+        $this->assertEquals(1, (new CartController())->store()->count());
     }
 
     public function test_store_function_without_authorized_admin()

@@ -54,10 +54,9 @@ class CartController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
      * @return int
      */
-    public function store(Request $request)
+    public function store()
     {
         if (Auth::guard('sanctum')->check()) {
             return Cart::create([
@@ -125,15 +124,9 @@ class CartController extends Controller
      */
     public function destroy()
     {
-        $cart = $this->getCart();
+        $userId = auth('sanctum')->user()->getKey();
 
-        if ($cart) {
-            CartItem::whereCartId($cart->id)->delete();
-
-            return response(['message' => ['Cart cleared.']], 200);
-        } else {
-            return response(['message' => ['Cart not found.']], 404);
-        }
+        return Cart::where('user_id', $userId)->firstOrFail()->delete();
     }
 
     /**
