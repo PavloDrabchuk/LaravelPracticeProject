@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Price;
 
 use App\Http\Controllers\Controller;
-use App\Jobs\StorePriceJob;
-use App\Jobs\UpdatePriceJob;
+use App\Jobs\Price\StorePriceJob;
+use App\Jobs\Price\UpdatePriceJob;
 use App\Models\Currency;
 use App\Models\Product;
 

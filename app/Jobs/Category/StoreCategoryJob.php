@@ -1,30 +1,29 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Category;
 
+use App\Http\Requests\StoreAndUpdateCategoryRequest;
+use App\Models\Category;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class UpdateCurrencyJob implements ShouldQueue
+class StoreCategoryJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $request;
-    protected $currency;
 
     /**
      * Create a new job instance.
      *
-     * @param $request
-     * @param $currency
+     * @param StoreAndUpdateCategoryRequest $request
      */
-    public function __construct($request, $currency)
+    public function __construct($request)
     {
         $this->request = $request;
-        $this->currency = $currency;
     }
 
     /**
@@ -34,14 +33,17 @@ class UpdateCurrencyJob implements ShouldQueue
      */
     public function handle()
     {
-        $this->updateCurrency();
+        $this->saveCategory();
     }
 
-    private function updateCurrency()
+    private function saveCategory()
     {
-        $this->currency->update([
-            'code' => $this->request['code'],
-            'sign' => $this->request['sign'],
+        Category::create([
+            'name' => [
+                'ua' => $this->request['nameUA'],
+                'en' => $this->request['nameEN'],
+                'ru' => $this->request['nameRU'],
+            ],
         ]);
     }
 }

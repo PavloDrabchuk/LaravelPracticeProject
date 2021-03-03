@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Cart;
 
 use App\Mail\ToursBoughtMail;
 use App\Models\Admin;

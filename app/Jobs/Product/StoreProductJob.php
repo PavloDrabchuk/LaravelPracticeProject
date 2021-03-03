@@ -1,32 +1,30 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Product;
 
-use App\Http\Requests\StoreAndUpdateCategoryRequest;
-use App\Models\Category;
+use App\Http\Controllers\Price\PriceController;
+use App\Models\Color;
+use App\Models\Product;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class UpdateCategoryJob implements ShouldQueue
+class StoreProductJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $request;
-    protected $category;
 
     /**
      * Create a new job instance.
      *
-     * @param StoreAndUpdateCategoryRequest $request
-     * @param Category $category
+     * @param $request
      */
-    public function __construct($request, $category)
+    public function __construct($request)
     {
         $this->request = $request;
-        $this->category = $category;
     }
 
     /**
@@ -36,17 +34,28 @@ class UpdateCategoryJob implements ShouldQueue
      */
     public function handle()
     {
-        $this->updateCategory();
+        $this->saveProduct();
     }
 
-    private function updateCategory()
+    private function saveProduct()
     {
-        $this->category->update([
+        $color = Color::create([
+            'name' => $this->request['color'],
+        ]);
+
+        $product = Product::create([
+
             'name' => [
                 'ua' => $this->request['nameUA'],
                 'en' => $this->request['nameEN'],
                 'ru' => $this->request['nameRU'],
             ],
+            'category_id' => $this->request['category'],
+            'quantity' => $this->request['quantity'],
+            'article' => $this->request['article'],
+            'color_id' => $color->id,
         ]);
+
+        (new PriceController)->convert($this->request['price'], $product, 'create');
     }
 }

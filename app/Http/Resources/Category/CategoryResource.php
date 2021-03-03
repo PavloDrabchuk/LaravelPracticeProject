@@ -1,29 +1,26 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Category;
 
-use App\Models\Category;
-use App\Models\Color;
-use App\Models\Price;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProductResource extends JsonResource
+class CategoryResource extends JsonResource
 {
-    public static $wrap = 'products';
+    public static $wrap = 'categories';
 
     /**
      *
      * @OA\Get(
-     *      path="/products/{id}",
-     *      operationId="getProductById",
-     *      tags={"Product"},
-     *      summary="Get product information by id",
-     *      description="Returns product data by id",
+     *      path="/categories/{id}",
+     *      operationId="getCategoryById",
+     *      tags={"Category"},
+     *      summary="Get category information by id",
+     *      description="Returns category data by id",
      *      security={{"bearerAuth":{}}},
      *      @OA\Parameter(
      *          name="id",
-     *          description="Product id",
+     *          description="Category id",
      *          required=true,
      *          in="path",
      *          @OA\Schema(
@@ -33,6 +30,7 @@ class ProductResource extends JsonResource
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *       ),
      *      @OA\Response(
      *          response=400,
@@ -58,12 +56,7 @@ class ProductResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->getTranslations('name'),
-            'category' => new CategoryResource(Category::findOrFail($this->category_id)),
-            'quantity' => $this->quantity,
-            'article' => $this->article,
-            'color' => new ColorResource(Color::findOrFail($this->color_id)),
-            'prices' => PriceResource::collection($this->prices),
-            //'price' => new PriceResource(Price::findOrFail($this->price_id)),
+            //'products'=>ProductResource::collection($this->products),
         ];
     }
 }

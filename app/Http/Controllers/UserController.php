@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
-use App\Jobs\StoreUserJob;
-use App\Jobs\UpdateUserJob;
+use App\Jobs\User\StoreUserJob;
+use App\Jobs\User\UpdateUserJob;
 use App\Models\Cart;
 use App\Models\User;
 use Exception;

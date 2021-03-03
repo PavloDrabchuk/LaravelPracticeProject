@@ -1,34 +1,33 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Price;
 
-use App\Models\Price;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class StorePriceJob implements ShouldQueue
+class UpdatePriceJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $value;
     protected $currency_id;
-    protected $product_id;
+    protected $product;
 
     /**
      * Create a new job instance.
      *
      * @param $value
      * @param $currency_id
-     * @param $product_id
+     * @param $product
      */
-    public function __construct($value, $currency_id, $product_id)
+    public function __construct($value, $currency_id, $product)
     {
         $this->value = $value;
         $this->currency_id = $currency_id;
-        $this->product_id = $product_id;
+        $this->product = $product;
     }
 
     /**
@@ -38,15 +37,16 @@ class StorePriceJob implements ShouldQueue
      */
     public function handle()
     {
-        $this->savePrice();
+        $this->updatePrice();
     }
 
-    private function savePrice()
+    private function updatePrice()
     {
-        Price::create([
-            'value' => $this->value,
+        $this->product->prices()->where('currency_id', '=', $this->currency_id)->updateOrCreate([
             'currency_id' => $this->currency_id,
-            'product_id' => $this->product_id,
-        ]);
+            'product_id' => $this->product->id,
+        ],
+            ['value' => round($this->value, 2)]);
+
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Cart;
 
 use App\Http\Controllers\Controller;
-use App\Jobs\StoreCartItemJob;
+use App\Jobs\Cart\StoreCartItemJob;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Product;

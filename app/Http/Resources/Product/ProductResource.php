@@ -1,26 +1,31 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Product;
 
+use App\Http\Resources\Category\CategoryResource;
+use App\Http\Resources\ColorResource;
+use App\Http\Resources\Price\PriceResource;
+use App\Models\Category;
+use App\Models\Color;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CategoryResource extends JsonResource
+class ProductResource extends JsonResource
 {
-    public static $wrap = 'categories';
+    public static $wrap = 'products';
 
     /**
      *
      * @OA\Get(
-     *      path="/categories/{id}",
-     *      operationId="getCategoryById",
-     *      tags={"Category"},
-     *      summary="Get category information by id",
-     *      description="Returns category data by id",
+     *      path="/products/{id}",
+     *      operationId="getProductById",
+     *      tags={"Product"},
+     *      summary="Get product information by id",
+     *      description="Returns product data by id",
      *      security={{"bearerAuth":{}}},
      *      @OA\Parameter(
      *          name="id",
-     *          description="Category id",
+     *          description="Product id",
      *          required=true,
      *          in="path",
      *          @OA\Schema(
@@ -30,7 +35,6 @@ class CategoryResource extends JsonResource
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
-     *
      *       ),
      *      @OA\Response(
      *          response=400,
@@ -56,7 +60,12 @@ class CategoryResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->getTranslations('name'),
-            //'products'=>ProductResource::collection($this->products),
+            'category' => new CategoryResource(Category::findOrFail($this->category_id)),
+            'quantity' => $this->quantity,
+            'article' => $this->article,
+            'color' => new ColorResource(Color::findOrFail($this->color_id)),
+            'prices' => PriceResource::collection($this->prices),
+            //'price' => new PriceResource(Price::findOrFail($this->price_id)),
         ];
     }
 }

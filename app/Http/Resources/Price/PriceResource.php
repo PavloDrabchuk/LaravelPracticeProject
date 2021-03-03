@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Price;
 
 use App\Models\Currency;
 use Illuminate\Http\Request;

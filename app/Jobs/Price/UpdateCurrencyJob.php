@@ -1,30 +1,30 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Price;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Hash;
 
-class UpdateUserJob implements ShouldQueue
+class UpdateCurrencyJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $request;
-    protected $user;
+    protected $currency;
 
     /**
      * Create a new job instance.
      *
-     * @return void
+     * @param $request
+     * @param $currency
      */
-    public function __construct($request, $user)
+    public function __construct($request, $currency)
     {
         $this->request = $request;
-        $this->user = $user;
+        $this->currency = $currency;
     }
 
     /**
@@ -34,15 +34,14 @@ class UpdateUserJob implements ShouldQueue
      */
     public function handle()
     {
-        $this->updateUser();
+        $this->updateCurrency();
     }
 
-    private function updateUser()
+    private function updateCurrency()
     {
-        $this->user->update([
-            'name' => $this->request['name'],
-            'phone' => $this->request['phone'],
-            'password' => Hash::make($this->request['password']),
+        $this->currency->update([
+            'code' => $this->request['code'],
+            'sign' => $this->request['sign'],
         ]);
     }
 }

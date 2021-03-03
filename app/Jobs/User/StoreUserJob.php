@@ -1,31 +1,29 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\User;
 
-use App\Models\CartItem;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Hash;
 
-class StoreCartItemJob implements ShouldQueue
+class StoreUserJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $request;
-    protected $cart;
 
     /**
      * Create a new job instance.
      *
      * @param $request
-     * @param $cart
      */
-    public function __construct($request, $cart)
+    public function __construct($request)
     {
         $this->request = $request;
-        $this->cart = $cart;
     }
 
     /**
@@ -35,15 +33,15 @@ class StoreCartItemJob implements ShouldQueue
      */
     public function handle()
     {
-        $this->saveCartItem();
+        $this->saveUser();
     }
 
-    private function saveCartItem()
+    private function saveUser()
     {
-        CartItem::create([
-            'cart_id' => $this->cart->id,
-            'product_id' => $this->request['product_id'],
-            'quantity' => $this->request['quantity'],
+        User::create([
+            'name' => $this->request['name'],
+            'phone' => $this->request['phone'],
+            'password' => Hash::make($this->request['password']),
         ]);
     }
 }

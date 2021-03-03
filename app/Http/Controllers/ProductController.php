@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreAndUpdateProductRequest;
-use App\Http\Resources\ProductResource;
-use App\Jobs\StoreProductJob;
-use App\Jobs\UpdateProductJob;
+use App\Http\Resources\Product\ProductResource;
+use App\Jobs\Product\StoreProductJob;
+use App\Jobs\Product\UpdateProductJob;
 use App\Models\Category;
 use App\Models\Product;
 use Exception;

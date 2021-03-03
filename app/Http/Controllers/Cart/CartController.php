@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Cart;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\CartResource;
-use App\Jobs\CartJob;
-use App\Jobs\UpdateProductQuantityJob;
+use App\Http\Resources\Cart\CartResource;
+use App\Jobs\Cart\CartJob;
+use App\Jobs\Product\UpdateProductQuantityJob;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Product;

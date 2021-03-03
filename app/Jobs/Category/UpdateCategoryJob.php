@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Category;
 
 use App\Http\Requests\StoreAndUpdateCategoryRequest;
 use App\Models\Category;
@@ -10,20 +10,23 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class StoreCategoryJob implements ShouldQueue
+class UpdateCategoryJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $request;
+    protected $category;
 
     /**
      * Create a new job instance.
      *
      * @param StoreAndUpdateCategoryRequest $request
+     * @param Category $category
      */
-    public function __construct($request)
+    public function __construct($request, $category)
     {
         $this->request = $request;
+        $this->category = $category;
     }
 
     /**
@@ -33,12 +36,12 @@ class StoreCategoryJob implements ShouldQueue
      */
     public function handle()
     {
-        $this->saveCategory();
+        $this->updateCategory();
     }
 
-    private function saveCategory()
+    private function updateCategory()
     {
-        Category::create([
+        $this->category->update([
             'name' => [
                 'ua' => $this->request['nameUA'],
                 'en' => $this->request['nameEN'],

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Price;
 
 use App\Models\Currency;
 use Illuminate\Bus\Queueable;

@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\User;
 
-use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -10,20 +9,23 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Hash;
 
-class StoreUserJob implements ShouldQueue
+class UpdateUserJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $request;
+    protected $user;
 
     /**
      * Create a new job instance.
      *
      * @param $request
+     * @param $user
      */
-    public function __construct($request)
+    public function __construct($request, $user)
     {
         $this->request = $request;
+        $this->user = $user;
     }
 
     /**
@@ -33,12 +35,12 @@ class StoreUserJob implements ShouldQueue
      */
     public function handle()
     {
-        $this->saveUser();
+        $this->updateUser();
     }
 
-    private function saveUser()
+    private function updateUser()
     {
-        User::create([
+        $this->user->update([
             'name' => $this->request['name'],
             'phone' => $this->request['phone'],
             'password' => Hash::make($this->request['password']),

@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreAndUpdateCategoryRequest;
-use App\Http\Resources\CategoryCollection;
-use App\Http\Resources\CategoryResource;
-use App\Jobs\StoreCategoryJob;
-use App\Jobs\UpdateCategoryJob;
+use App\Http\Resources\Category\CategoryCollection;
+use App\Http\Resources\Category\CategoryResource;
+use App\Jobs\Category\StoreCategoryJob;
+use App\Jobs\Category\UpdateCategoryJob;
 use App\Models\Category;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
