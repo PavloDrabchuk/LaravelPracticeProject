@@ -12,17 +12,17 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
-    .js('resources/js/main.js', 'public/js')
-    .js('resources/js/moment.js', 'public/js')
-    .js('resources/js/bootstrap-datetimepicker.js', 'public/js')
+    .js('storage/app/public/js/main.js', 'public/js')
+    .js('storage/app/public/js/moment.js', 'public/js')
+    .js('storage/app/public/js/bootstrap-datetimepicker.js', 'public/js')
     .postCss('resources/css/app.css', 'public/css',
         [
             require('postcss-import'),
             require('tailwindcss'),
             require('autoprefixer'),
         ])
-    .postCss('resources/css/theme.css', 'public/css')
-    .postCss('resources/css/font-face.css', 'public/css')
-    .postCss('resources/css/bootstrap-datetimepicker.min.css', 'public/css')
+    .postCss('storage/app/public/css/theme.css', 'public/css')
+    .postCss('storage/app/public/css/font-face.css', 'public/css')
+    .postCss('storage/app/public/css/bootstrap-datetimepicker.min.css', 'public/css')
 
 
