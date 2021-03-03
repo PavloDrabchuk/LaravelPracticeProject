@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Http\Controllers\CartItemController;
+use App\Http\Controllers\Cart\CartItemController;
 use App\Models\CartItem;
 use Illuminate\Http\Request;
 use Tests\TestCase;

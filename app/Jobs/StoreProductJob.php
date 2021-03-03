@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Http\Controllers\PriceController;
+use App\Http\Controllers\Price\PriceController;
 use App\Models\Color;
 use App\Models\Product;
 use Illuminate\Bus\Queueable;

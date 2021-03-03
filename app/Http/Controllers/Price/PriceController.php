@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Price;
 
+use App\Http\Controllers\Controller;
 use App\Jobs\StorePriceJob;
 use App\Jobs\UpdatePriceJob;
 use App\Models\Currency;

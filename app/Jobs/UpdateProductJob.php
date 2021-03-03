@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Http\Controllers\PriceController;
+use App\Http\Controllers\Price\PriceController;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -19,7 +19,8 @@ class UpdateProductJob implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @return void
+     * @param $request
+     * @param $product
      */
     public function __construct($request, $product)
     {

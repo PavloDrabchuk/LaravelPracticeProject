@@ -18,7 +18,7 @@ class UpdateProductQuantityJob implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @return void
+     * @param $cart
      */
     public function __construct($cart)
     {

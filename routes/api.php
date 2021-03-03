@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\CartItemController;
+use App\Http\Controllers\Cart\CartController;
+use App\Http\Controllers\Cart\CartItemController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;

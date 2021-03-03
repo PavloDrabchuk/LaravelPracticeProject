@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Currency;
 
+use App\Models\Currency;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class UpdateUserRequest extends FormRequest
+class UpdateCurrencyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,10 +25,13 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules()
     {
+        $currencyCodes = (new Currency)->getAllPossibleCurrencyCode();
+
         return [
-            'name' => ['required', 'string', 'max:40'],
-            'phone' => ['required'],
-            'password' => ['required', 'string', 'confirmed', 'min:8'],
+            'code' => [
+                'required', 'string', 'max:3',
+                Rule::in($currencyCodes)],
+            'sign' => ['required', 'string', 'max:1'],
         ];
     }
 }

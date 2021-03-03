@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Price;
 
-use App\Http\Requests\StoreCurrencyRequest;
-use App\Http\Requests\UpdateCurrencyRequest;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Currency\StoreCurrencyRequest;
+use App\Http\Requests\Currency\UpdateCurrencyRequest;
 use App\Jobs\StoreCurrencyJob;
 use App\Jobs\UpdateCurrencyJob;
 use App\Models\Currency;

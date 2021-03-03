@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Currency;
 
 use App\Models\Currency;
 use Illuminate\Foundation\Http\FormRequest;

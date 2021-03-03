@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Price\CurrencyController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
