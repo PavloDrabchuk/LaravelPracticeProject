@@ -58,14 +58,13 @@ class ProductResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
+            'id' => $this->whenLoaded('id'),
             'name' => $this->getTranslations('name'),
-            'category' => new CategoryResource(Category::findOrFail($this->category_id)),
-            'quantity' => $this->quantity,
-            'article' => $this->article,
-            'color' => new ColorResource(Color::findOrFail($this->color_id)),
-            'prices' => PriceResource::collection($this->prices),
-            //'price' => new PriceResource(Price::findOrFail($this->price_id)),
+            'category' => new CategoryResource(Category::findOrFail($this->getAttribute('category_id'))),
+            'quantity' => $this->whenLoaded('quantity'),
+            'article' => $this->whenLoaded('article'),
+            'color' => new ColorResource(Color::findOrFail($this->getAttribute('color_id'))),
+            'prices' => PriceResource::collection($this->whenLoaded('prices')),
         ];
     }
 }

@@ -11,16 +11,15 @@ class PriceResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @return array
      */
     public function toArray($request)
     {
-//        return parent::toArray($request);
         return [
-            'id'=>$this->id,
-            'value'=>$this->value,
-            'currency'=>new CurrencyResource(Currency::findOrFail($this->currency_id)),
+            'id' => $this->whenLoaded('id'),
+            'value' => $this->whenLoaded('value'),
+            'currency' => new CurrencyResource(Currency::findOrFail($this->getAttribute('currency_id'))),
         ];
 
     }

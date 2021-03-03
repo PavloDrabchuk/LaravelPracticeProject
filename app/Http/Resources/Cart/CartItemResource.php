@@ -16,12 +16,11 @@ class CartItemResource extends JsonResource
      */
     public function toArray($request)
     {
-        //return parent::toArray($request);
         return [
-            'id' => $this->id,
-            //'product_id' => $this->product_id,
-            'product'=>new ProductResource(Product::findOrFail($this->product_id)),
-            'quantity' => $this->quantity,
+            'id' => $this->whenLoaded('id'),
+            'product' => new ProductResource(
+                Product::findOrFail($this->whenLoaded('product_id'))),
+            'quantity' => $this->whenLoaded('quantity'),
         ];
     }
 }

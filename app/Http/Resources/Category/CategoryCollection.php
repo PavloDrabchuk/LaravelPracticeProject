@@ -45,7 +45,7 @@ class CategoryCollection extends ResourceCollection
             return [
                 'id' => $item->id,
                 'name' => $item->getTranslations('name'),
-                'products' => ProductResource::collection($item->products),
+                'products' => ProductResource::collection($item->whenLoaded('products')),
             ];
         });
     }

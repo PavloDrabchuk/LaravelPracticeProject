@@ -49,7 +49,8 @@ class CurrencyController extends Controller
     {
         StoreCurrencyJob::dispatchSync($request->validated());
 
-        return redirect()->route('currencies.index')
+        return redirect()
+            ->route('currencies.index')
             ->with('ok', 'Currency successfully added.');
     }
 
