@@ -15,7 +15,7 @@ class UpdateCurrencyRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return auth()->check();
     }
 
     /**

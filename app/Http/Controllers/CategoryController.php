@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreAndUpdateCategoryRequest;
+use App\Http\Resources\CategoryCollection;
+use App\Http\Resources\CategoryResource;
 use App\Jobs\StoreCategoryJob;
 use App\Jobs\UpdateCategoryJob;
 use App\Models\Category;
@@ -44,9 +46,7 @@ class CategoryController extends Controller
      */
     public function store(StoreAndUpdateCategoryRequest $request)
     {
-        $request->validated();
-
-        StoreCategoryJob::dispatchSync($request->all());
+        StoreCategoryJob::dispatchSync($request->validated());
 
         return redirect()
             ->route('categories.index')
@@ -84,9 +84,7 @@ class CategoryController extends Controller
      */
     public function update(StoreAndUpdateCategoryRequest $request, Category $category)
     {
-        $request->validated();
-
-        UpdateCategoryJob::dispatchSync($request->all(), $category);
+        UpdateCategoryJob::dispatchSync($request->validated(), $category);
 
         return redirect()
             ->route('categories.index')
@@ -107,5 +105,22 @@ class CategoryController extends Controller
         return redirect()
             ->route('categories.index')
             ->with('ok', 'The category and all related products have been removed successfully.');
+    }
+
+    /**
+     * @return CategoryCollection
+     */
+    public function getAllCategories()
+    {
+        return new CategoryCollection(Category::all());
+    }
+
+    /**
+     * @param $id
+     * @return CategoryResource
+     */
+    public function getCategoryById($id)
+    {
+        return new CategoryResource(Category::findOrFail($id));
     }
 }

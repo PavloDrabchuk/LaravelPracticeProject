@@ -44,9 +44,7 @@ class AdminController extends Controller
      */
     public function update(UpdateAdminRequest $request, Admin $admin)
     {
-        $request->validated();
-
-        UpdateAdminJob::dispatchSync($request->all(), $admin);
+        UpdateAdminJob::dispatchSync($request->validated(), $admin);
 
         return redirect()
             ->route('account')

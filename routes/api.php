@@ -3,6 +3,7 @@
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Resources\CartResource;
 use App\Http\Resources\CategoryCollection;
@@ -25,35 +26,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/*Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});*/
-
 Route::post("login", [UserController::class, 'login']);
 
-
 Route::middleware('auth:sanctum')->group(function () {
+
     Route::post("logout", [UserController::class, 'logout']);
 
-    Route::get('categories', function () {
-        return new CategoryCollection(Category::all());
-    });
+    Route::get('categories', [CategoryController::class, 'getAllCategories']);
 
-    Route::get('categories/{id}', function ($id) {
-        return new CategoryResource(Category::findOrFail($id));
-    });
+    Route::get('categories/{id}', [CategoryController::class, 'getCategoryById']);
 
-    Route::get('products', function () {
-        return ProductResource::collection(Product::all());
-    });
+    Route::get('products', [ProductController::class, 'getAllProducts']);
 
-    Route::get('products/{id}', function ($id) {
-        return new ProductResource(Product::findOrFail($id));
-    });
+    Route::get('products/{id}', [ProductController::class, 'getProductById']);
 
-    Route::get('carts', function () {
-        return CartResource::collection(Cart::all());
-    });
+    Route::get('carts', [CartController::class, 'index']);
 
     Route::get('cart', [CartController::class, 'show']);
 

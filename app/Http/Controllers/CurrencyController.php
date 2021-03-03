@@ -46,9 +46,7 @@ class CurrencyController extends Controller
      */
     public function store(StoreCurrencyRequest $request)
     {
-        $request->validated();
-
-        StoreCurrencyJob::dispatchSync($request->all());
+        StoreCurrencyJob::dispatchSync($request->validated());
 
         return redirect()->route('currencies.index')
             ->with('ok', 'Currency successfully added.');
@@ -95,9 +93,7 @@ class CurrencyController extends Controller
      */
     public function update(UpdateCurrencyRequest $request, Currency $currency)
     {
-        $request->validated();
-
-        UpdateCurrencyJob::dispatchSync($request->all(), $currency);
+        UpdateCurrencyJob::dispatchSync($request->validated(), $currency);
 
         return redirect()->route('currencies.index')
             ->with('ok', 'Currency successfully updated.');

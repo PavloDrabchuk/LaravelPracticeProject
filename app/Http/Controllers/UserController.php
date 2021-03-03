@@ -49,10 +49,7 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        $request->validated();
-
-        //  User::create($request->all());
-        StoreUserJob::dispatchSync($request->all());
+        StoreUserJob::dispatchSync($request->validated());
 
         return redirect()
             ->route('users.index')
@@ -90,9 +87,7 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        $request->validated();
-
-        UpdateUserJob::dispatchSync($request->all(), $user);
+        UpdateUserJob::dispatchSync($request->validated(), $user);
 
         return redirect()
             ->route('users.index')

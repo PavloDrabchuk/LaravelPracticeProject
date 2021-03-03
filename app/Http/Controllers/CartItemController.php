@@ -6,7 +6,6 @@ use App\Jobs\StoreCartItemJob;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Product;
-use App\Rules\NotExistInCartRule;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -68,7 +67,7 @@ class CartItemController extends Controller
     public function store(Request $request)
     {
         if (Auth::guard('sanctum')->check()) {
-            $userId = auth('sanctum')->user()->getKey();
+            $userId = Auth::guard('sanctum')->user()->getKey();
 
             $cart = Cart::where('user_id', $userId)->firstOrCreate([
                 'user_id' => $userId,
@@ -157,7 +156,7 @@ class CartItemController extends Controller
      */
     public function destroy($id)
     {
-        $userId = auth('sanctum')->user()->getKey();
+        $userId = Auth::guard('sanctum')->user()->getKey();
         $cart = Cart::whereUserId($userId)->first();
 
         if (count(CartItem::whereCartId($cart->id)->whereId($id)->get())) {

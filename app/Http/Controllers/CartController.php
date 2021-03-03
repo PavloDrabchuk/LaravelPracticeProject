@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\CartResource;
-use App\Jobs\BuyToursJob;
 use App\Jobs\CartJob;
 use App\Jobs\UpdateProductQuantityJob;
 use App\Models\Cart;
@@ -44,11 +43,11 @@ class CartController extends Controller
      *
      * Display a listing of the resource.
      *
-     * @return Cart[]|Collection|Response
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
-        return Cart::all();
+        return CartResource::collection(Cart::all());
     }
 
     /**
@@ -60,7 +59,7 @@ class CartController extends Controller
     {
         if (Auth::guard('sanctum')->check()) {
             return Cart::create([
-                'user_id' => auth('sanctum')->user()->getKey(),
+                'user_id' => Auth::guard('sanctum')->user()->getKey(),
             ]);
         }
     }
@@ -124,7 +123,7 @@ class CartController extends Controller
      */
     public function destroy()
     {
-        $userId = auth('sanctum')->user()->getKey();
+        $userId = Auth::guard('sanctum')->user()->getKey();
 
         return Cart::where('user_id', $userId)->firstOrFail()->delete();
     }
@@ -186,7 +185,7 @@ class CartController extends Controller
 
     private function getCart()
     {
-        $userId = auth('sanctum')->user()->getKey();
+        $userId = Auth::guard('sanctum')->user()->getKey();
         return Cart::where('user_id', $userId)->first();
     }
 }
