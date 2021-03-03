@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreAndUpdateProductRequest;
-use App\Jobs\StoreProductJob;
-use App\Jobs\UpdateProductJob;
+use App\Http\Resources\Product\ProductResource;
+use App\Jobs\Product\StoreProductJob;
+use App\Jobs\Product\UpdateProductJob;
 use App\Models\Category;
 use App\Models\Product;
 use Exception;
@@ -46,9 +47,7 @@ class ProductController extends Controller
      */
     public function store(StoreAndUpdateProductRequest $request)
     {
-        $request->validated();
-
-        StoreProductJob::dispatchSync($request->all());
+        StoreProductJob::dispatchSync($request->validated());
 
         return redirect()
             ->route('products.index')
@@ -90,9 +89,7 @@ class ProductController extends Controller
      */
     public function update(StoreAndUpdateProductRequest $request, Product $product)
     {
-        $request->validated();
-
-        UpdateProductJob::dispatchSync($request->all(), $product);
+        UpdateProductJob::dispatchSync($request->validated(), $product);
 
         return redirect()
             ->route('products.index')
@@ -114,5 +111,22 @@ class ProductController extends Controller
         return redirect()
             ->route('products.index')
             ->with('ok', 'Product successfully deleted');
+    }
+
+    /**
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function getAllProducts()
+    {
+        return ProductResource::collection(Product::all());
+    }
+
+    /**
+     * @param $id
+     * @return ProductResource
+     */
+    public function getProductById($id)
+    {
+        return new ProductResource(Product::findOrFail($id));
     }
 }

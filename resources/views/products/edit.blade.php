@@ -63,7 +63,7 @@
                         </div>
                         <div class="col-12 col-md-9">
                             <select name="category" id="category" class="form-control">
-                                @foreach($categories->all() as $category)
+                                @foreach($categories as $category)
                                     <option value="{{$category->id}}"
                                             @if ($product->category_id === $category->id)
                                             selected

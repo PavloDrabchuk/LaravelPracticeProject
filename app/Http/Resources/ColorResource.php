@@ -10,14 +10,14 @@ class ColorResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @return array
      */
     public function toArray($request)
     {
         return [
-            'id'=>$this->id,
-            'name'=>$this->name,
+            'id' => $this->whenLoaded('id'),
+            'name' => $this->whenLoaded('name'),
         ];
     }
 }

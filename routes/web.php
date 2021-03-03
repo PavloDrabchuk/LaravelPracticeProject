@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Price\CurrencyController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -22,32 +22,35 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('new_dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::view('/dashboard', 'new_dashboard')
+    ->middleware(['auth'])
+    ->name('dashboard');
 
 Route::get('/account', [AdminController::class, 'show'])
-    ->middleware(['auth'])->name('account');
+    ->middleware(['auth'])
+    ->name('account');
 
 Route::get('/account/edit', [AdminController::class, 'edit'])
-    ->middleware(['auth'])->name('account.edit');
+    ->middleware(['auth'])
+    ->name('account.edit');
 
 Route::get('/account/edit', [AdminController::class, 'edit'])
-    ->middleware(['auth'])->name('account.edit');
+    ->middleware(['auth'])
+    ->name('account.edit');
 
 Route::resource('users', UserController::class)
     ->middleware(['auth']);
 
-Route::resource('categories',CategoryController::class)
+Route::resource('categories', CategoryController::class)
     ->middleware(['auth']);
 
-Route::resource('products',ProductController::class)
+Route::resource('products', ProductController::class)
     ->middleware(['auth']);
 
 Route::resource('admins', AdminController::class)
     ->middleware(['auth']);
 
-Route::resource('currencies',CurrencyController::class)
+Route::resource('currencies', CurrencyController::class)
     ->middleware(['auth']);
 
 require __DIR__ . '/auth.php';
