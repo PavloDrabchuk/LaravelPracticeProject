@@ -12,14 +12,14 @@ The project implements an API for online store functions and an admin dashboard.
 * Register admin profile
 * Manage the content of the database using the admin dashboard
 
-  <img src="https://user-images.githubusercontent.com/38464535/211389409-fac13962-a6c7-419e-a716-fbff49b996e0.png" width=85%>
+  <img src="https://user-images.githubusercontent.com/38464535/211389409-fac13962-a6c7-419e-a716-fbff49b996e0.png" width=100%>
 * Perform CRUD operations with users
 * Perform CRUD operations with categories
   > The possibility of multi-language is supported
 * Perform CRUD operations with products
   > The price in different currencies is automatically calculated at the NBU exchange rate using the API
 
-  <img src="https://user-images.githubusercontent.com/38464535/211385763-9560f377-cb96-4905-a364-06751e46a038.png" width=85%>
+  <img src="https://user-images.githubusercontent.com/38464535/211385763-9560f377-cb96-4905-a364-06751e46a038.png" width=100%>
 
 * Perform CRUD operations with currencies
   > Currency codes are loaded using the NBU API.
@@ -28,7 +28,7 @@ The project implements an API for online store functions and an admin dashboard.
 
 ### Endpoints **(created with Swagger)**:
 
-<img src="https://user-images.githubusercontent.com/38464535/211391812-efe773c5-ef7a-4e9c-85fd-4ac097ded3d3.png" width=85%>
+<img src="https://user-images.githubusercontent.com/38464535/211391812-efe773c5-ef7a-4e9c-85fd-4ac097ded3d3.png" width=100%>
 
 ### Features:
 * After completing the order, the user is sent an e-mail with information about the purchase;
